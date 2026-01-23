@@ -1,0 +1,63 @@
+﻿<Window x:Class="PhoneScoutAdmin.AdminInterface"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PhoneScoutAdmin"
+        mc:Ignorable="d"
+        Title="AdminInterface" Height="650" Width="1200"
+        ResizeMode="NoResize">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+
+        <WrapPanel Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" Margin="25">
+            <Border x:Name="loadPhones" Width="200" Height="30" CornerRadius="15" Background="LightGreen">
+                <Border.Triggers>
+                    <EventTrigger RoutedEvent="MouseEnter">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimation Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                    To="DarkBlue" Duration="0:0:0.1"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="MouseLeave">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimation Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                    To="LightGreen" Duration="0:0:0.1"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Border.Triggers>
+                <TextBlock Text="Telefonok kezelése" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Border>
+        </WrapPanel>
+
+        <DataGrid Grid.Row="0" Grid.Column="1" x:Name="phonesPlace" AutoGenerateColumns="True"
+          ColumnWidth="*"
+          AlternatingRowBackground="LightGray"
+          RowBackground="White"
+          GridLinesVisibility="None"
+          HeadersVisibility="Column"
+          CanUserAddRows="False"
+          CanUserDeleteRows="False"
+          CanUserResizeRows="False"
+          SelectionMode="Single"
+          SelectionUnit="FullRow"
+          HorizontalAlignment="Stretch"
+          VerticalAlignment="Stretch"
+          RowHeight="30"
+                  Margin="10"/>
+
+
+
+    </Grid>
+</Window>
