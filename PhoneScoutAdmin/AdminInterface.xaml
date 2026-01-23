@@ -17,28 +17,12 @@
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
 
-        <WrapPanel Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" Margin="25">
-            <Border x:Name="loadPhones" Width="200" Height="30" CornerRadius="15" Background="LightGreen">
-                <Border.Triggers>
-                    <EventTrigger RoutedEvent="MouseEnter">
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <ColorAnimation Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                                    To="DarkBlue" Duration="0:0:0.1"/>
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </EventTrigger>
-                    <EventTrigger RoutedEvent="MouseLeave">
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <ColorAnimation Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                                    To="LightGreen" Duration="0:0:0.1"/>
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </EventTrigger>
-                </Border.Triggers>
-                <TextBlock Text="Telefonok kezelése" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            </Border>
+        <WrapPanel Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" Margin="25">           
+    
+
+            <Button Content="Manage Phones" Background="Transparent" Click="loadPhones" Margin="20" Width="200"/>
+            <Button Content="Manage Manufacturers" Background="Transparent" Click="loadManufacturers" Margin="20" Width="200"/>
+
         </WrapPanel>
 
         <DataGrid Grid.Row="0" Grid.Column="1" x:Name="phonesPlace" AutoGenerateColumns="True"
@@ -55,7 +39,44 @@
           HorizontalAlignment="Stretch"
           VerticalAlignment="Stretch"
           RowHeight="30"
-                  Margin="10"/>
+                  Margin="10" SelectionChanged="showInfos"/>
+
+
+
+        <Grid Grid.Column="1" Grid.Row="1">
+            <WrapPanel x:Name="manufacturerInformations" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+
+
+                    <Label Grid.Row="0" Grid.Column="0" Content="Manufacturer Name:" Margin="10"/>
+                    <TextBox Grid.Row="0" Grid.Column="1" x:Name="manufacturerName" Width="100" Height="20" Margin="0,0,50,0"/>
+
+                    <Label Grid.Row="1" Grid.Column="0" Content="Manufacturer URL:" Margin="10"/>
+                    <TextBox Grid.Row="1" Grid.Column="1" x:Name="manufacturerUrl" Width="100" Height="20"  Margin="0,0,50,0"/>
+
+                    <Label Grid.Row="2" Grid.Column="0" Content="Manufacturer Email:" Margin="10"/>
+                    <TextBox Grid.Row="2" Grid.Column="1" x:Name="manufacturerEmail" Width="100" Height="20"  Margin="0,0,50,0"/>
+
+
+                    <Button Grid.Column="3" Grid.Row="0" Width="200" Height="20" Content="Modify manufacturer" Margin="50,0,50,0" HorizontalAlignment="Center" Click="updateManufacturer"/>
+                    <Button Grid.Column="3" Grid.Row="1"  Width="200" Height="20" Content="Delete manufacturer" Margin="50,0,50,0" HorizontalAlignment="Center"/>
+                </Grid>
+
+                
+            </WrapPanel>
+        </Grid>
+
+
 
 
 
