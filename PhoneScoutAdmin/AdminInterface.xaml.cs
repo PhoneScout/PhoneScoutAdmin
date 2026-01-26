@@ -8,12 +8,15 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Navigation;
 
 
 namespace PhoneScoutAdmin
 {
     public class Phone
     {
+        [JsonPropertyName("phoneID")]
+        public int phoneID { get; set; }
 
         [JsonPropertyName("phoneName")]
         public string phoneName { get; set; }
@@ -23,10 +26,16 @@ namespace PhoneScoutAdmin
 
         [JsonPropertyName("phoneInStore")]
         public string phoneInStore { get; set; }
+
+        [JsonPropertyName("phoneAvailable")]
+        public int phoneAvailable { get; set; }
     }
 
     public class Manufacturer
     {
+
+        [JsonPropertyName("manufacturerID")]
+        public int manufacturerId { get; set; }
 
         [JsonPropertyName("manufacturerName")]
         public string manufacturerName { get; set; }
@@ -56,7 +65,7 @@ namespace PhoneScoutAdmin
             using HttpClient client = new HttpClient();
             try
             {
-                string url = "http://localhost:5175/api/wcfManufacturer"; 
+                string url = "http://localhost:5175/api/wpfManufacturer";
                 var response = await client.GetAsync(url);
 
                 if (response.IsSuccessStatusCode)
@@ -74,7 +83,7 @@ namespace PhoneScoutAdmin
                         }
                     }
 
-                    phonesPlace.ItemsSource = manufacturersList;
+                    dataGrid.ItemsSource = manufacturersList;
                     populateInformationPart();
 
                 }
@@ -91,11 +100,11 @@ namespace PhoneScoutAdmin
 
         private async void updateManufacturer(object sender, RoutedEventArgs e)
         {
-            var oldName = ((Manufacturer)phonesPlace.SelectedValue).manufacturerName;
+            var id = ((Manufacturer)dataGrid.SelectedValue).manufacturerId;
             using HttpClient client = new HttpClient();
             try
             {
-                string url = $"http://localhost:5175/api/wcfManufacturer/{oldName}"; // your API endpoint
+                string url = $"http://localhost:5175/api/wpfManufacturer/{id}"; // your API endpoint
 
                 // Create DTO from your input fields
                 var manufacturer = new Manufacturer
@@ -129,10 +138,39 @@ namespace PhoneScoutAdmin
             }
         }
 
+        private async void deleteManufacturer(object sender, RoutedEventArgs e)
+        {
+            var manufacturerID = ((Manufacturer)dataGrid.SelectedValue).manufacturerId;
+            using HttpClient client = new HttpClient();
+            try
+            {
+                string url = $"http://localhost:5175/api/wpfManufacturer/{manufacturerID}"; // your API endpoint
+
+                // Send PUT request
+                var response = await client.DeleteAsync(url);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string result = await response.Content.ReadAsStringAsync();
+                    MessageBox.Show(result, "Success");
+                }
+                else
+                {
+                    string error = await response.Content.ReadAsStringAsync();
+                    MessageBox.Show($"Error: {error}", "Error");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Exception: " + ex.Message);
+            }
+        }
+
+
 
         private async void loadPhones(object sender, RoutedEventArgs e)
         {
-            selectedMenu = "phones";
+            selectedMenu = "phone";
             using HttpClient client = new HttpClient();
             try
             {
@@ -155,7 +193,7 @@ namespace PhoneScoutAdmin
                         }
                     }
 
-                    phonesPlace.ItemsSource = phones;
+                    dataGrid.ItemsSource = phones;
                     populateInformationPart();
                 }
                 else
@@ -169,22 +207,130 @@ namespace PhoneScoutAdmin
             }
         }
 
+        private async void updatePhone(object sender, RoutedEventArgs e)
+        {
+            var id = ((Phone)dataGrid.SelectedValue).phoneID;
+            using HttpClient client = new HttpClient();
+            try
+            {
+                string url = $"http://localhost:5175/api/wpfManufacturer/{id}"; // your API endpoint
+
+                // Create DTO from your input fields
+                var phone = new Phone
+                {
+                    phoneName = phoneName.Text,
+                    phoneInStore = phoneInStore.Text,
+                    phonePrice = int.Parse(phonePrice.Text),
+                    phoneAvailable = int.Parse(phoneAvailable.Text)
+                };
+
+                // Serialize DTO to JSON
+                string json = JsonSerializer.Serialize(phone);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                // Send PUT request
+                var response = await client.PutAsync(url, content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string result = await response.Content.ReadAsStringAsync();
+                    MessageBox.Show(result, "Success");
+                }
+                else
+                {
+                    string error = await response.Content.ReadAsStringAsync();
+                    MessageBox.Show($"Error: {error}", "Error");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Exception: " + ex.Message);
+            }
+        }
+        private async void deletePhone(object sender, RoutedEventArgs e)
+        {
+            var phoneID = ((Phone)dataGrid.SelectedValue).phoneID;
+            using HttpClient client = new HttpClient();
+            try
+            {
+                string url = $"http://localhost:5175/api/wpfManufacturer/{phoneID}"; // your API endpoint
+
+                // Send PUT request
+                var response = await client.DeleteAsync(url);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string result = await response.Content.ReadAsStringAsync();
+                    MessageBox.Show(result, "Success");
+                }
+                else
+                {
+                    string error = await response.Content.ReadAsStringAsync();
+                    MessageBox.Show($"Error: {error}", "Error");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Exception: " + ex.Message);
+            }
+        }
+        private async void createPhone(object sender, RoutedEventArgs e)
+        {
+            PhoneDetails window = new PhoneDetails(0);
+            window.Show();
+        }
+        private async void modifyFullPhone(object sender, RoutedEventArgs e)
+        {
+            if (dataGrid.SelectedValue == null)
+            {
+                MessageBox.Show("No phone is selected!");
+            }
+            else
+            {
+                PhoneDetails window = new PhoneDetails(((Phone)dataGrid.SelectedValue).phoneID);
+                window.Show();
+            }
+        }
+
         public void populateInformationPart()
         {
-            if(selectedMenu == "manufacturer")
+            if (selectedMenu == "manufacturer")
             {
                 manufacturerInformations.Visibility = Visibility.Visible;
-            }            
+                phoneInformations.Visibility = Visibility.Collapsed;
+            }
+            else if (selectedMenu == "phone")
+            {
+                manufacturerInformations.Visibility = Visibility.Collapsed;
+                phoneInformations.Visibility = Visibility.Visible;
+            }
         }
 
         private void showInfos(object sender, SelectionChangedEventArgs e)
         {
             if (selectedMenu == "manufacturer")
             {
-                manufacturerName.Text = ((Manufacturer)phonesPlace.SelectedValue).manufacturerName;
-                manufacturerEmail.Text = ((Manufacturer)phonesPlace.SelectedValue).manufacturerEmail;
-                manufacturerUrl.Text = ((Manufacturer)phonesPlace.SelectedValue).manufacturerUrl;
+                manufacturerName.Text = "";
+                manufacturerEmail.Text = "";
+                manufacturerUrl.Text = "";
+                manufacturerName.Text = ((Manufacturer)dataGrid.SelectedValue).manufacturerName;
+                manufacturerEmail.Text = ((Manufacturer)dataGrid.SelectedValue).manufacturerEmail;
+                manufacturerUrl.Text = ((Manufacturer)dataGrid.SelectedValue).manufacturerUrl;
+            }
+
+            if (selectedMenu == "phone")
+            {
+                phoneName.Text = "";
+                phoneInStore.Text = "";
+                phonePrice.Text = "";
+                phoneAvailable.Text = "";
+                phoneName.Text = ((Phone)dataGrid.SelectedValue).phoneName;
+                phoneInStore.Text = ((Phone)dataGrid.SelectedValue).phoneInStore;
+                phonePrice.Text = ((Phone)dataGrid.SelectedValue).phonePrice.ToString();
+                phonePrice.Text = ((Phone)dataGrid.SelectedValue).phoneAvailable.ToString();
+
+
             }
         }
-    }
+    } 
 }

@@ -13,11 +13,16 @@
             <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
             <RowDefinition Height="3*"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
 
-        <WrapPanel Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" Margin="25">           
+        
+        <Label Grid.Row="0" Grid.ColumnSpan="2" Content="PhoneScout Admin Interface" FontSize="28" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5"/>
+
+
+        <WrapPanel Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" Margin="25">           
     
 
             <Button Content="Manage Phones" Background="Transparent" Click="loadPhones" Margin="20" Width="200"/>
@@ -25,7 +30,7 @@
 
         </WrapPanel>
 
-        <DataGrid Grid.Row="0" Grid.Column="1" x:Name="phonesPlace" AutoGenerateColumns="True"
+        <DataGrid Grid.Row="1" Grid.Column="1" x:Name="dataGrid" AutoGenerateColumns="True"
           ColumnWidth="*"
           AlternatingRowBackground="LightGray"
           RowBackground="White"
@@ -42,8 +47,9 @@
                   Margin="10" SelectionChanged="showInfos"/>
 
 
+        <Image Grid.Row="2" Grid.Column="0" Source="/Images/PhoneScoutLogo.png" Margin="10"/>
 
-        <Grid Grid.Column="1" Grid.Row="1">
+        <Grid Grid.Column="1" Grid.Row="2">
             <WrapPanel x:Name="manufacturerInformations" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -69,10 +75,47 @@
 
 
                     <Button Grid.Column="3" Grid.Row="0" Width="200" Height="20" Content="Modify manufacturer" Margin="50,0,50,0" HorizontalAlignment="Center" Click="updateManufacturer"/>
-                    <Button Grid.Column="3" Grid.Row="1"  Width="200" Height="20" Content="Delete manufacturer" Margin="50,0,50,0" HorizontalAlignment="Center"/>
+                    <Button Grid.Column="3" Grid.Row="1"  Width="200" Height="20" Content="Delete manufacturer" Margin="50,0,50,0" HorizontalAlignment="Center" Click="deleteManufacturer"/>
                 </Grid>
 
                 
+            </WrapPanel>
+            <WrapPanel x:Name="phoneInformations" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition Width="180"/>
+                    </Grid.ColumnDefinitions>
+
+
+                    <Label Grid.Row="0" Grid.Column="0" Content="Phone Name:" Margin="2"/>
+                    <TextBox Grid.Row="0" Grid.Column="1" x:Name="phoneName" Width="90" Height="20" Margin="0,0,10,0"/>
+
+                    <Label Grid.Row="1" Grid.Column="0" Content="Phone Store:" Margin="2"/>
+                    <TextBox Grid.Row="1" Grid.Column="1" x:Name="phoneInStore" Width="90" Height="20"  Margin="0,0,10,0"/>
+
+                    <Label Grid.Row="2" Grid.Column="0" Content="Phone Price:" Margin="2"/>
+                    <TextBox Grid.Row="2" Grid.Column="1" x:Name="phonePrice" Width="90" Height="20"  Margin="0,0,10,0"/>
+
+                    <Label Grid.Row="3" Grid.Column="0" Content="Phone Available:" Margin="2"/>
+                    <TextBox Grid.Row="3" Grid.Column="1" x:Name="phoneAvailable" Width="90" Height="20"  Margin="0,0,10,0"/>
+
+                    <Button Grid.Column="5" Grid.Row="0" Width="150" Height="20" Content="Modify phone"  HorizontalAlignment="Center" Click="updatePhone"/>
+                    <Button Grid.Column="5" Grid.Row="1"  Width="150" Height="20" Content="Delete phone"  HorizontalAlignment="Center" Click="deletePhone"/>
+                    <Button Grid.Column="6" Grid.Row="2" Width="150" Height="20" Content="Create phone"  HorizontalAlignment="Center" Click="createPhone"/>
+                    <Button Grid.Column="6" Grid.Row="3"  Width="150" Height="20" Content="Modify full phone"  HorizontalAlignment="Center" Click="modifyFullPhone"/>
+                </Grid>
+
+
             </WrapPanel>
         </Grid>
 
