@@ -1,47 +1,107 @@
 ﻿<Window x:Class="PhoneScoutAdmin.PhoneDetails"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:PhoneScoutAdmin"
-        mc:Ignorable="d"
-        Title="PhoneDetails" Height="650" Width="1200"
-        ResizeMode="NoResize">
+        Title="PhoneDetails" Height="700" Width="1000"
+        Background="#f5f5f5">
+
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="10"/>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="220"/>
+            <!-- Left menu -->
+            <ColumnDefinition Width="*"/>
+            <!-- Main content -->
         </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="5*"/>
-        </Grid.RowDefinitions>
 
-        <Button Grid.Row="1" Grid.Column="1" Content="General Informations" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-        <Button Grid.Row="1" Grid.Column="2" Content="General Informations" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-        <Button Grid.Row="1" Grid.Column="3" Content="General Informations" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-        <Button Grid.Row="1" Grid.Column="4" Content="General Informations" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-        <Button Grid.Row="1" Grid.Column="5" Content="General Informations" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-        <Button Grid.Row="1" Grid.Column="6" Content="General Informations" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-        <Button Grid.Row="1" Grid.Column="7" Content="General Informations" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-        <Button Grid.Row="1" Grid.Column="8" Content="General Informations" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-        <Button Grid.Row="1" Grid.Column="9" Content="General Informations" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-        <Button Grid.Row="1" Grid.Column="10" Content="General Informations" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-       
+        <!-- Left Menu -->
+        <Border Background="#2c3e50" Grid.Column="0">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel Margin="10" >
+                    <Label Content="Progress: 10 / 10" Foreground="White" FontSize="18" HorizontalAlignment="Center" Margin="0,10"/>
+                    <ProgressBar Height="20" Margin="0,10" Foreground="#3498db" Background="#95a5a6"/>
+
+                    <!-- All buttons (kept) -->
+                    <StackPanel>
+                        <Button Content="General Informations" Margin="0,5" FontSize="16" Padding="5" Background="#34495e" Foreground="White" Click="showGenInfos"/>
+                        <Button Content="CPU" Margin="0,5" FontSize="16" Padding="5" Background="#34495e" Foreground="White" Click="showCPU"/>
+                        <Button Content="Sensors" Margin="0,5" FontSize="16" Padding="5" Background="#34495e" Foreground="White"/>
+                        <Button Content="Screen" Margin="0,5" FontSize="16" Padding="5" Background="#34495e" Foreground="White"/>
+                        <Button Content="Connectivity" Margin="0,5" FontSize="16" Padding="5" Background="#34495e" Foreground="White"/>
+                        <Button Content="Battery and charging" Margin="0,5" FontSize="16" Padding="5" Background="#34495e" Foreground="White"/>
+                        <Button Content="Body and speaker" Margin="0,5" FontSize="16" Padding="5" Background="#34495e" Foreground="White"/>
+                        <Button Content="Camera" Margin="0,5" FontSize="16" Padding="5" Background="#34495e" Foreground="White"/>
+                        <Button Content="Ram / Storage" Margin="0,5" FontSize="16" Padding="5" Background="#34495e" Foreground="White"/>
+                        <Button Content="Color" Margin="0,5" FontSize="16" Padding="5" Background="#34495e" Foreground="White"/>
+                    </StackPanel>
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+
+        <!-- Right Main Content -->
+        <ScrollViewer x:Name="generalInfos" Grid.Column="1" VerticalScrollBarVisibility="Auto" Padding="20" Visibility="Visible">
+            <StackPanel>
+
+                <!-- General Info Section -->
+                <Border Background="White" CornerRadius="5" Padding="15" Margin="0,0,0,10" >
+                    <StackPanel>
+                        <TextBlock Text="General Informations" FontSize="20" FontWeight="Bold" Margin="0,0,0,10"/>
+
+                        <!-- Your existing WrapPanels (kept) -->
+                        <WrapPanel VerticalAlignment="Center" Margin="0,5">
+                            <Label Content="Phone name:" VerticalAlignment="Center" FontSize="16" Width="150"/>
+                            <TextBox Height="25" Width="250" Margin="0,0,0,0" BorderBrush="Green" BorderThickness="2" Padding="5,1"/>
+                        </WrapPanel>
+                        <WrapPanel VerticalAlignment="Center" Margin="0,5">
+                            <Label Content="Phone name:" VerticalAlignment="Center" FontSize="16" Width="150"/>
+                            <TextBox Height="25" Width="250" Margin="0,0,0,0" BorderBrush="Green" BorderThickness="2" Padding="5,1"/>
+                        </WrapPanel>
+                        <!-- Repeat your other WrapPanels here -->
+                    </StackPanel>
+                </Border>
+
+                <!-- Upload and Gallery Section -->
+                <UniformGrid Columns="4" Rows="1" Margin="0,0,0,10" HorizontalAlignment="Center">
+
+                    <!-- Image 1 -->
+                    <StackPanel Margin="10">
+                        <Border BorderBrush="#ccc" BorderThickness="1" Width="150" Height="150">
+                            <Image x:Name="ImageControl1" Stretch="UniformToFill"/>
+                        </Border>
+                        <Button Content="Upload" Margin="0,5,0,0" Click="UploadImage1_Click"/>
+                        <Button Content="Delete" Margin="0,5,0,0" Click="DeleteImage1_Click"/>
+                    </StackPanel>
+
+                    <!-- Image 2 -->
+                    <StackPanel Margin="10">
+                        <Border BorderBrush="#ccc" BorderThickness="1" Width="150" Height="150">
+                            <Image x:Name="ImageControl2" Stretch="UniformToFill"/>
+                        </Border>
+                        <Button Content="Upload" Margin="0,5,0,0" Click="UploadImage2_Click"/>
+                        <Button Content="Delete" Margin="0,5,0,0" Click="DeleteImage2_Click"/>
+                    </StackPanel>
+
+                    <!-- Image 3 -->
+                    <StackPanel Margin="10">
+                        <Border BorderBrush="#ccc" BorderThickness="1" Width="150" Height="150">
+                            <Image x:Name="ImageControl3" Stretch="UniformToFill"/>
+                        </Border>
+                        <Button Content="Upload" Margin="0,5,0,0" Click="UploadImage3_Click"/>
+                        <Button Content="Delete" Margin="0,5,0,0" Click="DeleteImage3_Click"/>
+                    </StackPanel>
+
+                    <!-- Image 4 -->
+                    <StackPanel Margin="10">
+                        <Border BorderBrush="#ccc" BorderThickness="1" Width="150" Height="150">
+                            <Image x:Name="ImageControl4" Stretch="UniformToFill"/>
+                        </Border>
+                        <Button Content="Upload" Margin="0,5,0,0" Click="UploadImage4_Click"/>
+                        <Button Content="Delete" Margin="0,5,0,0" Click="DeleteImage4_Click"/>
+                    </StackPanel>
+
+                </UniformGrid>
 
 
-
+            </StackPanel>
+        </ScrollViewer>
 
     </Grid>
 </Window>

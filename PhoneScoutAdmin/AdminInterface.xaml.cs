@@ -24,7 +24,7 @@ namespace PhoneScoutAdmin
         [JsonPropertyName("phonePrice")]
         public int phonePrice { get; set; }
 
-        [JsonPropertyName("phoneInStore")]
+        [JsonPropertyName("phoneInstore")]
         public string phoneInStore { get; set; }
 
         [JsonPropertyName("phoneAvailable")]
@@ -89,7 +89,7 @@ namespace PhoneScoutAdmin
                 }
                 else
                 {
-                    MessageBox.Show("Failed to load phones from API");
+                    MessageBox.Show("Failed to load manufacturers from API");
                 }
             }
             catch (Exception ex)
@@ -174,7 +174,7 @@ namespace PhoneScoutAdmin
             using HttpClient client = new HttpClient();
             try
             {
-                string url = "http://localhost:5175/api/filterPage/GetAllPhones"; // your API endpoint
+                string url = "http://localhost:5175/api/wpfPhone"; // your API endpoint
                 var response = await client.GetAsync(url);
 
                 if (response.IsSuccessStatusCode)
@@ -213,7 +213,7 @@ namespace PhoneScoutAdmin
             using HttpClient client = new HttpClient();
             try
             {
-                string url = $"http://localhost:5175/api/wpfManufacturer/{id}"; // your API endpoint
+                string url = $"http://localhost:5175/api/wpfPhone/{id}"; // your API endpoint
 
                 // Create DTO from your input fields
                 var phone = new Phone
@@ -253,7 +253,7 @@ namespace PhoneScoutAdmin
             using HttpClient client = new HttpClient();
             try
             {
-                string url = $"http://localhost:5175/api/wpfManufacturer/{phoneID}"; // your API endpoint
+                string url = $"http://localhost:5175/api/wpfPhone/{phoneID}"; // your API endpoint
 
                 // Send PUT request
                 var response = await client.DeleteAsync(url);
@@ -327,7 +327,7 @@ namespace PhoneScoutAdmin
                 phoneName.Text = ((Phone)dataGrid.SelectedValue).phoneName;
                 phoneInStore.Text = ((Phone)dataGrid.SelectedValue).phoneInStore;
                 phonePrice.Text = ((Phone)dataGrid.SelectedValue).phonePrice.ToString();
-                phonePrice.Text = ((Phone)dataGrid.SelectedValue).phoneAvailable.ToString();
+                phoneAvailable.Text = ((Phone)dataGrid.SelectedValue).phoneAvailable.ToString();
 
 
             }
