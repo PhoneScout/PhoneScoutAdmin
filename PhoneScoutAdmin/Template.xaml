@@ -1,0 +1,52 @@
+﻿<Window x:Class="PhoneScoutAdmin.Template"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PhoneScoutAdmin"
+        mc:Ignorable="d"
+        Title="Template" Height="600" Width="1200">
+
+    <DockPanel>
+        <!-- MENU -->
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="File"/>
+            <MenuItem Header="Edit"/>
+        </Menu>
+
+        <!-- MAIN CONTENT -->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="5*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="8*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+
+            <!--Logo-->
+            <WrapPanel Orientation="Horizontal" >
+                <Image Grid.Row="0" Grid.Column="0" Source="/Images/ImagePhoneScoutLogo.png" Margin="5"/>
+                <Label Grid.Row="0" Grid.Column="0" FontSize="24" FontWeight="Bold" Content="Phone" VerticalAlignment="Center" Foreground="#2300B3"/>
+                <Label Grid.Row="0" Grid.Column="0" FontSize="24" FontWeight="Bold" Content="Scout" VerticalAlignment="Center" Foreground="#68F145" Margin="-5,0,0,0"/>
+            </WrapPanel>
+
+            <!--Copyright-->
+            <WrapPanel Grid.Row="2" Grid.Column="0" Orientation="Vertical" HorizontalAlignment="Left">                
+                <Label Content="©2026 PhoneScout."/>
+                <Label Content="All rights reserved."/>
+            </WrapPanel>
+            
+        
+
+
+
+
+
+
+        </Grid>
+    </DockPanel>
+
+</Window>

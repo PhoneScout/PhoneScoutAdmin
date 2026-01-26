@@ -16,10 +16,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Images\ImagePhoneScoutLogo.png" />
     <None Remove="Images\PhoneScoutLogo.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Images\ImagePhoneScoutLogo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Images\PhoneScoutLogo.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

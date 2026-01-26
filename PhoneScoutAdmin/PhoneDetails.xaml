@@ -1,7 +1,7 @@
 ﻿<Window x:Class="PhoneScoutAdmin.PhoneDetails"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="PhoneDetails" Height="700" Width="1000"
+        Title="PhoneDetails" Height="600" Width="1200"
         Background="#f5f5f5">
 
     <Grid>
@@ -37,7 +37,7 @@
         </Border>
 
         <!-- Right Main Content -->
-        <ScrollViewer x:Name="generalInfos" Grid.Column="1" VerticalScrollBarVisibility="Auto" Padding="20" Visibility="Visible">
+        <ScrollViewer x:Name="generalInfos" Grid.Column="1" VerticalScrollBarVisibility="Auto" Padding="20" Visibility="Collapsed">
             <StackPanel>
 
                 <!-- General Info Section -->
@@ -99,6 +99,54 @@
 
                 </UniformGrid>
 
+
+            </StackPanel>
+        </ScrollViewer>
+
+
+        <ScrollViewer x:Name="t" Grid.Column="1" VerticalScrollBarVisibility="Auto" Padding="20" Visibility="Visible">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+
+                <!-- General Info Section -->
+                <Border Background="White" CornerRadius="5" Padding="15" Margin="0,0,0,10" >
+                    <StackPanel>
+                        <TextBlock Text="General Informations" FontSize="20" FontWeight="Bold" Margin="0,0,0,10"/>
+
+                        <!-- Your existing WrapPanels (kept) -->
+                        <WrapPanel VerticalAlignment="Center" Margin="0,5">
+                            <Label Content="Phone name:" VerticalAlignment="Center" FontSize="16" Width="150"/>
+                            <TextBox Height="25" Width="250" Margin="0,0,0,0" BorderBrush="Green" BorderThickness="2" Padding="5,1"/>
+                        </WrapPanel>
+                        <WrapPanel VerticalAlignment="Center" Margin="0,5">
+                            <Label Content="Phone name:" VerticalAlignment="Center" FontSize="16" Width="150"/>
+                            <TextBox Height="25" Width="250" Margin="0,0,0,0" BorderBrush="Green" BorderThickness="2" Padding="5,1"/>
+                        </WrapPanel>
+                        <WrapPanel VerticalAlignment="Center" Margin="0,5">
+                            <Label Content="Phone name:" VerticalAlignment="Center" FontSize="16" Width="150"/>
+                            <TextBox Height="25" Width="250" Margin="0,0,0,0" BorderBrush="Green" BorderThickness="2" Padding="5,1"/>
+                        </WrapPanel>
+                        <WrapPanel VerticalAlignment="Center" Margin="0,5">
+                            <Label Content="Phone name:" VerticalAlignment="Center" FontSize="16" Width="150"/>
+                            <TextBox Height="25" Width="250" Margin="0,0,0,0" BorderBrush="Green" BorderThickness="2" Padding="5,1"/>
+                        </WrapPanel>
+                        <WrapPanel VerticalAlignment="Center" Margin="0,5">
+                            <Label Content="Phone name:" VerticalAlignment="Center" FontSize="16" Width="150"/>
+                            <TextBox Height="25" Width="250" Margin="0,0,0,0" BorderBrush="Green" BorderThickness="2" Padding="5,1"/>
+                        </WrapPanel>
+                        <WrapPanel VerticalAlignment="Center" Margin="0,5">
+                            <Label Content="Phone name:" VerticalAlignment="Center" FontSize="16" Width="150"/>
+                            <TextBox Height="25" Width="250" Margin="0,0,0,0" BorderBrush="Green" BorderThickness="2" Padding="5,1"/>
+                        </WrapPanel>
+                        <WrapPanel VerticalAlignment="Center" Margin="0,5">
+                            <Label Content="Phone name:" VerticalAlignment="Center" FontSize="16" Width="150"/>
+                            <TextBox Height="25" Width="250" Margin="0,0,0,0" BorderBrush="Green" BorderThickness="2" Padding="5,1"/>
+
+                        </WrapPanel>
+                        <!-- Repeat your other WrapPanels here -->
+                    </StackPanel>
+                </Border>
+
+                
 
             </StackPanel>
         </ScrollViewer>
