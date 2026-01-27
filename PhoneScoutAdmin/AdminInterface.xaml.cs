@@ -13,7 +13,7 @@ using System.Windows.Navigation;
 
 namespace PhoneScoutAdmin
 {
-    public class Phone
+    /*public class Phone
     {
         [JsonPropertyName("phoneID")]
         public int phoneID { get; set; }
@@ -45,11 +45,11 @@ namespace PhoneScoutAdmin
 
         [JsonPropertyName("manufacturerEmail")]
         public string manufacturerEmail { get; set; }
-    }
+    }*/
 
     public partial class AdminInterface : Window
     {
-        string selectedMenu = "phones";
+        /*string selectedMenu = "phones";
         public ObservableCollection<Phone> phones { get; set; } = new ObservableCollection<Phone>();
         public ObservableCollection<Manufacturer> manufacturers { get; set; } = new ObservableCollection<Manufacturer>();
 
@@ -57,10 +57,10 @@ namespace PhoneScoutAdmin
         {
             InitializeComponent();
         }
-
+        */
         private async void loadManufacturers(object sender, RoutedEventArgs e)
         {
-            selectedMenu = "manufacturer";
+            /*selectedMenu = "manufacturer";
 
             using HttpClient client = new HttpClient();
             try
@@ -331,6 +331,7 @@ namespace PhoneScoutAdmin
 
 
             }
+        }*/
         }
-    } 
+    }
 }

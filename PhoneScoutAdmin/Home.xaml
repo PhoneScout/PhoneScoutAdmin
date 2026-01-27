@@ -1,0 +1,251 @@
+﻿<Window x:Class="PhoneScoutAdmin.Home"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PhoneScoutAdmin"
+        mc:Ignorable="d"
+        Title="Home" Height="600" Width="1200"
+        Background="White">
+    <DockPanel>
+        <!-- MENU -->
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="File"/>
+            <MenuItem Header="Edit"/>
+        </Menu>
+
+        <!-- MAIN CONTENT -->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="8*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="8*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+
+            <!--Logo-->
+            <WrapPanel Orientation="Horizontal" >
+                <Image Grid.Row="0" Grid.Column="0" Source="/Images/ImagePhoneScoutLogo.png" Margin="5"/>
+                <Label Grid.Row="0" Grid.Column="0" FontSize="24" FontWeight="Bold" Content="Phone" VerticalAlignment="Center" Foreground="#2300B3"/>
+                <Label Grid.Row="0" Grid.Column="0" FontSize="24" FontWeight="Bold" Content="Scout" VerticalAlignment="Center" Foreground="#68F145" Margin="-5,0,0,0"/>
+            </WrapPanel>
+
+            <!--Copyright-->
+            <WrapPanel Grid.Row="2" Grid.Column="0" Orientation="Vertical" HorizontalAlignment="Left">
+                <Label Content="©2026 PhoneScout."/>
+                <Label Content="All rights reserved."/>
+            </WrapPanel>
+
+            <!--Header-->
+            <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <TextBlock Text="Admin Interface /" FontSize="28" FontWeight="Bold"/>
+                <TextBlock Text=" Home" FontSize="28" FontWeight="Bold" Foreground="#68F145"/>
+                
+            </StackPanel>
+            
+
+            <!--Side menu-->
+            <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Vertical" Background="#80A4CB">
+                <Button Content="Manage phones" Margin="15,25,15,10" FontSize="16" Width="180" Padding="5" Background="#80A4CB" Foreground="White" BorderBrush="White" BorderThickness="3" VerticalAlignment="Center" HorizontalAlignment="Center" Click="loadPhones"/>
+
+                <Button Content="Manage manufacturers" Margin="15,25,15,10" FontSize="16" Width="180" Padding="5" Background="#80A4CB" Foreground="White" BorderBrush="White" BorderThickness="3" VerticalAlignment="Center" HorizontalAlignment="Center" Click="loadManufacturers"/>
+
+
+
+            </StackPanel>
+
+            <!--Main Content-->
+            <Grid Grid.Row="1" Grid.Column="1" Background="LightGray" x:Name="phoneDetails"  Visibility="Collapsed">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="12*"/>
+                    <RowDefinition Height="2*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="5*"/>
+                    <ColumnDefinition Width="4*"/>
+                </Grid.ColumnDefinitions>
+
+
+
+                <DataGrid x:Name="phoneDataGrid" Grid.Row="1" Grid.Column="0" SelectionChanged="showInfos" AutoGenerateColumns="True"/>
+
+
+
+
+                <WrapPanel Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" Margin="5">
+                            <TextBlock Text="ⓘ "
+                                   Margin="0,0,0,0"
+                                   ToolTip="The name of the phone."
+                                       VerticalAlignment="Center"
+                                       FontSize="14"/>
+
+                            <TextBlock Text="Phone name: " FontSize="16"/>
+                        </StackPanel>
+                        
+                        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" Margin="5">
+                            <TextBlock Text="ⓘ "
+                        Margin="0,0,0,0"
+                        ToolTip="The price of the phone."
+                        VerticalAlignment="Center"
+                        FontSize="14"/>
+
+                            <TextBlock Text="Phone price: " FontSize="16"/>
+                        </StackPanel>
+                        
+                        <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="0" Margin="5">
+                            <TextBlock Text="ⓘ "
+                        Margin="0,0,0,0"
+                        ToolTip="Indicates if the phone is in storage or not."
+                        VerticalAlignment="Center"
+                        FontSize="14"/>
+
+                            <TextBlock Text="Phone in storage: " FontSize="16"/>
+                        </StackPanel>
+                        
+                        <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="0" Margin="5">
+                            <TextBlock Text="ⓘ "
+                            Margin="0,0,0,0"
+                            ToolTip="Indicates if the phone is visible for users."
+                        VerticalAlignment="Center"
+                        FontSize="14"/>
+
+                            <TextBlock Text="Phone available: " FontSize="16"/>
+                        </StackPanel>
+
+
+
+                        <TextBox x:Name="phoneName" Width="200" Height="20" Grid.Row="0" Grid.Column="1" Margin="5"/>
+                        <TextBox x:Name="phonePrice" Width="200" Height="20" Grid.Row="1" Grid.Column="1" Margin="5"/>
+
+                        <CheckBox x:Name="phoneInStore" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <CheckBox.LayoutTransform>
+                                <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                            </CheckBox.LayoutTransform>
+                        </CheckBox>
+                        <CheckBox x:Name="phoneAvailable" Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <CheckBox.LayoutTransform>
+                                <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                            </CheckBox.LayoutTransform>
+                        </CheckBox>
+
+                        <Button Grid.Row="5" Grid.ColumnSpan="2" Content="Save datas" Margin="10,15,10,-15" Padding="5" BorderBrush="#68F145" BorderThickness="3" FontSize="18" VerticalAlignment="Center" Background="WhiteSmoke"/>
+
+                    </Grid>
+                </WrapPanel>
+
+
+                <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Button Width="200" Content="Modify the phone" Margin="10,15,10,0" Padding="5" BorderBrush="#2300B3" BorderThickness="3" FontSize="18" VerticalAlignment="Center" Background="WhiteSmoke"/>
+                    <Button Width="200" Content="Delete phone" Margin="10,15,10,0" Padding="5" BorderBrush="Red" BorderThickness="3" FontSize="18" VerticalAlignment="Center" Background="WhiteSmoke"/>
+                </StackPanel>
+
+                <Button Grid.Row="2" Grid.Column="1" Width="200" Content="Create phone" Margin="10,15,10,0" Padding="5" BorderBrush="#68F145" BorderThickness="3" FontSize="18" VerticalAlignment="Center" Background="WhiteSmoke"/>
+            </Grid>
+
+            <Grid Grid.Row="1" Grid.Column="1" Background="LightGray" x:Name="manufacturerDetails"  Visibility="Collapsed">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="12*"/>
+                    <RowDefinition Height="2*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="5*"/>
+                    <ColumnDefinition Width="4*"/>
+                </Grid.ColumnDefinitions>
+
+
+
+                <DataGrid x:Name="manufacturerDataGrid" Grid.Row="1" Grid.Column="0" SelectionChanged="showInfos" AutoGenerateColumns="True">
+
+                </DataGrid>
+
+
+                <WrapPanel Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" Margin="5">
+                            <TextBlock Text="ⓘ "
+                       Margin="0,0,0,0"
+                       ToolTip="The name of the manufacturer."
+                           VerticalAlignment="Center"
+                           FontSize="14"/>
+
+                            <TextBlock Text="Manufacturer name: " FontSize="16"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" Margin="5">
+                            <TextBlock Text="ⓘ "
+            Margin="0,0,0,0"
+            ToolTip="The URL of the official website."
+            VerticalAlignment="Center"
+            FontSize="14"/>
+
+                            <TextBlock Text="Manufacturer URL: " FontSize="16"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="0" Margin="5">
+                            <TextBlock Text="ⓘ "
+            Margin="0,0,0,0"
+            ToolTip="The email address of the manufacturer."
+            VerticalAlignment="Center"
+            FontSize="14"/>
+
+                            <TextBlock Text="Manufacturer Email: " FontSize="16"/>
+                        </StackPanel>
+
+                        
+
+
+
+                        <TextBox x:Name="manufacturerName" Width="200" Height="20" Grid.Row="0" Grid.Column="1" Margin="5"/>
+                        <TextBox x:Name="manufacturerURL" Width="200" Height="20" Grid.Row="1" Grid.Column="1" Margin="5"/>
+                        <TextBox x:Name="manufacturerEmail" Width="200" Height="20" Grid.Row="2" Grid.Column="1" Margin="5"/>
+
+                        
+
+                        <Button Grid.Row="5" Grid.ColumnSpan="2" Content="Save datas" Margin="10,15,10,-15" Padding="5" BorderBrush="#68F145" BorderThickness="3" FontSize="18" VerticalAlignment="Center" Background="WhiteSmoke"/>
+
+                    </Grid>
+                </WrapPanel>
+
+
+                <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">                    
+                    <Button Width="200" Content="Delete manufacturer" Margin="10,15,10,0" Padding="5" BorderBrush="Red" BorderThickness="3" FontSize="18" VerticalAlignment="Center" Background="WhiteSmoke"/>
+                </StackPanel>                
+            </Grid>
+        </Grid>
+    </DockPanel>
+</Window>
