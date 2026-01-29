@@ -82,7 +82,93 @@ namespace PhoneScoutAdmin
         [JsonPropertyName("partAmount")]
         public int partAmount { get; set; }
     }
-    public class ComboItem
+    public class Repair
+    {
+
+        [JsonPropertyName("repairID")]
+        public string repairID { get; set; }
+
+        [JsonPropertyName("name")]
+        public string userEmail { get; set; }
+
+        [JsonPropertyName("postalCode")]
+        public int postalCode { get; set; }
+
+        [JsonPropertyName("city")]
+        public string city { get; set; }
+
+        [JsonPropertyName("address")]
+        public string address { get; set; }
+
+        [JsonPropertyName("phoneNumber")]
+        public long phoneNumber { get; set; }
+
+        [JsonPropertyName("phoneName")]
+        public string phoneName { get; set; }
+
+        [JsonPropertyName("price")]
+        public int price { get; set; }
+
+        [JsonPropertyName("status")]
+        public int status { get; set; }
+
+        [JsonPropertyName("manufacturerName")]
+        public string manufacturerName { get; set; }
+
+        [JsonPropertyName("phoneInspection")]
+        public int phoneInspection { get; set; }
+
+        [JsonPropertyName("problemDescription")]
+        public string problemDescription { get; set; }
+
+        [JsonPropertyName("parts")]
+        public List<string> parts { get; set; }
+    }
+
+    public class Order
+    {
+
+        [JsonPropertyName("userEmail")]
+        public string userEmail { get; set; }
+
+        [JsonPropertyName("postalCode")]
+        public int postalCode { get; set; }
+
+        [JsonPropertyName("city")]
+        public string city { get; set; }
+
+        [JsonPropertyName("address")]
+        public string address { get; set; }
+
+        [JsonPropertyName("phoneNumber")]
+        public long phoneNumber { get; set; }
+
+        [JsonPropertyName("phoneName")]
+        public string phoneName { get; set; }
+
+        [JsonPropertyName("price")]
+        public int price { get; set; }
+
+        [JsonPropertyName("status")]
+        public int status { get; set; }
+
+        [JsonPropertyName("amount")]
+        public int amount { get; set; }
+
+        [JsonPropertyName("phoneColorName")]
+        public string phoneColorName { get; set; }
+
+        [JsonPropertyName("phoneColorHex")]
+        public string phoneColorHex { get; set; }
+
+        [JsonPropertyName("phoneRam")]
+        public int phoneRam { get; set; }
+
+        [JsonPropertyName("phoneStorage")]
+        public int phoneStorage { get; set; }
+
+    }
+    public class ComboItemUsers
     {
         public int Id { get; set; }
         public int Level { get; set; }
@@ -93,7 +179,17 @@ namespace PhoneScoutAdmin
             return $"{Level} - {Name}";
         }
     }
+    public class ComboItemOrderStorage
+    {
+        public int Id { get; set; }
+        public int statusCode { get; set; }
+        public string Name { get; set; }
 
+        public override string? ToString()
+        {
+            return $"{Name}";
+        }
+    }
 
     public partial class Home : Window
     {
@@ -102,18 +198,28 @@ namespace PhoneScoutAdmin
         public ObservableCollection<Manufacturer> manufacturers { get; set; } = new ObservableCollection<Manufacturer>();
         public ObservableCollection<User> users { get; set; } = new ObservableCollection<User>();
         public ObservableCollection<Storage> parts { get; set; } = new ObservableCollection<Storage>();
+        public ObservableCollection<Repair> repairs { get; set; } = new ObservableCollection<Repair>();
+        public ObservableCollection<Order> orders { get; set; } = new ObservableCollection<Order>();
 
-        public ObservableCollection<ComboItem> Items { get; } =
-    new ObservableCollection<ComboItem>
+        public ObservableCollection<ComboItemUsers> Items { get; } =
+    new ObservableCollection<ComboItemUsers>
     {
-        new ComboItem { Id = 1, Level = 1, Name = "User" },
-        new ComboItem { Id = 2, Level = 2, Name = "Manufacturer" },
-        new ComboItem { Id = 3, Level = 3, Name = "Admin" },
+        new ComboItemUsers { Id = 1, Level = 1, Name = "User" },
+        new ComboItemUsers { Id = 2, Level = 2, Name = "Manufacturer" },
+        new ComboItemUsers { Id = 3, Level = 3, Name = "Admin" },
     };
-        public ComboItem SelectedItem { get; set; }
+        public ComboItemUsers SelectedItem { get; set; }
 
 
-
+        public ObservableCollection<ComboItemOrderStorage> statuses { get; } =
+    new ObservableCollection<ComboItemOrderStorage>
+    {
+        new ComboItemOrderStorage { Id = 1, statusCode  = 0, Name = "Under processing" },
+        new ComboItemOrderStorage { Id = 2, statusCode  = 1, Name = "Processed" },
+        new ComboItemOrderStorage { Id = 3, statusCode = 2, Name = "Ready for pickup" },
+        new ComboItemOrderStorage { Id = 4, statusCode = 3, Name = "Completed" },
+    };
+        public ComboItemOrderStorage selectedStatus { get; set; }
 
 
 
@@ -122,23 +228,7 @@ namespace PhoneScoutAdmin
             InitializeComponent();
             DataContext = this;
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        
         private async void loadPhones(object sender, RoutedEventArgs e)
         {
             phoneDataGrid.SelectedItem = null;
@@ -242,6 +332,8 @@ namespace PhoneScoutAdmin
                     string json = await response.Content.ReadAsStringAsync();
 
                     var userList = JsonSerializer.Deserialize<List<User>>(json);
+                    MessageBox.Show(userList.Count().ToString());
+
 
                     if (userList != null)
                     {
@@ -266,12 +358,103 @@ namespace PhoneScoutAdmin
                 MessageBox.Show("Error: " + ex.Message);
             }
         }
+
+        private async void loadRepairs(object sender, RoutedEventArgs e)
+        {
+            phoneDataGrid.SelectedItem = null;
+            manufacturerDataGrid.SelectedItem = null;
+            userDataGrid.SelectedItem = null;
+            selectedMenu = "repair";
+
+            using HttpClient client = new HttpClient();
+            try
+            {
+                string url = "http://localhost:5175/api/Profile/GetAllRepair";
+                var response = await client.GetAsync(url);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string json = await response.Content.ReadAsStringAsync();
+
+                    var repairList = JsonSerializer.Deserialize<List<Repair>>(json);
+                    
+
+
+                    if (repairList != null)
+                    {
+                        repairs.Clear();
+                        foreach (var repair in repairList)
+                        {
+                            repairs.Add(repair);
+                        }
+                    }
+
+                    repairDataGrid.ItemsSource = repairs;
+                    populateInformationPart();
+
+                }
+                else
+                {
+                    MessageBox.Show("Failed to orders users from API");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
+
+        private async void loadOrders(object sender, RoutedEventArgs e)
+        {
+            phoneDataGrid.SelectedItem = null;
+            manufacturerDataGrid.SelectedItem = null;
+            userDataGrid.SelectedItem = null;
+            selectedMenu = "order";
+
+            using HttpClient client = new HttpClient();
+            try
+            {
+                string url = "http://localhost:5175/api/Profile/GetAllOrder";
+                var response = await client.GetAsync(url);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string json = await response.Content.ReadAsStringAsync();
+
+                    var orderList = JsonSerializer.Deserialize<List<Order>>(json);
+
+
+
+                    if (orderList != null)
+                    {
+                        orders.Clear();
+                        foreach (var order in orderList)
+                        {
+                            orders.Add(order);
+                        }
+                    }
+
+                    orderDataGrid.ItemsSource = orders;
+                    populateInformationPart();
+
+                }
+                else
+                {
+                    MessageBox.Show("Failed to load orders from API");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
         private async void loadStorage(object sender, RoutedEventArgs e)
         {
             phoneDataGrid.SelectedItem = null;
             manufacturerDataGrid.SelectedItem = null;
             userDataGrid.SelectedItem = null;
             storageDataGrid.SelectedItem = null;
+
             selectedMenu = "storage";
 
             using HttpClient client = new HttpClient();
@@ -283,25 +466,23 @@ namespace PhoneScoutAdmin
                 if (response.IsSuccessStatusCode)
                 {
                     string json = await response.Content.ReadAsStringAsync();
-
                     var partList = JsonSerializer.Deserialize<List<Storage>>(json);
 
                     if (partList != null)
                     {
-                        partList.Clear();
+                        parts.Clear();
                         foreach (var part in partList)
                         {
-                            partList.Add(part);
+                            parts.Add(part);
                         }
                     }
 
-                    storageDataGrid.ItemsSource = partList;
+                    storageDataGrid.ItemsSource = parts;
                     populateInformationPart();
-
                 }
                 else
                 {
-                    MessageBox.Show("Failed to load users from API");
+                    MessageBox.Show("Failed to load storage from API");
                 }
             }
             catch (Exception ex)
@@ -309,6 +490,7 @@ namespace PhoneScoutAdmin
                 MessageBox.Show("Error: " + ex.Message);
             }
         }
+
 
 
 
@@ -336,6 +518,13 @@ namespace PhoneScoutAdmin
                 storageDetails.Visibility = Visibility.Collapsed;
             }
             else if (selectedMenu == "storage")
+            {
+                userDetails.Visibility = Visibility.Collapsed;
+                manufacturerDetails.Visibility = Visibility.Collapsed;
+                phoneDetails.Visibility = Visibility.Collapsed;
+                storageDetails.Visibility = Visibility.Visible;
+            }
+            else if (selectedMenu == "")
             {
                 userDetails.Visibility = Visibility.Collapsed;
                 manufacturerDetails.Visibility = Visibility.Collapsed;
@@ -398,7 +587,7 @@ namespace PhoneScoutAdmin
             }
             if (selectedMenu == "storage")
             {
-                if (userDataGrid.SelectedItem is Storage selectedPart)
+                if (storageDataGrid.SelectedItem is Storage selectedPart)
                 {
                     partName.Text = selectedPart.partName;
                     partAmount.Text = selectedPart.partAmount.ToString();
@@ -409,6 +598,58 @@ namespace PhoneScoutAdmin
                     partAmount.Text = "";
                 }
             }
+            if (selectedMenu == "repair")
+            {
+                if (repairDataGrid.SelectedItem is Repair selectedRepair)
+                {
+                    repairID.Text = selectedRepair.repairID;
+                    userEmail.Text = selectedRepair.userEmail;
+                    address.Text = $"{selectedRepair.postalCode}, {selectedRepair.city} {selectedRepair.address}";
+                    phoneNumber.Text = selectedRepair.phoneNumber.ToString();
+                    if(selectedRepair.phoneInspection == 0)
+                    {
+                        phoneInspection.Foreground = Brushes.Red;
+                        phoneInspection.Text = "Inspection is not required";
+                    }
+                    else
+                    {
+                        phoneInspection.Foreground = Brushes.Green;
+                        phoneInspection.Text = "Inspection is required";
+                    }
+                    price.Text = selectedRepair.price.ToString();
+                    repairStatus.SelectedValue = selectedRepair.status;
+                }
+                else
+                {
+                    partName.Text = "";
+                    partAmount.Text = "";
+                }
+            }
+            if (selectedMenu == "order")
+            {
+                if (orderDataGrid.SelectedItem is Order selectedOrder)
+                {
+                    userEmail.Text = selectedOrder.userEmail;
+                    address.Text = $"{selectedOrder.postalCode}, {selectedOrder.city} {selectedOrder.address}";
+                    phoneNumber.Text = selectedOrder.phoneNumber.ToString();
+                    phoneName.Text = selectedOrder.phoneName;
+                    phoneColorName.Text = selectedOrder.phoneColorName;
+                    phoneColorHex.Background =
+                    (SolidColorBrush)(new BrushConverter().ConvertFrom(selectedOrder.phoneColorHex));
+
+                    phoneRamStorage.Text = $"{selectedOrder.phoneRam} / {selectedOrder.phoneStorage}";
+                    priceOrder.Text = selectedOrder.price.ToString();
+                    amountOrder.Text = selectedOrder.amount.ToString();
+                    orderStatus.SelectedValue = selectedOrder.status;
+                }
+                else
+                {
+                    partName.Text = "";
+                    partAmount.Text = "";
+                }
+            }
         }
+
+        
     }
 }
