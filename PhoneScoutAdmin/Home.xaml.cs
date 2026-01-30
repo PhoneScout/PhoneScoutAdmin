@@ -76,6 +76,9 @@ namespace PhoneScoutAdmin
     public class Storage
     {
 
+        [JsonPropertyName("partID")]
+        public int partID { get; set; }
+
         [JsonPropertyName("partName")]
         public string partName { get; set; }
 
@@ -228,7 +231,100 @@ namespace PhoneScoutAdmin
             InitializeComponent();
             DataContext = this;
         }
-        
+
+
+
+
+        //Phones Requests
+        //Manufacturers Requests
+        //Users Requests
+        //Storage Requests
+        private async void loadStorage(object sender, RoutedEventArgs e)
+        {
+            selectedMenu = "storage";
+
+            using HttpClient client = new HttpClient();
+            try
+            {
+                string url = "http://localhost:5175/api/wpfStorage";
+                var response = await client.GetAsync(url);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string json = await response.Content.ReadAsStringAsync();
+                    var partList = JsonSerializer.Deserialize<List<Storage>>(json);
+
+                    if (partList != null)
+                    {
+                        parts.Clear();
+                        foreach (var part in partList)
+                        {
+                            parts.Add(part);
+                        }
+                    }
+
+                    storageDataGrid.ItemsSource = parts;
+                    populateInformationPart();
+                }
+                else
+                {
+                    MessageBox.Show("Failed to load storage from API");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
+
+        private async void updateStorage(object sender, RoutedEventArgs e)
+        {           
+            var selectedPart = ((Storage)storageDataGrid.SelectedItem);
+            using HttpClient client = new HttpClient();
+            try
+            {
+                string url = "http://localhost:5175/api/wpfStorage/"+selectedPart.partID;
+                selectedPart.partName = partName.Text;
+                selectedPart.partAmount = int.Parse(partAmount.Text);
+
+                
+
+                // Convert object to JSON
+                string json = JsonSerializer.Serialize(selectedPart);
+                HttpContent content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                var response = await client.PutAsync(url,content);
+
+
+
+                if (response.IsSuccessStatusCode)
+                {
+                    MessageBox.Show("Sikeres frissítés");
+
+                    //storageDataGrid.ItemsSource = parts;
+                    //populateInformationPart();
+                }
+                else
+                {
+                    MessageBox.Show("Failed to load storage from API");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
+
+
+
+
+
+        //Repairs Requests
+        //Orders Requests
+
+
+
+
         private async void loadPhones(object sender, RoutedEventArgs e)
         {
             phoneDataGrid.SelectedItem = null;
@@ -448,48 +544,7 @@ namespace PhoneScoutAdmin
                 MessageBox.Show("Error: " + ex.Message);
             }
         }
-        private async void loadStorage(object sender, RoutedEventArgs e)
-        {
-            phoneDataGrid.SelectedItem = null;
-            manufacturerDataGrid.SelectedItem = null;
-            userDataGrid.SelectedItem = null;
-            storageDataGrid.SelectedItem = null;
-
-            selectedMenu = "storage";
-
-            using HttpClient client = new HttpClient();
-            try
-            {
-                string url = "http://localhost:5175/api/wpfStorage";
-                var response = await client.GetAsync(url);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    string json = await response.Content.ReadAsStringAsync();
-                    var partList = JsonSerializer.Deserialize<List<Storage>>(json);
-
-                    if (partList != null)
-                    {
-                        parts.Clear();
-                        foreach (var part in partList)
-                        {
-                            parts.Add(part);
-                        }
-                    }
-
-                    storageDataGrid.ItemsSource = parts;
-                    populateInformationPart();
-                }
-                else
-                {
-                    MessageBox.Show("Failed to load storage from API");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error: " + ex.Message);
-            }
-        }
+        
 
 
 
@@ -602,7 +657,7 @@ namespace PhoneScoutAdmin
             {
                 if (repairDataGrid.SelectedItem is Repair selectedRepair)
                 {
-                    repairID.Text = selectedRepair.repairID;
+                    //repairID.Text = selectedRepair.repairID;
                     userEmail.Text = selectedRepair.userEmail;
                     address.Text = $"{selectedRepair.postalCode}, {selectedRepair.city} {selectedRepair.address}";
                     phoneNumber.Text = selectedRepair.phoneNumber.ToString();
