@@ -130,6 +130,11 @@ namespace PhoneScoutAdmin
 
     public class Order
     {
+        [JsonPropertyName("orderID")]
+        public int orderID { get; set; }
+
+        [JsonPropertyName("userID")]
+        public int userID { get; set; }
 
         [JsonPropertyName("userEmail")]
         public string userEmail { get; set; }
@@ -321,8 +326,129 @@ namespace PhoneScoutAdmin
 
         //Repairs Requests
         //Orders Requests
+        private async void loadOrders(object sender, RoutedEventArgs e)
+        {
+            selectedMenu = "order";
+
+            using HttpClient client = new HttpClient();
+            try
+            {
+                string url = "http://localhost:5175/api/Profile/GetAllOrder";
+                var response = await client.GetAsync(url);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string json = await response.Content.ReadAsStringAsync();
+
+                    var orderList = JsonSerializer.Deserialize<List<Order>>(json);
 
 
+
+                    if (orderList != null)
+                    {
+                        orders.Clear();
+                        foreach (var order in orderList)
+                        {
+                            orders.Add(order);
+                        }
+                    }
+
+                    orderDataGrid.ItemsSource = orders;
+                    populateInformationPart();
+
+                }
+                else
+                {
+                    MessageBox.Show("Failed to load orders from API");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
+        private async void updateOrder(object sender, RoutedEventArgs e)
+        {
+            var selectedOrder = ((Order)orderDataGrid.SelectedItem);
+            using HttpClient client = new HttpClient();
+            try
+            {
+                string url = $"http://localhost:5175/api/Profile/updateOrderStatus/{selectedOrder.orderID}";
+                selectedOrder.userID = ((Order)orderDataGrid.SelectedItem).userID;
+                selectedOrder.userEmail = ((Order)orderDataGrid.SelectedItem).userEmail;
+                selectedOrder.postalCode = ((Order)orderDataGrid.SelectedItem).postalCode;
+                selectedOrder.city = ((Order)orderDataGrid.SelectedItem).city;
+                selectedOrder.address = ((Order)orderDataGrid.SelectedItem).address;
+                selectedOrder.phoneNumber = ((Order)orderDataGrid.SelectedItem).phoneNumber;
+                selectedOrder.phoneName = ((Order)orderDataGrid.SelectedItem).phoneName;
+                selectedOrder.phoneColorName = ((Order)orderDataGrid.SelectedItem).phoneColorName;
+                selectedOrder.phoneColorHex = ((Order)orderDataGrid.SelectedItem).phoneColorHex;
+                selectedOrder.phoneRam = ((Order)orderDataGrid.SelectedItem).phoneRam;
+                selectedOrder.phoneStorage = ((Order)orderDataGrid.SelectedItem).phoneStorage;
+                selectedOrder.price = int.Parse(orderPrice.Text);
+                selectedOrder.amount = int.Parse(orderAmount.Text);
+                selectedOrder.status = ((ComboItemOrderStorage)orderStatus.SelectedItem).statusCode;
+                
+                // Convert object to JSON
+                string json = JsonSerializer.Serialize(selectedOrder);
+                HttpContent content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                var response = await client.PutAsync(url, content);
+
+                MessageBox.Show(response.ToString());
+
+
+                if (response.IsSuccessStatusCode)
+                {
+                    MessageBox.Show("Sikeres frissítés");
+
+                    //storageDataGrid.ItemsSource = parts;
+                    //populateInformationPart();
+                }
+                else
+                {
+                    MessageBox.Show("Failed to load repair from API");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
+        private async void deleteOrder(object sender, RoutedEventArgs e)
+        {
+            var selectedOrder = ((Order)orderDataGrid.SelectedItem);
+            using HttpClient client = new HttpClient();
+            try
+            {
+                string url = $"http://localhost:5175/api/Profile/deleteOrder/{selectedOrder.orderID}";                
+
+                // Convert object to JSON
+                string json = JsonSerializer.Serialize(selectedOrder);
+                HttpContent content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                var response = await client.DeleteAsync(url);
+
+                MessageBox.Show(response.ToString());
+
+
+                if (response.IsSuccessStatusCode)
+                {
+                    MessageBox.Show("Sikeres frissítés");
+
+                    //storageDataGrid.ItemsSource = parts;
+                    //populateInformationPart();
+                }
+                else
+                {
+                    MessageBox.Show("Failed to load repair from API");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
 
 
         private async void loadPhones(object sender, RoutedEventArgs e)
@@ -500,50 +626,7 @@ namespace PhoneScoutAdmin
             }
         }
 
-        private async void loadOrders(object sender, RoutedEventArgs e)
-        {
-            phoneDataGrid.SelectedItem = null;
-            manufacturerDataGrid.SelectedItem = null;
-            userDataGrid.SelectedItem = null;
-            selectedMenu = "order";
-
-            using HttpClient client = new HttpClient();
-            try
-            {
-                string url = "http://localhost:5175/api/Profile/GetAllOrder";
-                var response = await client.GetAsync(url);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    string json = await response.Content.ReadAsStringAsync();
-
-                    var orderList = JsonSerializer.Deserialize<List<Order>>(json);
-
-
-
-                    if (orderList != null)
-                    {
-                        orders.Clear();
-                        foreach (var order in orderList)
-                        {
-                            orders.Add(order);
-                        }
-                    }
-
-                    orderDataGrid.ItemsSource = orders;
-                    populateInformationPart();
-
-                }
-                else
-                {
-                    MessageBox.Show("Failed to load orders from API");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error: " + ex.Message);
-            }
-        }
+        
         
 
 
@@ -551,40 +634,38 @@ namespace PhoneScoutAdmin
 
         public void populateInformationPart()
         {
+            manufacturerDetails.Visibility = Visibility.Collapsed;
+            phoneDetails.Visibility = Visibility.Collapsed;
+            userDetails.Visibility = Visibility.Collapsed;
+            storageDetails.Visibility = Visibility.Collapsed;
+            repairDetails.Visibility = Visibility.Collapsed;
+            orderDetails.Visibility = Visibility.Collapsed;
+
+
+
             if (selectedMenu == "manufacturer")
             {
                 manufacturerDetails.Visibility = Visibility.Visible;
-                phoneDetails.Visibility = Visibility.Collapsed;
-                userDetails.Visibility = Visibility.Collapsed;
-                storageDetails.Visibility = Visibility.Collapsed;
             }
             else if (selectedMenu == "phone")
             {
                 phoneDetails.Visibility = Visibility.Visible;
-                userDetails.Visibility = Visibility.Collapsed;
-                manufacturerDetails.Visibility = Visibility.Collapsed;
-                storageDetails.Visibility = Visibility.Collapsed;
             }
             else if (selectedMenu == "user")
             {
                 userDetails.Visibility = Visibility.Visible;
-                manufacturerDetails.Visibility = Visibility.Collapsed;
-                phoneDetails.Visibility = Visibility.Collapsed;
-                storageDetails.Visibility = Visibility.Collapsed;
             }
             else if (selectedMenu == "storage")
             {
-                userDetails.Visibility = Visibility.Collapsed;
-                manufacturerDetails.Visibility = Visibility.Collapsed;
-                phoneDetails.Visibility = Visibility.Collapsed;
                 storageDetails.Visibility = Visibility.Visible;
             }
-            else if (selectedMenu == "")
+            else if (selectedMenu == "repair")
             {
-                userDetails.Visibility = Visibility.Collapsed;
-                manufacturerDetails.Visibility = Visibility.Collapsed;
-                phoneDetails.Visibility = Visibility.Collapsed;
-                storageDetails.Visibility = Visibility.Visible;
+                repairDetails.Visibility = Visibility.Visible;
+            }
+            else if (selectedMenu == "order")
+            {
+                orderDetails.Visibility = Visibility.Visible;
             }
         }
 
@@ -657,27 +738,30 @@ namespace PhoneScoutAdmin
             {
                 if (repairDataGrid.SelectedItem is Repair selectedRepair)
                 {
-                    //repairID.Text = selectedRepair.repairID;
-                    userEmail.Text = selectedRepair.userEmail;
-                    address.Text = $"{selectedRepair.postalCode}, {selectedRepair.city} {selectedRepair.address}";
-                    phoneNumber.Text = selectedRepair.phoneNumber.ToString();
+                                
+                    repairAddress.Text = $"{selectedRepair.postalCode}, {selectedRepair.city} {selectedRepair.address}";
+                    repairPhoneNumber.Text = selectedRepair.phoneNumber.ToString();
                     if(selectedRepair.phoneInspection == 0)
                     {
-                        phoneInspection.Foreground = Brushes.Red;
-                        phoneInspection.Text = "Inspection is not required";
+                        repairPhoneInspection.Foreground = Brushes.Red;
+                        repairPhoneInspection.Text = "Inspection is not required";
                     }
                     else
                     {
-                        phoneInspection.Foreground = Brushes.Green;
-                        phoneInspection.Text = "Inspection is required";
+                        repairPhoneInspection.Foreground = Brushes.Green;
+                        repairPhoneInspection.Text = "Inspection is required";
                     }
-                    price.Text = selectedRepair.price.ToString();
+                    repairPrice.Text = selectedRepair.price.ToString();
                     repairStatus.SelectedValue = selectedRepair.status;
                 }
                 else
                 {
-                    partName.Text = "";
-                    partAmount.Text = "";
+                    repairAddress.Text = "";
+                    repairPhoneNumber.Text = "";
+                    repairPhoneInspection.Text = "";
+                    repairPrice.Text = "";
+                    repairStatus.Text = "";
+                    
                 }
             }
             if (selectedMenu == "order")
@@ -685,22 +769,28 @@ namespace PhoneScoutAdmin
                 if (orderDataGrid.SelectedItem is Order selectedOrder)
                 {
                     userEmail.Text = selectedOrder.userEmail;
-                    address.Text = $"{selectedOrder.postalCode}, {selectedOrder.city} {selectedOrder.address}";
-                    phoneNumber.Text = selectedOrder.phoneNumber.ToString();
-                    phoneName.Text = selectedOrder.phoneName;
-                    phoneColorName.Text = selectedOrder.phoneColorName;
-                    phoneColorHex.Background =
+                    orderAddress.Text = $"{selectedOrder.postalCode}, {selectedOrder.city} {selectedOrder.address}";
+                    orderPhoneNumber.Text = selectedOrder.phoneNumber.ToString();
+                    orderPhoneName.Text = selectedOrder.phoneName;
+                    orderPhoneColorName.Text = selectedOrder.phoneColorName;
+                    orderPhoneColorHex.Background =
                     (SolidColorBrush)(new BrushConverter().ConvertFrom(selectedOrder.phoneColorHex));
 
-                    phoneRamStorage.Text = $"{selectedOrder.phoneRam} / {selectedOrder.phoneStorage}";
-                    priceOrder.Text = selectedOrder.price.ToString();
-                    amountOrder.Text = selectedOrder.amount.ToString();
+                    orderPhoneRamStorage.Text = $"{selectedOrder.phoneRam} / {selectedOrder.phoneStorage}";
+                    orderPrice.Text = selectedOrder.price.ToString();                    
                     orderStatus.SelectedValue = selectedOrder.status;
                 }
                 else
                 {
-                    partName.Text = "";
-                    partAmount.Text = "";
+                    userEmail.Text = "";
+                    orderAddress.Text = "";
+                    orderPhoneNumber.Text = "";
+                    orderPhoneName.Text = "";
+                    orderPhoneColorName.Text = "";
+                    orderPhoneColorHex.Text = "";
+                    orderPhoneRamStorage.Text = "";
+                    orderPrice.Text = "";
+                    orderStatus.Text = "";
                 }
             }
         }

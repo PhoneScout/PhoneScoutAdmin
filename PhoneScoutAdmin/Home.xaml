@@ -83,80 +83,82 @@
 
 
                 <WrapPanel Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="1*"/>
-                            <RowDefinition Height="1*"/>
-                            <RowDefinition Height="1*"/>
-                            <RowDefinition Height="1*"/>
-                            <RowDefinition Height="1*"/>
-                            <RowDefinition Height="1*"/>
-                            <RowDefinition Height="1*"/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="1*"/>
-                        </Grid.ColumnDefinitions>
+                    <GroupBox Grid.Row="1" Margin="0,40,0,5" Padding="25" Header="  Modify the phone details  " BorderBrush="#2300B3" BorderThickness="2">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
 
-                        <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" Margin="5">
-                            <TextBlock Text="ⓘ "
-                                   Margin="0,0,0,0"
-                                   ToolTip="The name of the phone."
-                                       VerticalAlignment="Center"
-                                       FontSize="14"/>
+                            <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" Margin="5">
+                                <TextBlock Text="ⓘ "
 
-                            <TextBlock Text="Phone name: " FontSize="16"/>
-                        </StackPanel>
-                        
-                        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" Margin="5">
-                            <TextBlock Text="ⓘ "
-                        Margin="0,0,0,0"
-                        ToolTip="The price of the phone."
-                        VerticalAlignment="Center"
-                        FontSize="14"/>
+ToolTip="Displays the amount of that part in the storage."
+    VerticalAlignment="Center"
+    FontSize="16" Foreground="#2300B3"/>
 
-                            <TextBlock Text="Phone price: " FontSize="16"/>
-                        </StackPanel>
-                        
-                        <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="0" Margin="5">
-                            <TextBlock Text="ⓘ "
-                        Margin="0,0,0,0"
-                        ToolTip="Indicates if the phone is in storage or not."
-                        VerticalAlignment="Center"
-                        FontSize="14"/>
+                                <TextBlock Text="Phone name: " FontSize="16"/>
+                            </StackPanel>
 
-                            <TextBlock Text="Phone in storage: " FontSize="16"/>
-                        </StackPanel>
-                        
-                        <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="0" Margin="5">
-                            <TextBlock Text="ⓘ "
-                            Margin="0,0,0,0"
-                            ToolTip="Indicates if the phone is visible for users."
-                        VerticalAlignment="Center"
-                        FontSize="14"/>
+                            <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" Margin="5">
+                                <TextBlock Text="ⓘ "
 
-                            <TextBlock Text="Phone available: " FontSize="16"/>
-                        </StackPanel>
+ToolTip="Displays the amount of that part in the storage."
+    VerticalAlignment="Center"
+    FontSize="16" Foreground="#2300B3"/>
+
+                                <TextBlock Text="Phone price: " FontSize="16"/>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="0" Margin="5">
+                                <TextBlock Text="ⓘ "
+
+ToolTip="Displays the amount of that part in the storage."
+    VerticalAlignment="Center"
+    FontSize="16" Foreground="#2300B3"/>
+
+                                <TextBlock Text="Phone in storage: " FontSize="16"/>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="0" Margin="5">
+                                <TextBlock Text="ⓘ "
+
+ToolTip="Displays the amount of that part in the storage."
+    VerticalAlignment="Center"
+    FontSize="16" Foreground="#2300B3"/>
+
+                                <TextBlock Text="Phone available: " FontSize="16"/>
+                            </StackPanel>
 
 
 
-                        <TextBox x:Name="phoneName" Width="200" Height="20" Grid.Row="0" Grid.Column="1" Margin="5"/>
-                        <TextBox x:Name="phonePrice" Width="200" Height="20" Grid.Row="1" Grid.Column="1" Margin="5"/>
+                            <TextBox x:Name="phoneName" Width="180" Height="20" Grid.Row="0" Grid.Column="1" Margin="5"/>
+                            <TextBox x:Name="phonePrice" Width="180" Height="20" Grid.Row="1" Grid.Column="1" Margin="5"/>
 
-                        <CheckBox x:Name="phoneInStore" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
-                            <CheckBox.LayoutTransform>
-                                <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
-                            </CheckBox.LayoutTransform>
-                        </CheckBox>
-                        <CheckBox x:Name="phoneAvailable" Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
-                            <CheckBox.LayoutTransform>
-                                <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
-                            </CheckBox.LayoutTransform>
-                        </CheckBox>
+                            <CheckBox x:Name="phoneInStore" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <CheckBox.LayoutTransform>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                                </CheckBox.LayoutTransform>
+                            </CheckBox>
+                            <CheckBox x:Name="phoneAvailable" Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <CheckBox.LayoutTransform>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                                </CheckBox.LayoutTransform>
+                            </CheckBox>
 
-                        <Button Grid.Row="5" Grid.ColumnSpan="2" Content="Save datas" Margin="10,15,10,-15" Padding="5" BorderBrush="#68F145" BorderThickness="3" FontSize="18" VerticalAlignment="Center" Background="WhiteSmoke"/>
+                            <Button Grid.Row="5" Grid.ColumnSpan="2" Content="Save datas" Margin="10,15,10,-15" Padding="5" BorderBrush="#68F145" BorderThickness="3" FontSize="18" VerticalAlignment="Center" Background="WhiteSmoke"/>
 
-                    </Grid>
+                        </Grid>
+                    </GroupBox>
                 </WrapPanel>
 
 
@@ -187,64 +189,65 @@
 
 
                 <WrapPanel Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="1*"/>
-                            <RowDefinition Height="1*"/>
-                            <RowDefinition Height="1*"/>
-                            <RowDefinition Height="1*"/>
-                            <RowDefinition Height="1*"/>
-                            <RowDefinition Height="1*"/>
-                            <RowDefinition Height="1*"/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="1*"/>
-                        </Grid.ColumnDefinitions>
+                    <GroupBox Grid.Row="1" Margin="0,40,0,5" Padding="25" Header="  Modify the manufacturer details  " BorderBrush="#2300B3" BorderThickness="2">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
 
-                        <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" Margin="5">
-                            <TextBlock Text="ⓘ "
-                       Margin="0,0,0,0"
-                       ToolTip="The name of the manufacturer."
-                           VerticalAlignment="Center"
-                           FontSize="14"/>
+                            <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" Margin="5">
+                                <TextBlock Text="ⓘ "
 
-                            <TextBlock Text="Manufacturer name: " FontSize="16"/>
-                        </StackPanel>
+ToolTip="Displays the amount of that part in the storage."
+    VerticalAlignment="Center"
+    FontSize="16" Foreground="#2300B3"/>
+                                <TextBlock Text="Name: " FontSize="16"/>
+                            </StackPanel>
 
-                        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" Margin="5">
-                            <TextBlock Text="ⓘ "
-            Margin="0,0,0,0"
-            ToolTip="The URL of the official website."
-            VerticalAlignment="Center"
-            FontSize="14"/>
+                            <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" Margin="5">
+                                <TextBlock Text="ⓘ "
 
-                            <TextBlock Text="Manufacturer URL: " FontSize="16"/>
-                        </StackPanel>
+ToolTip="Displays the amount of that part in the storage."
+    VerticalAlignment="Center"
+    FontSize="16" Foreground="#2300B3"/>
 
-                        <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="0" Margin="5">
-                            <TextBlock Text="ⓘ "
-            Margin="0,0,0,0"
-            ToolTip="The email address of the manufacturer."
-            VerticalAlignment="Center"
-            FontSize="14"/>
+                                <TextBlock Text="URL: " FontSize="16"/>
+                            </StackPanel>
 
-                            <TextBlock Text="Manufacturer Email: " FontSize="16"/>
-                        </StackPanel>
+                            <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="0" Margin="5">
+                                <TextBlock Text="ⓘ "
 
-                        
+ToolTip="Displays the amount of that part in the storage."
+    VerticalAlignment="Center"
+    FontSize="16" Foreground="#2300B3"/>
+
+                                <TextBlock Text="E-mail address: " FontSize="16"/>
+                            </StackPanel>
 
 
 
-                        <TextBox x:Name="manufacturerName" Width="200" Height="20" Grid.Row="0" Grid.Column="1" Margin="5"/>
-                        <TextBox x:Name="manufacturerURL" Width="200" Height="20" Grid.Row="1" Grid.Column="1" Margin="5"/>
-                        <TextBox x:Name="manufacturerEmail" Width="200" Height="20" Grid.Row="2" Grid.Column="1" Margin="5"/>
 
-                        
 
-                        <Button Grid.Row="5" Grid.ColumnSpan="2" Content="Save datas" Margin="10,15,10,-15" Padding="5" BorderBrush="#68F145" BorderThickness="3" FontSize="18" VerticalAlignment="Center" Background="WhiteSmoke"/>
+                            <TextBox x:Name="manufacturerName" Width="180" Height="20" Grid.Row="0" Grid.Column="1" Margin="5"/>
+                            <TextBox x:Name="manufacturerURL" Width="180" Height="20" Grid.Row="1" Grid.Column="1" Margin="5"/>
+                            <TextBox x:Name="manufacturerEmail" Width="180" Height="20" Grid.Row="2" Grid.Column="1" Margin="5"/>
 
-                    </Grid>
+
+
+                            <Button Grid.Row="5" Grid.ColumnSpan="2" Content="Save datas" Margin="10,15,10,-15" Padding="5" BorderBrush="#68F145" BorderThickness="3" FontSize="18" VerticalAlignment="Center" Background="WhiteSmoke"/>
+
+                        </Grid>
+                    </GroupBox>
                 </WrapPanel>
 
 
@@ -272,68 +275,69 @@
 
 
                 <WrapPanel Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="1*"/>
-                            <RowDefinition Height="1*"/>
-                            <RowDefinition Height="1*"/>
-                            <RowDefinition Height="1*"/>
-                            <RowDefinition Height="1*"/>
-                            <RowDefinition Height="1*"/>
-                            <RowDefinition Height="1*"/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="1*"/>
-                        </Grid.ColumnDefinitions>
+                    <GroupBox Grid.Row="1" Margin="0,40,0,5" Padding="25" Header="  Modify the user details  " BorderBrush="#2300B3" BorderThickness="2">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
 
-                        <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" Margin="5">
-                            <TextBlock Text="ⓘ "
-           Margin="0,0,0,0"
-           ToolTip="User's full name"
-               VerticalAlignment="Center"
-               FontSize="14"/>
+                            <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" Margin="5">
+                                <TextBlock Text="ⓘ "
 
-                            <TextBlock Text="User full name: " FontSize="16"/>
-                        </StackPanel>
+ToolTip="Displays the amount of that part in the storage."
+    VerticalAlignment="Center"
+    FontSize="16" Foreground="#2300B3"/>
 
-                        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" Margin="5">
-                            <TextBlock Text="ⓘ "
-Margin="0,0,0,0"
-ToolTip="User's email address."
-VerticalAlignment="Center"
-FontSize="14"/>
+                                <TextBlock Text="User full name: " FontSize="16"/>
+                            </StackPanel>
 
-                            <TextBlock Text="User email address: " FontSize="16"/>
-                        </StackPanel>
+                            <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" Margin="5">
+                                <TextBlock Text="ⓘ "
 
-                        <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="0" Margin="5">
-                            <TextBlock Text="ⓘ "
-Margin="0,0,0,0"
-ToolTip="User's privilege"
-VerticalAlignment="Center"
-FontSize="14"/>
+ToolTip="Displays the amount of that part in the storage."
+    VerticalAlignment="Center"
+    FontSize="16" Foreground="#2300B3"/>
 
-                            <TextBlock Text="User privilege: " FontSize="16"/>
-                        </StackPanel>
+                                <TextBlock Text="User email address: " FontSize="16"/>
+                            </StackPanel>
 
-                        <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="0" Margin="5">
-                            <TextBlock Text="ⓘ "
-Margin="0,0,0,0"
-ToolTip="Indicates if a user is active or not."
-VerticalAlignment="Center"
-FontSize="14"/>
+                            <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="0" Margin="5">
+                                <TextBlock Text="ⓘ "
 
-                            <TextBlock Text="User active: " FontSize="16"/>
-                        </StackPanel>
+ToolTip="Displays the amount of that part in the storage."
+    VerticalAlignment="Center"
+    FontSize="16" Foreground="#2300B3"/>
+
+                                <TextBlock Text="User privilege: " FontSize="16"/>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="0" Margin="5">
+                                <TextBlock Text="ⓘ "
+
+ToolTip="Displays the amount of that part in the storage."
+    VerticalAlignment="Center"
+    FontSize="16" Foreground="#2300B3"/>
+
+                                <TextBlock Text="User active: " FontSize="16"/>
+                            </StackPanel>
 
 
 
-                        <TextBox x:Name="userName" Width="200" Height="20" Grid.Row="0" Grid.Column="1" Margin="5"/>
-                        <TextBox x:Name="userEmail" Width="200" Height="20" Grid.Row="1" Grid.Column="1" Margin="5"/>
-                        <ComboBox
+                            <TextBox x:Name="userName" Width="180" Height="20" Grid.Row="0" Grid.Column="1" Margin="5"/>
+                            <TextBox x:Name="userEmail" Width="180" Height="20" Grid.Row="1" Grid.Column="1" Margin="5"/>
+                            <ComboBox
                             x:Name="userPrivilege"
-                            Width="200"
+                            Width="180"
                             Height="20"
                             Grid.Row="2"
                             Grid.Column="1"
@@ -343,26 +347,27 @@ FontSize="14"/>
                             SelectedItem="{Binding SelectedItem}"
                             SelectedValuePath="Id"/>
 
-                        <CheckBox x:Name="userActive" Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
-                            <CheckBox.LayoutTransform>
-                                <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
-                            </CheckBox.LayoutTransform>
-                        </CheckBox>
+                            <CheckBox x:Name="userActive" Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <CheckBox.LayoutTransform>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                                </CheckBox.LayoutTransform>
+                            </CheckBox>
 
 
 
-                        <Button Grid.Row="5" Grid.ColumnSpan="2" Content="Save datas" Margin="10,15,10,-15" Padding="5" BorderBrush="#68F145" BorderThickness="3" FontSize="18" VerticalAlignment="Center" Background="WhiteSmoke"/>
+                            <Button Grid.Row="5" Grid.ColumnSpan="2" Content="Save datas" Margin="10,15,10,-15" Padding="5" BorderBrush="#68F145" BorderThickness="3" FontSize="18" VerticalAlignment="Center" Background="WhiteSmoke"/>
 
-                    </Grid>
+                        </Grid>
+                    </GroupBox>
                 </WrapPanel>
 
 
                 <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Button Width="200" Content="Delete manufacturer" Margin="10,15,10,0" Padding="5" BorderBrush="Red" BorderThickness="3" FontSize="18" VerticalAlignment="Center" Background="WhiteSmoke"/>
+                    <Button Width="200" Content="Delete user" Margin="10,15,10,0" Padding="5" BorderBrush="Red" BorderThickness="3" FontSize="18" VerticalAlignment="Center" Background="WhiteSmoke"/>
                 </StackPanel>
             </Grid>
 
-            <Grid Grid.Row="1" Grid.Column="1" Background="LightGray" x:Name="storageDetails"  Visibility="Visible">
+            <Grid Grid.Row="1" Grid.Column="1" Background="LightGray" x:Name="storageDetails"  Visibility="Collapsed">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*"/>
                     <RowDefinition Height="12*"/>
@@ -379,9 +384,12 @@ FontSize="14"/>
 
                 </DataGrid>
 
-
-                <WrapPanel Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
-                    <GroupBox Grid.Row="1" Margin="0,40,0,5" Padding="25" Header="  Highlighted informations   (editable)  " BorderBrush="#2300B3" BorderThickness="2">
+                <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="1">
+                    
+                
+                
+                <WrapPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <GroupBox Grid.Row="1" Margin="0,40,0,5" Padding="25" Header="  Modify the part  " BorderBrush="#2300B3" BorderThickness="2">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="1*"/>
@@ -400,7 +408,7 @@ FontSize="14"/>
                             <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" Margin="5">
                                 <TextBlock Text="ⓘ "
            
-           ToolTip="Indicates the part name in the storage."
+           ToolTip="Displays the part name for the selected part."
                VerticalAlignment="Center"
                FontSize="16" Foreground="#2300B3"/>
 
@@ -410,31 +418,66 @@ FontSize="14"/>
                             <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" Margin="5">
                                 <TextBlock Text="ⓘ "
 
-ToolTip="Indicates the part name in the storage."
+ToolTip="Displays the amount of that part in the storage."
     VerticalAlignment="Center"
     FontSize="16" Foreground="#2300B3"/>
 
                                 <TextBlock Text="Part amount: " FontSize="16" VerticalAlignment="Center"/>
                             </StackPanel>
 
-
-
-
-
-                            <TextBox x:Name="partName" Width="200" Height="20" Grid.Row="0" Grid.Column="1" Margin="5"/>
-                            <TextBox x:Name="partAmount" Width="200" Height="20" Grid.Row="1" Grid.Column="1" Margin="5"/>
-
-
-
-
+                                <TextBox x:Name="partName" Width="180" Height="20" Grid.Row="0" Grid.Column="1" Margin="5"/>
+                                <TextBox x:Name="partAmount" Width="180" Height="20" Grid.Row="1" Grid.Column="1" Margin="5"/>
 
                             <Button Grid.Row="5" Grid.ColumnSpan="2" Content="Save datas" Margin="10,15,10,-15" Padding="5" BorderBrush="#68F145" BorderThickness="3" FontSize="18" VerticalAlignment="Center" Background="WhiteSmoke" Click="updateStorage"/>
-
                         </Grid>
                     </GroupBox>
                 </WrapPanel>
 
+                <WrapPanel Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <GroupBox Grid.Row="1" Margin="0,40,0,5" Padding="25" Header="  Upload a new part  " BorderBrush="#68F145" BorderThickness="2">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
 
+                            <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" Margin="5">
+                                <TextBlock Text="ⓘ "
+           
+           ToolTip="Displays the part name for the selected part."
+               VerticalAlignment="Center"
+               FontSize="16" Foreground="#2300B3"/>
+
+                                <TextBlock Text="Part name: " FontSize="16" VerticalAlignment="Center"/>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" Margin="5">
+                                <TextBlock Text="ⓘ "
+
+ToolTip="Displays the amount of that part in the storage."
+    VerticalAlignment="Center"
+    FontSize="16" Foreground="#2300B3"/>
+
+                                <TextBlock Text="Part amount: " FontSize="16" VerticalAlignment="Center"/>
+                            </StackPanel>
+
+                                <TextBox x:Name="storagePartName" Width="180" Height="20" Grid.Row="0" Grid.Column="1" Margin="5"/>
+                                <TextBox x:Name="storagePartAmount" Width="180" Height="20" Grid.Row="1" Grid.Column="1" Margin="5"/>
+
+                                <Button Grid.Row="5" Grid.ColumnSpan="2" Content="Upload part" Margin="10,15,10,-15" Padding="5" BorderBrush="#2300B3" BorderThickness="3" FontSize="18" VerticalAlignment="Center" Background="WhiteSmoke" Click="updateStorage"/>
+                        </Grid>
+                    </GroupBox>
+                </WrapPanel>
+                </StackPanel>
                 <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Button Width="200" Content="Delete part" Margin="10,15,10,0" Padding="5" BorderBrush="Red" BorderThickness="3" FontSize="18" VerticalAlignment="Center" Background="WhiteSmoke"/>
                 </StackPanel>
@@ -503,7 +546,7 @@ ToolTip="Indicates the part name in the storage."
 
                                 <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" Margin="5">
                                     <TextBlock Text="ⓘ "
-ToolTip="Indicates the part name in the storage."
+ToolTip="Displays the manufacturer of the phone for the selected repair."
     VerticalAlignment="Center"
     FontSize="16"
                                                Foreground="#2300B3"/>
@@ -512,7 +555,7 @@ ToolTip="Indicates the part name in the storage."
 
                                 <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" Margin="5">
                                     <TextBlock Text="ⓘ "
-ToolTip="Indicates the part name in the storage."
+ToolTip="Displays the  phone name for the selected repair."
     VerticalAlignment="Center"
     FontSize="16"
                                                Foreground="#2300B3"/>
@@ -522,7 +565,7 @@ ToolTip="Indicates the part name in the storage."
 
                                 <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.RowSpan="2" Grid.Column="0"  Margin="5">
                                     <TextBlock Text="ⓘ "
-ToolTip="Indicates the part name in the storage."
+ToolTip="Displays the address for the selected repair."
     VerticalAlignment="Center"
     FontSize="16"
                                                Foreground="#2300B3"/>
@@ -532,7 +575,7 @@ ToolTip="Indicates the part name in the storage."
 
                                 <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.Column="0"  Margin="5">
                                     <TextBlock Text="ⓘ "
-ToolTip="Indicates the part name in the storage."
+ToolTip="Displays the phone number for the selected repair."
     VerticalAlignment="Center"
     FontSize="16"
                                                Foreground="#2300B3"/>
@@ -541,7 +584,7 @@ ToolTip="Indicates the part name in the storage."
 
                                 <StackPanel Orientation="Horizontal" Grid.Row="5" Grid.Column="0"  Margin="5">
                                     <TextBlock Text="ⓘ "
-ToolTip="Indicates the part name in the storage."
+ToolTip="Indicates if the user required inspection."
     VerticalAlignment="Center"
     FontSize="16"
                                                Foreground="#2300B3"/>
@@ -549,19 +592,15 @@ ToolTip="Indicates the part name in the storage."
                                 </StackPanel>
 
 
-                                <TextBlock x:Name="email" Width="200" Height="20" Grid.Row="3" Grid.Column="1" Margin="5" VerticalAlignment="Center" Padding="0,2"/>
+                                <TextBlock x:Name="repairManufacturer" Width="200" Height="20" Grid.Row="0" Grid.Column="1" Margin="5" VerticalAlignment="Center" Padding="0,2"/>
 
-                                <TextBlock x:Name="phoneNameStorage" Width="200" Height="20" Grid.Row="3" Grid.Column="1" Margin="5" VerticalAlignment="Center" Padding="0,2"/>
+                                <TextBlock x:Name="repairPhoneName" Width="200" Height="20" Grid.Row="1" Grid.Column="1" Margin="5" VerticalAlignment="Center" Padding="0,2"/>
 
-                                <TextBlock x:Name="address" Width="200" Height="20" Grid.Row="3" Grid.Column="1" Margin="5" VerticalAlignment="Center" Padding="0,2"/>
-
-                                <TextBlock x:Name="phoneNumber" Width="200" Height="20" Grid.Row="3" Grid.Column="1" Margin="5" VerticalAlignment="Center" Padding="0,2"/>
-
-                                <TextBlock x:Name="price" Width="200" Height="20" Grid.Row="3" Grid.Column="1" Margin="5" VerticalAlignment="Center" Padding="0,2"/>
-
-                                <TextBlock x:Name="phoneInspection" Width="200" Height="20" Grid.Row="0" Grid.Column="1" Margin="5"/>
-
+                                <TextBlock x:Name="repairAddress" Width="200" Height="40" Grid.Row="2" Grid.RowSpan="2" Grid.Column="1" Margin="5" VerticalAlignment="Center" Padding="0,2"/>
                                 
+                                <TextBlock x:Name="repairPhoneNumber" Width="200" Height="20" Grid.Row="4" Grid.Column="1" Margin="5" VerticalAlignment="Center" Padding="0,2"/>                                
+
+                                <TextBlock x:Name="repairPhoneInspection" Width="200" Height="20" Grid.Row="5" Grid.Column="1" Margin="5"/>                                
 
                                 <Button Width="200" Content="View problem description" FontSize="12" Height="20" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Margin="5" Click="updateStorage"/>
                             </Grid>
@@ -584,7 +623,7 @@ ToolTip="Indicates the part name in the storage."
 
                                 <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" Margin="5">
                                     <TextBlock Text="ⓘ "
-ToolTip="Indicates the part name in the storage."
+ToolTip="Displays the price of the selected repair. (Editable)"
     VerticalAlignment="Center"
     FontSize="16"
                                                Foreground="#2300B3"/>
@@ -593,7 +632,7 @@ ToolTip="Indicates the part name in the storage."
 
                                 <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" Margin="5">
                                     <TextBlock Text="ⓘ "
-ToolTip="Indicates the part name in the storage."
+ToolTip="Displays the status of the selected order. (Editable)"
     VerticalAlignment="Center"
     FontSize="16"
                                                Foreground="#2300B3"/> 
@@ -601,11 +640,11 @@ ToolTip="Indicates the part name in the storage."
                                     <TextBlock Text="Status: " FontSize="16" VerticalAlignment="Center"/>
                                 </StackPanel>                                
 
-                                <TextBlock x:Name="orderPrice" Width="200" Height="20" Grid.Row="3" Grid.Column="1" Margin="5" VerticalAlignment="Center" Padding="0,2"/>
+                                <TextBox x:Name="repairPrice" Width="180" Height="20" Grid.Row="0" Grid.Column="1" Margin="5" VerticalAlignment="Center" Padding="0,2"/>
 
                                 <ComboBox
                                 x:Name="repairStatus"
-                                Width="200"
+                                Width="180"
                                 Height="20"
                                 Grid.Row="1"
                                 Grid.Column="1"
@@ -626,12 +665,10 @@ ToolTip="Indicates the part name in the storage."
                 </WrapPanel>
 
 
-                <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Button Width="200" Content="Delete order" Margin="10,15,10,0" Padding="5" BorderBrush="Red" BorderThickness="3" FontSize="18" VerticalAlignment="Center" Background="WhiteSmoke"/>
-                </StackPanel>
+                
             </Grid>
 
-            <Grid Grid.Row="1" Grid.Column="1" Background="LightGray" x:Name="orderDetails"  Visibility="Collapsed">
+            <Grid Grid.Row="1" Grid.Column="1" Background="LightGray" x:Name="orderDetails"  Visibility="Visible">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*"/>
                     <RowDefinition Height="12*"/>
@@ -694,7 +731,7 @@ ToolTip="Indicates the part name in the storage."
 
                             <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" Margin="5">
                                 <TextBlock Text="ⓘ "
-ToolTip="Displays the user e-mail address to the selected order."
+ToolTip="Displays the user e-mail address for the selected order."
     VerticalAlignment="Center"
     FontSize="16" Foreground="#2300B3" />
                                 <TextBlock Text="E-mail address: " FontSize="16" VerticalAlignment="Center"/>
@@ -748,18 +785,18 @@ ToolTip="Displays the ram/storage for the selected order."
                             </StackPanel>
 
 
-                                <TextBlock x:Name="userEmailOrder" Width="200" Height="20" Grid.Row="0" Grid.Column="1" Margin="5" VerticalAlignment="Center" Padding="0,2"/>
+                                <TextBlock x:Name="orderUserEmail" Width="200" Height="20" Grid.Row="0" Grid.Column="1" Margin="5" VerticalAlignment="Center" Padding="0,2"/>
 
-                                <TextBlock x:Name="phoneNameOrder" Width="200" Height="20" Grid.Row="3" Grid.Column="1" Margin="5" VerticalAlignment="Center" Padding="0,2"/>
+                                <TextBlock x:Name="orderPhoneName" Width="200" Height="20" Grid.Row="3" Grid.Column="1" Margin="5" VerticalAlignment="Center" Padding="0,2"/>
 
-                                <TextBlock x:Name="addressOrder" Width="200" Height="40" Grid.Row="1" Grid.RowSpan="2" Grid.Column="1" Margin="5" TextWrapping="Wrap" VerticalAlignment="Center" Padding="0,2"/>
+                                <TextBlock x:Name="orderAddress" Width="200" Height="40" Grid.Row="1" Grid.RowSpan="2" Grid.Column="1" Margin="5" TextWrapping="Wrap" VerticalAlignment="Center" Padding="0,2"/>
 
-                                <TextBlock x:Name="phoneNumberOrder" Width="200" Height="20" Grid.Row="4" Grid.Column="1" Margin="5" VerticalAlignment="Center" Padding="0,2"/>
+                                <TextBlock x:Name="orderPhoneNumber" Width="200" Height="20" Grid.Row="4" Grid.Column="1" Margin="5" VerticalAlignment="Center" Padding="0,2"/>
 
-                                <TextBlock x:Name="phoneColorName" Width="150" Height="20" Grid.Row="5" Grid.Column="1" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="0,2"/>
-                                <TextBlock x:Name="phoneColorHex" Width="50" Height="20" Grid.Row="5" Grid.Column="1" Margin="5" HorizontalAlignment="Right" VerticalAlignment="Center" Padding="0,2"/>
+                                <TextBlock x:Name="orderPhoneColorName" Width="150" Height="20" Grid.Row="5" Grid.Column="1" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="0,2"/>
+                                <TextBlock x:Name="orderPhoneColorHex" Width="50" Height="20" Grid.Row="5" Grid.Column="1" Margin="5" HorizontalAlignment="Right" VerticalAlignment="Center" Padding="0,2"/>
 
-                                <TextBlock x:Name="phoneRamStorage" Width="200" Height="20" Grid.Row="6" Grid.Column="1" Margin="5" Padding="0,2"/>
+                                <TextBlock x:Name="orderPhoneRamStorage" Width="200" Height="20" Grid.Row="6" Grid.Column="1" Margin="5" Padding="0,2"/>
 
                         </Grid>
 
@@ -809,9 +846,9 @@ ToolTip="Displays the status for the selected order. (Editable)"
 
 
 
-                                <TextBox x:Name="priceOrder" Width="200" Height="20" Grid.Row="0" Grid.Column="1" Margin="5"/>
+                                <TextBox x:Name="orderPrice" Width="200" Height="20" Grid.Row="0" Grid.Column="1" Margin="5"/>
 
-                                <TextBox x:Name="amountOrder" Width="200" Height="20" Grid.Row="1" Grid.Column="1" Margin="5"/>
+                                <TextBox x:Name="orderAmount" Width="200" Height="20" Grid.Row="1" Grid.Column="1" Margin="5"/>
 
                                 <ComboBox
     x:Name="orderStatus"
@@ -827,15 +864,18 @@ ToolTip="Displays the status for the selected order. (Editable)"
                                 />
 
 
-                                <Button Grid.Row="3" Grid.ColumnSpan="2" Content="Save datas" Margin="10,15,10,-20" Padding="5" BorderBrush="#68F145" BorderThickness="3" FontSize="18" VerticalAlignment="Center" Background="WhiteSmoke"/>
+                                <Button Grid.Row="3" Grid.ColumnSpan="2" Content="Save datas" Margin="10,15,10,-20" Padding="5" BorderBrush="#68F145" BorderThickness="3" FontSize="18" VerticalAlignment="Center" Background="WhiteSmoke" Click="updateOrder"/>
                             </Grid>
                         </GroupBox>
                     </Grid>
-                        
+                    
+
                 </WrapPanel>
 
+                <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Button Width="200" Content="Delete order" Margin="10,15,10,0" Padding="5" BorderBrush="Red" BorderThickness="3" FontSize="18" VerticalAlignment="Center" Background="WhiteSmoke" Click="Button_Click"/>
+                </StackPanel>
 
-                
             </Grid>
         </Grid>
     </DockPanel>
