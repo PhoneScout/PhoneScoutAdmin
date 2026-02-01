@@ -483,7 +483,7 @@ ToolTip="Displays the amount of that part in the storage."
                 </StackPanel>
             </Grid>
 
-            <Grid Grid.Row="1" Grid.Column="1" Background="LightGray" x:Name="repairDetails"  Visibility="Collapsed">
+            <Grid Grid.Row="1" Grid.Column="1" Background="LightGray" x:Name="repairDetails"  Visibility="Visible">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*"/>
                     <RowDefinition Height="12*"/>
@@ -614,6 +614,9 @@ ToolTip="Indicates if the user required inspection."
                                     <RowDefinition Height="1*"/>
                                     <RowDefinition Height="1*"/>
                                     <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+   
 
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
@@ -638,7 +641,20 @@ ToolTip="Displays the status of the selected order. (Editable)"
                                                Foreground="#2300B3"/> 
                                     
                                     <TextBlock Text="Status: " FontSize="16" VerticalAlignment="Center"/>
-                                </StackPanel>                                
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.RowSpan="2" Grid.Column="0" Margin="5">
+                                    <TextBlock Text="ⓘ "
+ToolTip="Displays the status of the selected order. (Editable)"
+    VerticalAlignment="Center"
+    FontSize="16"
+                                               Foreground="#2300B3"/>
+
+                                    <TextBlock Text="Parts: " FontSize="16" VerticalAlignment="Center"/>
+                                </StackPanel>
+
+
+
 
                                 <TextBox x:Name="repairPrice" Width="180" Height="20" Grid.Row="0" Grid.Column="1" Margin="5" VerticalAlignment="Center" Padding="0,2"/>
 
@@ -654,21 +670,54 @@ ToolTip="Displays the status of the selected order. (Editable)"
                                 SelectedItem="{Binding selectedStatus}"
                                 SelectedValuePath="statusCode"/>
 
+                                
+
+                                    <!-- Input -->
+                                    <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <TextBox x:Name="InputTextBox"
+                     Width="145"
+                     Margin="0,0,5,0" Background="White"/>
+                                        <Button Content="Add"
+                    Width="30"
+                    Click="Add_Click" Background="Green"/>
+                                    </StackPanel>
+
+                                    <!-- ComboBox -->
+                                    <ComboBox x:Name="repairParts"
+                  Margin="0,5,0,0" Grid.Row="3" Grid.Column="1" Width="180">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="{Binding}"
+                                   VerticalAlignment="Center"/>
+
+                                                    <Button Content="✖"
+                                Margin="8,0,0,0"
+                                Padding="2"
+                                Foreground="Red"
+                                Click="Delete_Click"
+                                Tag="{Binding}"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
 
 
 
-                                <Button Grid.Row="12" Grid.ColumnSpan="2" Content="Save datas" Margin="10,15,10,-15" Padding="5" BorderBrush="#68F145" BorderThickness="3" FontSize="18" VerticalAlignment="Center" Background="WhiteSmoke"/>
+                                <Button Grid.Row="4" Grid.ColumnSpan="2" Content="Save datas" Margin="10,10,10,-20" Padding="5" BorderBrush="#68F145" BorderThickness="3" FontSize="18" VerticalAlignment="Center" Background="WhiteSmoke" Click="updateRepair"/>
                             </Grid>
                         </GroupBox>
                     </Grid>
                         
                 </WrapPanel>
+                <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Button Width="200" Content="Delete repair" Margin="10,15,10,0" Padding="5" BorderBrush="Red" BorderThickness="3" FontSize="18" VerticalAlignment="Center" Background="WhiteSmoke"/>
+                </StackPanel>
 
 
-                
             </Grid>
 
-            <Grid Grid.Row="1" Grid.Column="1" Background="LightGray" x:Name="orderDetails"  Visibility="Visible">
+            <Grid Grid.Row="1" Grid.Column="1" Background="LightGray" x:Name="orderDetails"  Visibility="Collapsed">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*"/>
                     <RowDefinition Height="12*"/>
@@ -873,7 +922,7 @@ ToolTip="Displays the status for the selected order. (Editable)"
                 </WrapPanel>
 
                 <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Button Width="200" Content="Delete order" Margin="10,15,10,0" Padding="5" BorderBrush="Red" BorderThickness="3" FontSize="18" VerticalAlignment="Center" Background="WhiteSmoke" Click="Button_Click"/>
+                    <Button Width="200" Content="Delete order" Margin="10,15,10,0" Padding="5" BorderBrush="Red" BorderThickness="3" FontSize="18" VerticalAlignment="Center" Background="WhiteSmoke" Click="deleteOrder"/>
                 </StackPanel>
 
             </Grid>

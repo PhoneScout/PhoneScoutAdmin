@@ -91,6 +91,9 @@ namespace PhoneScoutAdmin
         [JsonPropertyName("repairID")]
         public string repairID { get; set; }
 
+        [JsonPropertyName("userID")]
+        public int userID { get; set; }
+
         [JsonPropertyName("name")]
         public string userEmail { get; set; }
 
@@ -325,6 +328,140 @@ namespace PhoneScoutAdmin
 
 
         //Repairs Requests
+
+        private async void loadRepairs(object sender, RoutedEventArgs e)
+        {
+            phoneDataGrid.SelectedItem = null;
+            manufacturerDataGrid.SelectedItem = null;
+            userDataGrid.SelectedItem = null;
+            selectedMenu = "repair";
+
+            using HttpClient client = new HttpClient();
+            try
+            {
+                string url = "http://localhost:5175/api/Profile/GetAllRepair";
+                var response = await client.GetAsync(url);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string json = await response.Content.ReadAsStringAsync();
+
+                    var repairList = JsonSerializer.Deserialize<List<Repair>>(json);
+
+
+
+                    if (repairList != null)
+                    {
+                        repairs.Clear();
+                        foreach (var repair in repairList)
+                        {
+                            repairs.Add(repair);
+                        }
+                    }
+
+                    repairDataGrid.ItemsSource = repairs;
+                    populateInformationPart();
+
+                }
+                else
+                {
+                    MessageBox.Show("Failed to orders users from API");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
+
+
+        private async void updateRepair(object sender, RoutedEventArgs e)
+        {
+            var selectedrepair = ((Repair)repairDataGrid.SelectedItem);
+
+            using HttpClient client = new HttpClient();
+            try
+            {
+                string url = $"http://localhost:5175/api/Profile/updateRepair/{selectedrepair.repairID}";
+
+
+                selectedrepair.repairID = ((Repair)repairDataGrid.SelectedItem).repairID;
+                selectedrepair.userID = ((Repair)repairDataGrid.SelectedItem).userID;
+                selectedrepair.postalCode = ((Repair)repairDataGrid.SelectedItem).postalCode;
+                selectedrepair.city = ((Repair)repairDataGrid.SelectedItem).city;
+                selectedrepair.address = ((Repair)repairDataGrid.SelectedItem).address;
+                selectedrepair.phoneNumber = ((Repair)repairDataGrid.SelectedItem).phoneNumber;
+                selectedrepair.manufacturerName = ((Repair)repairDataGrid.SelectedItem).manufacturerName;
+                selectedrepair.phoneName = ((Repair)repairDataGrid.SelectedItem).phoneName;
+                selectedrepair.problemDescription = ((Repair)repairDataGrid.SelectedItem).problemDescription;
+                selectedrepair.price = int.Parse(repairPrice.Text);
+                selectedrepair.phoneInspection = ((Repair)repairDataGrid.SelectedItem).phoneInspection;
+                selectedrepair.status = ((ComboItemOrderStorage)repairStatus.SelectedItem).statusCode;
+
+
+                List<string> allParts = new List<string>();
+                
+                for (int i = 0; i < repairParts.Items.Count; i++)
+                {
+                    allParts.Add(repairParts.Items[i].ToString());
+                }
+                
+                selectedrepair.parts = allParts;
+
+                // Convert object to JSON
+                string json = JsonSerializer.Serialize(selectedrepair);
+                HttpContent content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                var response = await client.PutAsync(url, content);
+
+               
+
+
+                if (response.IsSuccessStatusCode)
+                {
+                    MessageBox.Show("Sikeres frissítés");
+
+                    //storageDataGrid.ItemsSource = parts;
+                    //populateInformationPart();
+                }
+                else
+                {
+                    MessageBox.Show("Failed to load repair from API");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
+
+
+
+
+        private void Add_Click(object sender, RoutedEventArgs e)
+        {
+            var text = InputTextBox.Text;
+
+            if (!string.IsNullOrWhiteSpace(text))
+            {
+                repairParts.Items.Add(text);
+                InputTextBox.Clear();
+            }
+        }
+
+        private void Delete_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as FrameworkElement;
+            var item = button?.Tag;
+
+            if (item != null)
+            {
+                repairParts.Items.Remove(item);
+            }
+        }
+
+
+
         //Orders Requests
         private async void loadOrders(object sender, RoutedEventArgs e)
         {
@@ -581,50 +718,7 @@ namespace PhoneScoutAdmin
             }
         }
 
-        private async void loadRepairs(object sender, RoutedEventArgs e)
-        {
-            phoneDataGrid.SelectedItem = null;
-            manufacturerDataGrid.SelectedItem = null;
-            userDataGrid.SelectedItem = null;
-            selectedMenu = "repair";
-
-            using HttpClient client = new HttpClient();
-            try
-            {
-                string url = "http://localhost:5175/api/Profile/GetAllRepair";
-                var response = await client.GetAsync(url);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    string json = await response.Content.ReadAsStringAsync();
-
-                    var repairList = JsonSerializer.Deserialize<List<Repair>>(json);
-                    
-
-
-                    if (repairList != null)
-                    {
-                        repairs.Clear();
-                        foreach (var repair in repairList)
-                        {
-                            repairs.Add(repair);
-                        }
-                    }
-
-                    repairDataGrid.ItemsSource = repairs;
-                    populateInformationPart();
-
-                }
-                else
-                {
-                    MessageBox.Show("Failed to orders users from API");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error: " + ex.Message);
-            }
-        }
+        
 
         
         
@@ -738,7 +832,8 @@ namespace PhoneScoutAdmin
             {
                 if (repairDataGrid.SelectedItem is Repair selectedRepair)
                 {
-                                
+                    repairManufacturer.Text = selectedRepair.manufacturerName;
+                    orderPhoneName.Text = selectedRepair.phoneName;
                     repairAddress.Text = $"{selectedRepair.postalCode}, {selectedRepair.city} {selectedRepair.address}";
                     repairPhoneNumber.Text = selectedRepair.phoneNumber.ToString();
                     if(selectedRepair.phoneInspection == 0)
@@ -753,6 +848,11 @@ namespace PhoneScoutAdmin
                     }
                     repairPrice.Text = selectedRepair.price.ToString();
                     repairStatus.SelectedValue = selectedRepair.status;
+
+                    foreach (var part in selectedRepair.parts)
+                    {
+                        repairParts.Items.Add(part);
+                    }
                 }
                 else
                 {
