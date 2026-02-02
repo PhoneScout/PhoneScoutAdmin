@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net.Http;
+using System.Security.Policy;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -57,6 +58,8 @@ namespace PhoneScoutAdmin
 
     public class User
     {
+        [JsonPropertyName("userID")]
+        public int userID { get; set; }
 
         [JsonPropertyName("userFullName")]
         public string fullName { get; set; }
@@ -244,8 +247,371 @@ namespace PhoneScoutAdmin
 
 
         //Phones Requests
+        private async void loadPhones(object sender, RoutedEventArgs e)
+        {
+            phoneDataGrid.SelectedItem = null;
+            manufacturerDataGrid.SelectedItem = null;
+            userDataGrid.SelectedItem = null;
+
+            selectedMenu = "phone";
+            using HttpClient client = new HttpClient();
+            try
+            {
+                string url = "http://localhost:5175/api/wpfPhone"; // your API endpoint
+                var response = await client.GetAsync(url);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string json = await response.Content.ReadAsStringAsync();
+
+                    // Deserialize into a list of phones
+                    var phoneList = JsonSerializer.Deserialize<List<Phone>>(json);
+
+                    if (phoneList != null)
+                    {
+                        phones.Clear();
+                        foreach (var phone in phoneList)
+                        {
+                            phones.Add(phone);
+                        }
+                    }
+
+                    phoneDataGrid.ItemsSource = phones;
+                    populateInformationPart();
+                }
+                else
+                {
+                    MessageBox.Show("Failed to load phones from API");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
+        private async void updatePhone(object sender, RoutedEventArgs e)
+        {
+            var selectedPhone = ((Phone)phoneDataGrid.SelectedValue);
+            using HttpClient client = new HttpClient();
+            try
+            {
+                string url = $"http://localhost:5175/api/wpfPhone/"+selectedPhone.phoneID; // your API endpoint
+
+                // Create DTO from your input fields
+
+                selectedPhone.phoneName = phoneName.Text;
+                if(phoneInStore.IsChecked == true)
+                {
+                    selectedPhone.phoneInStore = "van";
+                }
+                else
+                {
+                    selectedPhone.phoneInStore = "nincs";
+                }
+                selectedPhone.phonePrice = int.Parse(phonePrice.Text);
+                if (phoneAvailable.IsChecked == true)
+                {
+                    selectedPhone.phoneAvailable = 1;
+                }
+                else
+                {
+                    selectedPhone.phoneAvailable = 0;
+                }
+
+
+                // Serialize DTO to JSON
+                string json = JsonSerializer.Serialize(selectedPhone);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                // Send PUT request
+                var response = await client.PutAsync(url, content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string result = await response.Content.ReadAsStringAsync();
+                    MessageBox.Show(result, "Success");
+                }
+                else
+                {
+                    string error = await response.Content.ReadAsStringAsync();
+                    MessageBox.Show($"Error: {error}", "Error");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Exception: " + ex.Message);
+            }
+        }
+        private async void deletePhone(object sender, RoutedEventArgs e)
+        {
+            var selectedPhone = ((Phone)phoneDataGrid.SelectedValue);
+            using HttpClient client = new HttpClient();
+            try
+            {
+                string url = $"http://localhost:5175/api/wpfPhone/"+ selectedPhone.phoneID; // your API endpoint
+
+                // Send PUT request
+                var response = await client.DeleteAsync(url);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string result = await response.Content.ReadAsStringAsync();
+                    MessageBox.Show(result, "Success");
+                }
+                else
+                {
+                    string error = await response.Content.ReadAsStringAsync();
+                    MessageBox.Show($"Error: {error}", "Error");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Exception: " + ex.Message);
+            }
+        }
+        private async void createPhone(object sender, RoutedEventArgs e)
+        {
+            PhoneDetails window = new PhoneDetails(0);
+            window.Show();
+        }
+
+
+
+
+
+
+
         //Manufacturers Requests
+        private async void loadManufacturers(object sender, RoutedEventArgs e)
+        {
+            phoneDataGrid.SelectedItem = null;
+            manufacturerDataGrid.SelectedItem = null;
+            userDataGrid.SelectedItem = null;
+
+            selectedMenu = "manufacturer";
+
+            using HttpClient client = new HttpClient();
+            try
+            {
+                string url = "http://localhost:5175/api/wpfManufacturer";
+                var response = await client.GetAsync(url);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string json = await response.Content.ReadAsStringAsync();
+
+                    var manufacturersList = JsonSerializer.Deserialize<List<Manufacturer>>(json);
+
+                    if (manufacturersList != null)
+                    {
+                        manufacturers.Clear();
+                        foreach (var manufacturer in manufacturersList)
+                        {
+                            manufacturers.Add(manufacturer);
+                        }
+                    }
+
+                    manufacturerDataGrid.ItemsSource = manufacturersList;
+                    populateInformationPart();
+
+                }
+                else
+                {
+                    MessageBox.Show("Failed to load manufacturers from API");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
+
+        private async void updateManufacturer(object sender, RoutedEventArgs e)
+        {
+            var selectedManufacturer = ((Manufacturer)manufacturerDataGrid.SelectedValue);
+            using HttpClient client = new HttpClient();
+            try
+            {
+                string url = $"http://localhost:5175/api/wpfManufacturer/"+selectedManufacturer.manufacturerId; // your API endpoint
+
+                
+                selectedManufacturer.manufacturerName = manufacturerName.Text;
+                selectedManufacturer.manufacturerEmail = manufacturerEmail.Text;
+                selectedManufacturer.manufacturerUrl = manufacturerURL.Text;
+                
+
+                // Serialize DTO to JSON
+                string json = JsonSerializer.Serialize(selectedManufacturer);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                // Send PUT request
+                var response = await client.PutAsync(url, content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string result = await response.Content.ReadAsStringAsync();
+                    MessageBox.Show(result, "Success");
+                }
+                else
+                {
+                    string error = await response.Content.ReadAsStringAsync();
+                    MessageBox.Show($"Error: {error}", "Error");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Exception: " + ex.Message);
+            }
+        }
+
+        private async void deleteManufacturer(object sender, RoutedEventArgs e)
+        {
+            var selectedManufacturer = ((Manufacturer)manufacturerDataGrid.SelectedValue);
+            using HttpClient client = new HttpClient();
+            try
+            {
+                string url = $"http://localhost:5175/api/wpfManufacturer/"+selectedManufacturer.manufacturerId; // your API endpoint
+
+                // Send PUT request
+                var response = await client.DeleteAsync(url);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string result = await response.Content.ReadAsStringAsync();
+                    MessageBox.Show(result, "Success");
+                }
+                else
+                {
+                    string error = await response.Content.ReadAsStringAsync();
+                    MessageBox.Show($"Error: {error}", "Error");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Exception: " + ex.Message);
+            }
+        }
+
+
         //Users Requests
+        private async void loadUsers(object sender, RoutedEventArgs e)
+        {
+            phoneDataGrid.SelectedItem = null;
+            manufacturerDataGrid.SelectedItem = null;
+            userDataGrid.SelectedItem = null;
+            selectedMenu = "user";
+
+            using HttpClient client = new HttpClient();
+            try
+            {
+                string url = "http://localhost:5175/api/wpfUsers";
+                var response = await client.GetAsync(url);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string json = await response.Content.ReadAsStringAsync();
+
+                    var userList = JsonSerializer.Deserialize<List<User>>(json);
+
+                    if (userList != null)
+                    {
+                        users.Clear();
+                        foreach (var user in userList)
+                        {
+                            users.Add(user);
+                        }
+                    }
+
+                    userDataGrid.ItemsSource = userList;
+                    populateInformationPart();
+
+                }
+                else
+                {
+                    MessageBox.Show("Failed to load users from API");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
+
+        private async void updateUser(object sender, RoutedEventArgs e)
+        {
+            var selectedUser = ((User)userDataGrid.SelectedItem);
+
+            using HttpClient client = new HttpClient();
+            try
+            {
+                string url = "http://localhost:5175/api/wpfUsers/" + selectedUser.userID;
+                selectedUser.fullName = userName.Text;
+                selectedUser.email = userEmail.Text;
+                selectedUser.privilegeName = ((ComboItemUsers)userPrivilege.SelectedItem).Name;
+                selectedUser.privilegeLevel = ((ComboItemUsers)userPrivilege.SelectedItem).Level;
+                if(userActive.IsChecked == true)
+                {
+                    selectedUser.isActive = 1;
+                }
+                if (userActive.IsChecked == false)
+                {
+                    selectedUser.isActive = 0;
+                }
+
+                // Convert object to JSON
+                string json = JsonSerializer.Serialize(selectedUser);
+                HttpContent content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                var response = await client.PutAsync(url, content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    MessageBox.Show("Sikeres frissítés");
+
+                    //storageDataGrid.ItemsSource = parts;
+                    //populateInformationPart();
+                }
+                else
+                {
+                    MessageBox.Show("Failed to load storage from API");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
+
+        private async void deleteUser(object sender, RoutedEventArgs e)
+        {
+            var selectedUser = ((User)userDataGrid.SelectedItem);
+
+            using HttpClient client = new HttpClient();
+            try
+            {
+                string url = "http://localhost:5175/api/wpfUsers/" + selectedUser.userID;
+                
+                var response = await client.DeleteAsync(url);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    MessageBox.Show("Sikeres frissítés");
+
+                    //storageDataGrid.ItemsSource = parts;
+                    //populateInformationPart();
+                }
+                else
+                {
+                    MessageBox.Show("Failed to load storage from API");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
+
+
         //Storage Requests
         private async void loadStorage(object sender, RoutedEventArgs e)
         {
@@ -273,6 +639,45 @@ namespace PhoneScoutAdmin
 
                     storageDataGrid.ItemsSource = parts;
                     populateInformationPart();
+                }
+                else
+                {
+                    MessageBox.Show("Failed to load storage from API");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
+
+        private async void createStorage(object sender, RoutedEventArgs e)
+        {
+            
+            using HttpClient client = new HttpClient();
+            try
+            {
+                string url = "http://localhost:5175/api/wpfStorage";
+
+                var newPart = new Storage();
+                newPart.partName = storagePartName.Text;
+                newPart.partAmount = int.Parse(storagePartAmount.Text);
+
+
+                // Convert object to JSON
+                string json = JsonSerializer.Serialize(newPart);
+                HttpContent content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                var response = await client.PostAsync(url, content);
+
+
+
+                if (response.IsSuccessStatusCode)
+                {
+                    MessageBox.Show("Sikeres frissítés");
+
+                    //storageDataGrid.ItemsSource = parts;
+                    //populateInformationPart();
                 }
                 else
                 {
@@ -323,7 +728,36 @@ namespace PhoneScoutAdmin
             }
         }
 
+        private async void deleteStorage(object sender, RoutedEventArgs e)
+        {
+            var selectedPart = ((Storage)storageDataGrid.SelectedItem);
+            using HttpClient client = new HttpClient();
+            try
+            {
+                string url = "http://localhost:5175/api/wpfStorage/" + selectedPart.partID;
+                MessageBox.Show(((Storage)storageDataGrid.SelectedItem).partID.ToString());
+                MessageBox.Show(url);
+                var response = await client.DeleteAsync(url);
 
+
+
+                if (response.IsSuccessStatusCode)
+                {
+                    MessageBox.Show("Sikeres frissítés");
+
+                    //storageDataGrid.ItemsSource = parts;
+                    //populateInformationPart();
+                }
+                else
+                {
+                    MessageBox.Show("Failed to load storage from API");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
 
 
 
@@ -373,7 +807,6 @@ namespace PhoneScoutAdmin
                 MessageBox.Show("Error: " + ex.Message);
             }
         }
-
 
         private async void updateRepair(object sender, RoutedEventArgs e)
         {
@@ -434,9 +867,6 @@ namespace PhoneScoutAdmin
                 MessageBox.Show("Error: " + ex.Message);
             }
         }
-
-
-
 
         private void Add_Click(object sender, RoutedEventArgs e)
         {
@@ -586,138 +1016,9 @@ namespace PhoneScoutAdmin
                 MessageBox.Show("Error: " + ex.Message);
             }
         }
-
-
-        private async void loadPhones(object sender, RoutedEventArgs e)
-        {
-            phoneDataGrid.SelectedItem = null;
-            manufacturerDataGrid.SelectedItem = null;
-            userDataGrid.SelectedItem = null;
-
-            selectedMenu = "phone";
-            using HttpClient client = new HttpClient();
-            try
-            {
-                string url = "http://localhost:5175/api/wpfPhone"; // your API endpoint
-                var response = await client.GetAsync(url);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    string json = await response.Content.ReadAsStringAsync();
-
-                    // Deserialize into a list of phones
-                    var phoneList = JsonSerializer.Deserialize<List<Phone>>(json);
-
-                    if (phoneList != null)
-                    {
-                        phones.Clear();
-                        foreach (var phone in phoneList)
-                        {
-                            phones.Add(phone);
-                        }
-                    }
-
-                    phoneDataGrid.ItemsSource = phones;
-                    populateInformationPart();
-                }
-                else
-                {
-                    MessageBox.Show("Failed to load phones from API");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error: " + ex.Message);
-            }
-        }
-        private async void loadManufacturers(object sender, RoutedEventArgs e)
-        {
-            phoneDataGrid.SelectedItem = null;
-            manufacturerDataGrid.SelectedItem = null;
-            userDataGrid.SelectedItem = null;
-
-            selectedMenu = "manufacturer";
-
-            using HttpClient client = new HttpClient();
-            try
-            {
-                string url = "http://localhost:5175/api/wpfManufacturer";
-                var response = await client.GetAsync(url);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    string json = await response.Content.ReadAsStringAsync();
-
-                    var manufacturersList = JsonSerializer.Deserialize<List<Manufacturer>>(json);
-
-                    if (manufacturersList != null)
-                    {
-                        manufacturers.Clear();
-                        foreach (var manufacturer in manufacturersList)
-                        {
-                            manufacturers.Add(manufacturer);
-                        }
-                    }
-
-                    manufacturerDataGrid.ItemsSource = manufacturersList;
-                    populateInformationPart();
-
-                }
-                else
-                {
-                    MessageBox.Show("Failed to load manufacturers from API");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error: " + ex.Message);
-            }
-        }
-        private async void loadUsers(object sender, RoutedEventArgs e)
-        {
-            phoneDataGrid.SelectedItem = null;
-            manufacturerDataGrid.SelectedItem = null;
-            userDataGrid.SelectedItem = null;
-            selectedMenu = "user";
-
-            using HttpClient client = new HttpClient();
-            try
-            {
-                string url = "http://localhost:5175/api/wpfUsers";
-                var response = await client.GetAsync(url);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    string json = await response.Content.ReadAsStringAsync();
-
-                    var userList = JsonSerializer.Deserialize<List<User>>(json);
-                    MessageBox.Show(userList.Count().ToString());
-
-
-                    if (userList != null)
-                    {
-                        users.Clear();
-                        foreach (var user in userList)
-                        {
-                            users.Add(user);
-                        }
-                    }
-
-                    userDataGrid.ItemsSource = userList;
-                    populateInformationPart();
-
-                }
-                else
-                {
-                    MessageBox.Show("Failed to load users from API");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error: " + ex.Message);
-            }
-        }
-
+        
+        
+        
         
 
         

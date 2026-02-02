@@ -64,7 +64,7 @@
             </StackPanel>
 
             <!--Main Content-->
-            <Grid Grid.Row="1" Grid.Column="1" Background="LightGray" x:Name="phoneDetails"  Visibility="Collapsed">
+            <Grid Grid.Row="1" Grid.Column="1" Background="LightGray" x:Name="phoneDetails"  Visibility="Visible">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*"/>
                     <RowDefinition Height="12*"/>
@@ -155,7 +155,7 @@ ToolTip="Displays the amount of that part in the storage."
                                 </CheckBox.LayoutTransform>
                             </CheckBox>
 
-                            <Button Grid.Row="5" Grid.ColumnSpan="2" Content="Save datas" Margin="10,15,10,-15" Padding="5" BorderBrush="#68F145" BorderThickness="3" FontSize="18" VerticalAlignment="Center" Background="WhiteSmoke"/>
+                            <Button Grid.Row="5" Grid.ColumnSpan="2" Content="Save datas" Margin="10,15,10,-15" Padding="5" BorderBrush="#68F145" BorderThickness="3" FontSize="18" VerticalAlignment="Center" Background="WhiteSmoke" Click="updatePhone"/>
 
                         </Grid>
                     </GroupBox>
@@ -163,8 +163,8 @@ ToolTip="Displays the amount of that part in the storage."
 
 
                 <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Button Width="200" Content="Modify the phone" Margin="10,15,10,0" Padding="5" BorderBrush="#2300B3" BorderThickness="3" FontSize="18" VerticalAlignment="Center" Background="WhiteSmoke"/>
-                    <Button Width="200" Content="Delete phone" Margin="10,15,10,0" Padding="5" BorderBrush="Red" BorderThickness="3" FontSize="18" VerticalAlignment="Center" Background="WhiteSmoke"/>
+                    <Button Width="200" Content="Modify the phone" Margin="10,15,10,0" Padding="5" BorderBrush="#2300B3" BorderThickness="3" FontSize="18" VerticalAlignment="Center" Background="WhiteSmoke" Click="createPhone"/>
+                    <Button Width="200" Content="Delete phone" Margin="10,15,10,0" Padding="5" BorderBrush="Red" BorderThickness="3" FontSize="18" VerticalAlignment="Center" Background="WhiteSmoke" Click="deletePhone"/>
                 </StackPanel>
 
                 <Button Grid.Row="2" Grid.Column="1" Width="200" Content="Create phone" Margin="10,15,10,0" Padding="5" BorderBrush="#68F145" BorderThickness="3" FontSize="18" VerticalAlignment="Center" Background="WhiteSmoke"/>
@@ -244,7 +244,7 @@ ToolTip="Displays the amount of that part in the storage."
 
 
 
-                            <Button Grid.Row="5" Grid.ColumnSpan="2" Content="Save datas" Margin="10,15,10,-15" Padding="5" BorderBrush="#68F145" BorderThickness="3" FontSize="18" VerticalAlignment="Center" Background="WhiteSmoke"/>
+                            <Button Grid.Row="5" Grid.ColumnSpan="2" Content="Save datas" Margin="10,15,10,-15" Padding="5" BorderBrush="#68F145" BorderThickness="3" FontSize="18" VerticalAlignment="Center" Background="WhiteSmoke" Click="updateManufacturer"/>
 
                         </Grid>
                     </GroupBox>
@@ -355,7 +355,7 @@ ToolTip="Displays the amount of that part in the storage."
 
 
 
-                            <Button Grid.Row="5" Grid.ColumnSpan="2" Content="Save datas" Margin="10,15,10,-15" Padding="5" BorderBrush="#68F145" BorderThickness="3" FontSize="18" VerticalAlignment="Center" Background="WhiteSmoke"/>
+                            <Button Grid.Row="5" Grid.ColumnSpan="2" Content="Save datas" Margin="10,15,10,-15" Padding="5" BorderBrush="#68F145" BorderThickness="3" FontSize="18" VerticalAlignment="Center" Background="WhiteSmoke" Click="updateUser"/>
 
                         </Grid>
                     </GroupBox>
@@ -363,7 +363,7 @@ ToolTip="Displays the amount of that part in the storage."
 
 
                 <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Button Width="200" Content="Delete user" Margin="10,15,10,0" Padding="5" BorderBrush="Red" BorderThickness="3" FontSize="18" VerticalAlignment="Center" Background="WhiteSmoke"/>
+                    <Button Width="200" Content="Delete user" Margin="10,15,10,0" Padding="5" BorderBrush="Red" BorderThickness="3" FontSize="18" VerticalAlignment="Center" Background="WhiteSmoke" Click="deleteUser"/>
                 </StackPanel>
             </Grid>
 
@@ -473,17 +473,17 @@ ToolTip="Displays the amount of that part in the storage."
                                 <TextBox x:Name="storagePartName" Width="180" Height="20" Grid.Row="0" Grid.Column="1" Margin="5"/>
                                 <TextBox x:Name="storagePartAmount" Width="180" Height="20" Grid.Row="1" Grid.Column="1" Margin="5"/>
 
-                                <Button Grid.Row="5" Grid.ColumnSpan="2" Content="Upload part" Margin="10,15,10,-15" Padding="5" BorderBrush="#2300B3" BorderThickness="3" FontSize="18" VerticalAlignment="Center" Background="WhiteSmoke" Click="updateStorage"/>
+                                <Button Grid.Row="5" Grid.ColumnSpan="2" Content="Upload part" Margin="10,15,10,-15" Padding="5" BorderBrush="#2300B3" BorderThickness="3" FontSize="18" VerticalAlignment="Center" Background="WhiteSmoke" Click="createStorage"/>
                         </Grid>
                     </GroupBox>
                 </WrapPanel>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Button Width="200" Content="Delete part" Margin="10,15,10,0" Padding="5" BorderBrush="Red" BorderThickness="3" FontSize="18" VerticalAlignment="Center" Background="WhiteSmoke"/>
+                    <Button Width="200" Content="Delete part" Margin="10,15,10,0" Padding="5" BorderBrush="Red" BorderThickness="3" FontSize="18" VerticalAlignment="Center" Background="WhiteSmoke" Click="deleteStorage"/>
                 </StackPanel>
             </Grid>
 
-            <Grid Grid.Row="1" Grid.Column="1" Background="LightGray" x:Name="repairDetails"  Visibility="Visible">
+            <Grid Grid.Row="1" Grid.Column="1" Background="LightGray" x:Name="repairDetails"  Visibility="Collapsed">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*"/>
                     <RowDefinition Height="12*"/>
