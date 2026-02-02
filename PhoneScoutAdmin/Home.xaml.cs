@@ -31,6 +31,9 @@ namespace PhoneScoutAdmin
         [JsonPropertyName("phoneName")]
         public string phoneName { get; set; }
 
+        [JsonPropertyName("manufacturerName")]
+        public string manufacturerName { get; set; }
+
         [JsonPropertyName("phonePrice")]
         public int phonePrice { get; set; }
 
