@@ -16,6 +16,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using PhoneScoutAdmin.ViewModels;
 
 namespace PhoneScoutAdmin
 {
@@ -23,26 +24,7 @@ namespace PhoneScoutAdmin
     /// Interaction logic for Home.xaml
     /// </summary>
 
-    public class Phone
-    {
-        [JsonPropertyName("phoneID")]
-        public int phoneID { get; set; }
-
-        [JsonPropertyName("phoneName")]
-        public string phoneName { get; set; }
-
-        [JsonPropertyName("manufacturerName")]
-        public string manufacturerName { get; set; }
-
-        [JsonPropertyName("phonePrice")]
-        public int phonePrice { get; set; }
-
-        [JsonPropertyName("phoneInstore")]
-        public string phoneInStore { get; set; }
-
-        [JsonPropertyName("phoneAvailable")]
-        public int phoneAvailable { get; set; }
-    }
+    
     public class Manufacturer
     {
 
@@ -243,140 +225,14 @@ namespace PhoneScoutAdmin
         public Home()
         {
             InitializeComponent();
-            DataContext = this;
+            DataContext = new PhoneViewModel();
         }
 
 
 
 
         //Phones Requests
-        private async void loadPhones(object sender, RoutedEventArgs e)
-        {
-            phoneDataGrid.SelectedItem = null;
-            manufacturerDataGrid.SelectedItem = null;
-            userDataGrid.SelectedItem = null;
-
-            selectedMenu = "phone";
-            using HttpClient client = new HttpClient();
-            try
-            {
-                string url = "http://localhost:5175/api/wpfPhone"; // your API endpoint
-                var response = await client.GetAsync(url);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    string json = await response.Content.ReadAsStringAsync();
-
-                    // Deserialize into a list of phones
-                    var phoneList = JsonSerializer.Deserialize<List<Phone>>(json);
-
-                    if (phoneList != null)
-                    {
-                        phones.Clear();
-                        foreach (var phone in phoneList)
-                        {
-                            phones.Add(phone);
-                        }
-                    }
-
-                    phoneDataGrid.ItemsSource = phones;
-                    populateInformationPart();
-                }
-                else
-                {
-                    MessageBox.Show("Failed to load phones from API");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error: " + ex.Message);
-            }
-        }
-        private async void updatePhone(object sender, RoutedEventArgs e)
-        {
-            var selectedPhone = ((Phone)phoneDataGrid.SelectedValue);
-            using HttpClient client = new HttpClient();
-            try
-            {
-                string url = $"http://localhost:5175/api/wpfPhone/"+selectedPhone.phoneID; // your API endpoint
-
-                // Create DTO from your input fields
-
-                selectedPhone.phoneName = phoneName.Text;
-                if(phoneInStore.IsChecked == true)
-                {
-                    selectedPhone.phoneInStore = "van";
-                }
-                else
-                {
-                    selectedPhone.phoneInStore = "nincs";
-                }
-                selectedPhone.phonePrice = int.Parse(phonePrice.Text);
-                if (phoneAvailable.IsChecked == true)
-                {
-                    selectedPhone.phoneAvailable = 1;
-                }
-                else
-                {
-                    selectedPhone.phoneAvailable = 0;
-                }
-
-
-                // Serialize DTO to JSON
-                string json = JsonSerializer.Serialize(selectedPhone);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-                // Send PUT request
-                var response = await client.PutAsync(url, content);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    string result = await response.Content.ReadAsStringAsync();
-                    MessageBox.Show(result, "Success");
-                }
-                else
-                {
-                    string error = await response.Content.ReadAsStringAsync();
-                    MessageBox.Show($"Error: {error}", "Error");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Exception: " + ex.Message);
-            }
-        }
-        private async void deletePhone(object sender, RoutedEventArgs e)
-        {
-            var selectedPhone = ((Phone)phoneDataGrid.SelectedValue);
-            using HttpClient client = new HttpClient();
-            try
-            {
-                string url = $"http://localhost:5175/api/wpfPhone/"+ selectedPhone.phoneID; // your API endpoint
-
-                // Send PUT request
-                var response = await client.DeleteAsync(url);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    string result = await response.Content.ReadAsStringAsync();
-                    MessageBox.Show(result, "Success");
-                }
-                else
-                {
-                    string error = await response.Content.ReadAsStringAsync();
-                    MessageBox.Show($"Error: {error}", "Error");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Exception: " + ex.Message);
-            }
-        }
-        private async void createPhone(object sender, RoutedEventArgs e)
-        {
-            PhoneDetails window = new PhoneDetails(0);
-            window.Show();
-        }
+        
 
 
 
@@ -1069,23 +925,7 @@ namespace PhoneScoutAdmin
 
         private void showInfos(object sender, SelectionChangedEventArgs e)
         {
-            if (selectedMenu == "phone")
-            {
-                if (phoneDataGrid.SelectedItem is Phone selectedPhone)
-                {
-                    phoneName.Text = selectedPhone.phoneName;
-                    phonePrice.Text = selectedPhone.phonePrice.ToString();
-                    phoneInStore.IsChecked = selectedPhone.phoneInStore == "van";
-                    phoneAvailable.IsChecked = selectedPhone.phoneAvailable == 0;
-                }
-                else
-                {
-                    phoneName.Text = "";
-                    phonePrice.Text = "";
-                    phoneInStore.IsChecked = false;
-                    phoneAvailable.IsChecked = false;
-                }
-            }
+            
 
             if (selectedMenu == "manufacturer")
             {
