@@ -25,21 +25,7 @@ namespace PhoneScoutAdmin
     /// </summary>
 
     
-    public class Manufacturer
-    {
-
-        [JsonPropertyName("manufacturerID")]
-        public int manufacturerId { get; set; }
-
-        [JsonPropertyName("manufacturerName")]
-        public string manufacturerName { get; set; }
-
-        [JsonPropertyName("manufacturerURL")]
-        public string manufacturerUrl { get; set; }
-
-        [JsonPropertyName("manufacturerEmail")]
-        public string manufacturerEmail { get; set; }
-    }
+    
 
     public class User
     {
@@ -193,8 +179,7 @@ namespace PhoneScoutAdmin
     public partial class Home : Window
     {
         string selectedMenu = "phones";
-        public ObservableCollection<Phone> phones { get; set; } = new ObservableCollection<Phone>();
-        public ObservableCollection<Manufacturer> manufacturers { get; set; } = new ObservableCollection<Manufacturer>();
+
         public ObservableCollection<User> users { get; set; } = new ObservableCollection<User>();
         public ObservableCollection<Storage> parts { get; set; } = new ObservableCollection<Storage>();
         public ObservableCollection<Repair> repairs { get; set; } = new ObservableCollection<Repair>();
@@ -240,117 +225,7 @@ namespace PhoneScoutAdmin
 
 
 
-        //Manufacturers Requests
-        private async void loadManufacturers(object sender, RoutedEventArgs e)
-        {
-            phoneDataGrid.SelectedItem = null;
-            manufacturerDataGrid.SelectedItem = null;
-            userDataGrid.SelectedItem = null;
-
-            selectedMenu = "manufacturer";
-
-            using HttpClient client = new HttpClient();
-            try
-            {
-                string url = "http://localhost:5175/api/wpfManufacturer";
-                var response = await client.GetAsync(url);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    string json = await response.Content.ReadAsStringAsync();
-
-                    var manufacturersList = JsonSerializer.Deserialize<List<Manufacturer>>(json);
-
-                    if (manufacturersList != null)
-                    {
-                        manufacturers.Clear();
-                        foreach (var manufacturer in manufacturersList)
-                        {
-                            manufacturers.Add(manufacturer);
-                        }
-                    }
-
-                    manufacturerDataGrid.ItemsSource = manufacturersList;
-                    populateInformationPart();
-
-                }
-                else
-                {
-                    MessageBox.Show("Failed to load manufacturers from API");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error: " + ex.Message);
-            }
-        }
-
-        private async void updateManufacturer(object sender, RoutedEventArgs e)
-        {
-            var selectedManufacturer = ((Manufacturer)manufacturerDataGrid.SelectedValue);
-            using HttpClient client = new HttpClient();
-            try
-            {
-                string url = $"http://localhost:5175/api/wpfManufacturer/"+selectedManufacturer.manufacturerId; // your API endpoint
-
-                
-                selectedManufacturer.manufacturerName = manufacturerName.Text;
-                selectedManufacturer.manufacturerEmail = manufacturerEmail.Text;
-                selectedManufacturer.manufacturerUrl = manufacturerURL.Text;
-                
-
-                // Serialize DTO to JSON
-                string json = JsonSerializer.Serialize(selectedManufacturer);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-                // Send PUT request
-                var response = await client.PutAsync(url, content);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    string result = await response.Content.ReadAsStringAsync();
-                    MessageBox.Show(result, "Success");
-                }
-                else
-                {
-                    string error = await response.Content.ReadAsStringAsync();
-                    MessageBox.Show($"Error: {error}", "Error");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Exception: " + ex.Message);
-            }
-        }
-
-        private async void deleteManufacturer(object sender, RoutedEventArgs e)
-        {
-            var selectedManufacturer = ((Manufacturer)manufacturerDataGrid.SelectedValue);
-            using HttpClient client = new HttpClient();
-            try
-            {
-                string url = $"http://localhost:5175/api/wpfManufacturer/"+selectedManufacturer.manufacturerId; // your API endpoint
-
-                // Send PUT request
-                var response = await client.DeleteAsync(url);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    string result = await response.Content.ReadAsStringAsync();
-                    MessageBox.Show(result, "Success");
-                }
-                else
-                {
-                    string error = await response.Content.ReadAsStringAsync();
-                    MessageBox.Show($"Error: {error}", "Error");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Exception: " + ex.Message);
-            }
-        }
-
+        
 
         //Users Requests
         private async void loadUsers(object sender, RoutedEventArgs e)
@@ -927,21 +802,7 @@ namespace PhoneScoutAdmin
         {
             
 
-            if (selectedMenu == "manufacturer")
-            {
-                if (manufacturerDataGrid.SelectedItem is Manufacturer selectedManufacturer)
-                {
-                    manufacturerName.Text = selectedManufacturer.manufacturerName;
-                    manufacturerURL.Text = selectedManufacturer.manufacturerUrl;
-                    manufacturerEmail.Text = selectedManufacturer.manufacturerEmail;
-                }
-                else
-                {
-                    manufacturerName.Text = "";
-                    manufacturerURL.Text = "";
-                    manufacturerEmail.Text = "";
-                }
-            }
+            
             if (selectedMenu == "user")
             {
                 if (userDataGrid.SelectedItem is User selectedUser)
