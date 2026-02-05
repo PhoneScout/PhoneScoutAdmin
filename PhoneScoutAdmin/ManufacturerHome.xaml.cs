@@ -26,7 +26,7 @@ namespace PhoneScoutAdmin
     /// </summary>
     public partial class ManufacturerHome : Window
     {
-        /*public ObservableCollection<Phone> phones { get; set; } = new ObservableCollection<Phone>();
+        public ObservableCollection<Phone> phones { get; set; } = new ObservableCollection<Phone>();
         public ObservableCollection<Manufacturer> manufacturers { get; set; } = new ObservableCollection<Manufacturer>();
 
         string selectedMenu = "phone";
@@ -315,7 +315,7 @@ namespace PhoneScoutAdmin
                 }
             }           
 
-        }*/
+        }
 
     }
 }

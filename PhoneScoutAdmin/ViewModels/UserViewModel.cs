@@ -1,9 +1,6 @@
-﻿using PhoneScoutAdmin.Models;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
@@ -12,20 +9,32 @@ using System.Windows.Input;
 
 namespace PhoneScoutAdmin.ViewModels
 {
-    class UserViewModel : INotifyPropertyChanged
+    public class UserViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged(string name)
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
-
+        // ======================
         // DATA
-        public ObservableCollection<User> Users { get; set; } = new ObservableCollection<User>();
+        // ======================
 
+        public ObservableCollection<User> Users { get; }
+            = new ObservableCollection<User>();
+
+        public ObservableCollection<ComboItemUsers> Items { get; }
+            = new ObservableCollection<ComboItemUsers>
+            {
+                new ComboItemUsers { Id = 1, Level = 1, Name = "User" },
+                new ComboItemUsers { Id = 2, Level = 2, Name = "Manufacturer" },
+                new ComboItemUsers { Id = 3, Level = 3, Name = "Admin" },
+            };
+
+        // ======================
         // SELECTION
+        // ======================
 
         private User _selectedUser;
-
         public User SelectedUser
         {
             get => _selectedUser;
@@ -38,44 +47,41 @@ namespace PhoneScoutAdmin.ViewModels
             }
         }
 
-        //  EDIT FIELDS
+        // ======================
+        // EDIT FIELDS
+        // ======================
 
-        private string _userFullName;
-        public string UserFullName
+        private string _fullName;
+        public string FullName
         {
-            get => _userFullName;
-            set { _userFullName = value; OnPropertyChanged(nameof(UserFullName)); }
+            get => _fullName;
+            set { _fullName = value; OnPropertyChanged(nameof(FullName)); }
         }
 
-        private string _userEmail;
-        public string UserEmail
+        private string _email;
+        public string Email
         {
-            get => _userEmail;
-            set { _userEmail = value; OnPropertyChanged(nameof(UserEmail)); }
+            get => _email;
+            set { _email = value; OnPropertyChanged(nameof(Email)); }
         }
 
-        private int _userPrivilegeLevel;
-        public int UserPrivilegeLevel
+        private ComboItemUsers _selectedPrivilege;
+        public ComboItemUsers SelectedPrivilege
         {
-            get => _userPrivilegeLevel;
-            set { _userPrivilegeLevel = value; OnPropertyChanged(nameof(UserPrivilegeLevel)); }
+            get => _selectedPrivilege;
+            set { _selectedPrivilege = value; OnPropertyChanged(nameof(SelectedPrivilege)); }
         }
 
-        private string _userPrivilegeName;
-        public string UserPrivilegeName
+        private bool _isActive;
+        public bool IsActive
         {
-            get => _userPrivilegeName;
-            set { _userPrivilegeName = value; OnPropertyChanged(nameof(UserPrivilegeName)); }
+            get => _isActive;
+            set { _isActive = value; OnPropertyChanged(nameof(IsActive)); }
         }
 
-        private int _userActive;
-        public int UserActive
-        {
-            get => _userActive;
-            set { _userActive = value; OnPropertyChanged(nameof(UserActive)); }
-        }
-
-        //  COMMANDS
+        // ======================
+        // COMMANDS
+        // ======================
 
         public ICommand LoadUsersCommand { get; }
         public ICommand SaveUserCommand { get; }
@@ -94,28 +100,27 @@ namespace PhoneScoutAdmin.ViewModels
             (DeleteUserCommand as RelayCommand)?.RaiseCanExecuteChanged();
         }
 
-
-
-
-        //  LOGIC
+        // ======================
+        // LOGIC
+        // ======================
 
         private void LoadSelectedUserIntoFields()
         {
             if (SelectedUser == null)
             {
-                UserFullName = "";
-                UserEmail = "";
-                UserPrivilegeLevel = 0;
-                UserPrivilegeName = "";
-                UserActive = 0;
+                FullName = "";
+                Email = "";
+                SelectedPrivilege = null;
+                IsActive = false;
                 return;
             }
 
-            UserFullName = SelectedUser.fullName;
-            UserEmail = SelectedUser.email;
-            UserPrivilegeLevel = SelectedUser.privilegeLevel;
-            UserPrivilegeName = SelectedUser.privilegeName;
-            UserActive = SelectedUser.isActive;
+            FullName = SelectedUser.fullName;
+            Email = SelectedUser.email;
+            IsActive = SelectedUser.isActive == 1;
+
+            SelectedPrivilege = Items
+                .FirstOrDefault(i => i.Level == SelectedUser.privilegeLevel);
         }
 
         private async Task LoadUsers()
@@ -127,22 +132,22 @@ namespace PhoneScoutAdmin.ViewModels
             if (!response.IsSuccessStatusCode) return;
 
             string json = await response.Content.ReadAsStringAsync();
-            var phoneList = JsonSerializer.Deserialize<List<User>>(json);
+            var userList = JsonSerializer.Deserialize<List<User>>(json);
 
             Users.Clear();
-            foreach (var phone in phoneList)
-                Users.Add(phone);
+            foreach (var user in userList)
+                Users.Add(user);
         }
 
         private async Task SaveUser()
         {
             if (SelectedUser == null) return;
 
-            SelectedUser.fullName = UserFullName;
-            SelectedUser.email = UserEmail;
-            SelectedUser.privilegeLevel = UserPrivilegeLevel;
-            SelectedUser.privilegeName = UserPrivilegeName;
-            SelectedUser.isActive = UserActive;
+            SelectedUser.fullName = FullName;
+            SelectedUser.email = Email;
+            SelectedUser.privilegeLevel = SelectedPrivilege.Level;
+            SelectedUser.privilegeName = SelectedPrivilege.Name;
+            SelectedUser.isActive = IsActive ? 1 : 0;
 
             using HttpClient client = new HttpClient();
             string url = $"http://localhost:5175/api/wpfUsers/{SelectedUser.userID}";
@@ -158,12 +163,11 @@ namespace PhoneScoutAdmin.ViewModels
             if (SelectedUser == null) return;
 
             using HttpClient client = new HttpClient();
-            string url = $"http://localhost:5175/api/wpfPhone/{SelectedUser.userID}";
+            string url = $"http://localhost:5175/api/wpfUsers/{SelectedUser.userID}";
 
             await client.DeleteAsync(url);
             Users.Remove(SelectedUser);
             SelectedUser = null;
         }
-
     }
 }

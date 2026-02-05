@@ -281,9 +281,13 @@ ToolTip="Displays the amount of that part in the storage."
 
 
 
-                <DataGrid x:Name="userDataGrid" Grid.Row="1" Grid.Column="0" SelectionChanged="showInfos" AutoGenerateColumns="True">
+                <DataGrid
+    Grid.Row="1"
+    Grid.Column="0"
+    ItemsSource="{Binding Users}"
+    SelectedItem="{Binding SelectedUser}"
+    AutoGenerateColumns="True"/>
 
-                </DataGrid>
 
 
                 <WrapPanel Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
@@ -345,29 +349,48 @@ ToolTip="Displays the amount of that part in the storage."
 
 
 
-                            <TextBox x:Name="userName" Width="180" Height="20" Grid.Row="0" Grid.Column="1" Margin="5"/>
-                            <TextBox x:Name="userEmail" Width="180" Height="20" Grid.Row="1" Grid.Column="1" Margin="5"/>
+                            <TextBox
+    Width="180"
+    Height="20"
+    Grid.Row="0"
+    Grid.Column="1"
+    Margin="5"
+    Text="{Binding FullName, UpdateSourceTrigger=PropertyChanged}"/>
+
+                            <TextBox
+    Width="180"
+    Height="20"
+    Grid.Row="1"
+    Grid.Column="1"
+    Margin="5"
+    Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}"/>
+
                             <ComboBox
-                            x:Name="userPrivilege"
-                            Width="180"
-                            Height="20"
-                            Grid.Row="2"
-                            Grid.Column="1"
-                            Margin="5"
-                            Background="White"
-                            ItemsSource="{Binding Items}"                            
-                            SelectedItem="{Binding SelectedItem}"
-                            SelectedValuePath="Id"/>
+    Width="180"
+    Height="20"
+    Grid.Row="2"
+    Grid.Column="1"
+    Margin="5"
+    ItemsSource="{Binding Items}"
+    SelectedItem="{Binding SelectedPrivilege}"/>
 
-                            <CheckBox x:Name="userActive" Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                <CheckBox.LayoutTransform>
-                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
-                                </CheckBox.LayoutTransform>
-                            </CheckBox>
+                            <CheckBox
+    Grid.Row="3"
+    Grid.Column="1"
+    IsChecked="{Binding IsActive}"
+    VerticalAlignment="Center"
+    HorizontalAlignment="Center"/>
 
 
 
-                            <Button Grid.Row="5" Grid.ColumnSpan="2" Content="Save datas" Margin="10,15,10,-15" Padding="5" BorderBrush="#68F145" BorderThickness="3" FontSize="18" VerticalAlignment="Center" Background="WhiteSmoke" Click="updateUser"/>
+
+                            <Button
+    Grid.Row="5"
+    Grid.ColumnSpan="2"
+    Content="Save datas"
+    Command="{Binding SaveUserCommand}"
+    Margin="10,15,10,-15"
+    FontSize="18"/>
 
                         </Grid>
                     </GroupBox>
@@ -375,7 +398,12 @@ ToolTip="Displays the amount of that part in the storage."
 
 
                 <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Button Width="200" Content="Delete user" Margin="10,15,10,0" Padding="5" BorderBrush="Red" BorderThickness="3" FontSize="18" VerticalAlignment="Center" Background="WhiteSmoke" Click="deleteUser"/>
+                    <Button
+    Width="200"
+    Content="Delete user"
+    Command="{Binding DeleteUserCommand}"
+    Margin="10,15,10,0"
+    FontSize="18"/>
                 </StackPanel>
             </Grid>
 
@@ -508,7 +536,14 @@ ToolTip="Displays the amount of that part in the storage."
 
 
 
-                <DataGrid x:Name="repairDataGrid" Grid.Row="1" Grid.Column="0" SelectionChanged="showInfos" AutoGenerateColumns="False" ColumnWidth="*">
+                <DataGrid
+    Grid.Row="1"
+    Grid.Column="0"
+    ItemsSource="{Binding Repairs}"
+    SelectedItem="{Binding SelectedRepair}"
+    AutoGenerateColumns="False"
+    ColumnWidth="*">
+
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Repair ID"
                             Binding="{Binding repairID}" />
@@ -604,15 +639,24 @@ ToolTip="Indicates if the user required inspection."
                                 </StackPanel>
 
 
-                                <TextBlock x:Name="repairManufacturer" Width="200" Height="20" Grid.Row="0" Grid.Column="1" Margin="5" VerticalAlignment="Center" Padding="0,2"/>
+                                <TextBlock  />
+                                <TextBlock  />
+                                <TextBlock  />
+                                <TextBlock  />
 
-                                <TextBlock x:Name="repairPhoneName" Width="200" Height="20" Grid.Row="1" Grid.Column="1" Margin="5" VerticalAlignment="Center" Padding="0,2"/>
+                                <TextBlock
+    />
 
-                                <TextBlock x:Name="repairAddress" Width="200" Height="40" Grid.Row="2" Grid.RowSpan="2" Grid.Column="1" Margin="5" VerticalAlignment="Center" Padding="0,2"/>
-                                
-                                <TextBlock x:Name="repairPhoneNumber" Width="200" Height="20" Grid.Row="4" Grid.Column="1" Margin="5" VerticalAlignment="Center" Padding="0,2"/>                                
+                                <TextBlock Text="{Binding SelectedRepair.manufacturerName}" x:Name="repairManufacturer" Width="200" Height="20" Grid.Row="0" Grid.Column="1" Margin="5" VerticalAlignment="Center" Padding="0,2"/>
 
-                                <TextBlock x:Name="repairPhoneInspection" Width="200" Height="20" Grid.Row="5" Grid.Column="1" Margin="5"/>                                
+                                <TextBlock Text="{Binding SelectedRepair.phoneName}" x:Name="repairPhoneName" Width="200" Height="20" Grid.Row="1" Grid.Column="1" Margin="5" VerticalAlignment="Center" Padding="0,2"/>
+
+                                <TextBlock Text="{Binding SelectedRepair.address}" x:Name="repairAddress" Width="200" Height="40" Grid.Row="2" Grid.RowSpan="2" Grid.Column="1" Margin="5" VerticalAlignment="Center" Padding="0,2"/>
+
+                                <TextBlock Text="{Binding SelectedRepair.phoneNumber}" x:Name="repairPhoneNumber" Width="200" Height="20" Grid.Row="4" Grid.Column="1" Margin="5" VerticalAlignment="Center" Padding="0,2"/>
+
+                                <TextBlock Text="{Binding SelectedRepair.phoneInspection, Converter={StaticResource InspectionTextConverter}}" Foreground="{Binding SelectedRepair.phoneInspection,
+             Converter={StaticResource InspectionColorConverter}}" x:Name="repairPhoneInspection" Width="200" Height="20" Grid.Row="5" Grid.Column="1" Margin="5"/>                                
 
                                 <Button Width="200" Content="View problem description" FontSize="12" Height="20" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Margin="5" Click="updateStorage"/>
                             </Grid>
@@ -700,8 +744,8 @@ ToolTip="Displays the status of the selected order. (Editable)"
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
                                                 <StackPanel Orientation="Horizontal">
-                                                    <TextBlock Text="{Binding}"
-                                   VerticalAlignment="Center"/>
+                                                <TextBlock Text="{Binding Price, UpdateSourceTrigger=PropertyChanged}"
+                                   VerticalAlignment="Center" />
 
                                                     <Button Content="✖"
                                 Margin="8,0,0,0"
@@ -740,9 +784,17 @@ ToolTip="Displays the status of the selected order. (Editable)"
                     <ColumnDefinition Width="4*"/>
                 </Grid.ColumnDefinitions>
 
+                <DataGrid
+    Grid.Row="1"
+    Grid.Column="0"
+    ItemsSource="{Binding Orders}"
+    SelectedItem="{Binding SelectedOrder}"
+    AutoGenerateColumns="False"
+    ColumnWidth="*"
+    CanUserAddRows="False">
 
 
-                <DataGrid x:Name="orderDataGrid" Grid.Row="1" Grid.Column="0" SelectionChanged="showInfos" AutoGenerateColumns="False" ColumnWidth="*" CanUserAddRows="False" >
+                    
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="E-mail address"
                             Binding="{Binding userEmail}" />
@@ -845,19 +897,21 @@ ToolTip="Displays the ram/storage for the selected order."
                                 <TextBlock Text="Ram / Storage: " FontSize="16" VerticalAlignment="Center"/>
                             </StackPanel>
 
+                                
 
-                                <TextBlock x:Name="orderUserEmail" Width="200" Height="20" Grid.Row="0" Grid.Column="1" Margin="5" VerticalAlignment="Center" Padding="0,2"/>
 
-                                <TextBlock x:Name="orderPhoneName" Width="200" Height="20" Grid.Row="3" Grid.Column="1" Margin="5" VerticalAlignment="Center" Padding="0,2"/>
+                                <TextBlock Text="{Binding SelectedOrder.userEmail}" Width="200" Height="20" Grid.Row="0" Grid.Column="1" Margin="5" VerticalAlignment="Center" Padding="0,2"/>
 
-                                <TextBlock x:Name="orderAddress" Width="200" Height="40" Grid.Row="1" Grid.RowSpan="2" Grid.Column="1" Margin="5" TextWrapping="Wrap" VerticalAlignment="Center" Padding="0,2"/>
+                                <TextBlock Text="{Binding SelectedOrder.phoneName}" Width="200" Height="20" Grid.Row="3" Grid.Column="1" Margin="5" VerticalAlignment="Center" Padding="0,2"/>
 
-                                <TextBlock x:Name="orderPhoneNumber" Width="200" Height="20" Grid.Row="4" Grid.Column="1" Margin="5" VerticalAlignment="Center" Padding="0,2"/>
+                                <TextBlock Text="{Binding SelectedOrder.address}" Width="200" Height="40" Grid.Row="1" Grid.RowSpan="2" Grid.Column="1" Margin="5" TextWrapping="Wrap" VerticalAlignment="Center" Padding="0,2"/>
 
-                                <TextBlock x:Name="orderPhoneColorName" Width="150" Height="20" Grid.Row="5" Grid.Column="1" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="0,2"/>
-                                <TextBlock x:Name="orderPhoneColorHex" Width="50" Height="20" Grid.Row="5" Grid.Column="1" Margin="5" HorizontalAlignment="Right" VerticalAlignment="Center" Padding="0,2"/>
+                                <TextBlock Text="{Binding SelectedOrder.phoneNumber}" Width="200" Height="20" Grid.Row="4" Grid.Column="1" Margin="5" VerticalAlignment="Center" Padding="0,2"/>
 
-                                <TextBlock x:Name="orderPhoneRamStorage" Width="200" Height="20" Grid.Row="6" Grid.Column="1" Margin="5" Padding="0,2"/>
+                                <TextBlock Text="{Binding SelectedOrder.phoneColorName}" Width="150" Height="20" Grid.Row="5" Grid.Column="1" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="0,2"/>
+                                <TextBlock Text="{Binding SelectedOrder.phoneColorHex}" Width="50" Height="20" Grid.Row="5" Grid.Column="1" Margin="5" HorizontalAlignment="Right" VerticalAlignment="Center" Padding="0,2"/>
+
+                                <TextBlock Text="{Binding SelectedOrder.phoneRam}" Width="200" Height="20" Grid.Row="6" Grid.Column="1" Margin="5" Padding="0,2"/>
 
                         </Grid>
 
