@@ -2,8 +2,77 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:PhoneScoutAdmin"
-             StartupUri="Home.xaml">
+             xmlns:vm="clr-namespace:PhoneScoutAdmin.ViewModels"
+             xmlns:views="clr-namespace:PhoneScoutAdmin.Views"
+             StartupUri="ManufacturerHome.xaml">
     <Application.Resources>
-         
+        
+        
+        <!-- Phone -->
+        <DataTemplate DataType="{x:Type vm:PhoneViewModel}">
+            <views:PhoneView/>
+        </DataTemplate>
+
+        <!-- Manufacturer -->
+        <DataTemplate DataType="{x:Type vm:ManufacturerViewModel}">
+            <views:ManufacturerView/>
+        </DataTemplate>
+
+        <!-- User -->
+        <DataTemplate DataType="{x:Type vm:UserViewModel}">
+            <views:UserView/>
+        </DataTemplate>
+
+        <!-- Storage -->
+        <DataTemplate DataType="{x:Type vm:StorageViewModel}">
+            <views:StorageView/>
+        </DataTemplate>
+
+        <!-- Repair -->
+        <DataTemplate DataType="{x:Type vm:RepairViewModel}">
+            <views:RepairView/>
+        </DataTemplate>
+
+        <!-- Order -->
+        <DataTemplate DataType="{x:Type vm:OrderViewModel}">
+            <views:OrderView/>
+        </DataTemplate>
+
+
+
+        <DataTemplate DataType="{x:Type vm:SingleManufacturerViewModel}">
+            <ContentControl>
+                <ContentControl.Style>
+                    <Style TargetType="ContentControl">
+                        <Setter Property="Content"
+                        Value="{Binding}" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsPhoneView}" Value="True">
+                                <Setter Property="ContentTemplate">
+                                    <Setter.Value>
+                                        <DataTemplate>
+                                            <views:PhoneView/>
+                                        </DataTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </DataTrigger>
+
+                            <DataTrigger Binding="{Binding IsManufacturerView}" Value="True">
+                                <Setter Property="ContentTemplate">
+                                    <Setter.Value>
+                                        <DataTemplate>
+                                            <views:ManufacturerView/>
+                                        </DataTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ContentControl.Style>
+            </ContentControl>
+        </DataTemplate>
+
+
+
     </Application.Resources>
 </Application>

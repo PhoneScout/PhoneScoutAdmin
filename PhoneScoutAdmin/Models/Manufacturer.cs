@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PhoneScoutAdmin.Models
 {
-    class Manufacturer
+    public class Manufacturer
     {
         [JsonPropertyName("manufacturerID")]
         public int manufacturerId { get; set; }

@@ -13,7 +13,7 @@ using System.Windows.Input;
 
 namespace PhoneScoutAdmin.ViewModels
 {
-    class ManufacturerViewModel : INotifyPropertyChanged
+    public class ManufacturerViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged(string name)
@@ -33,6 +33,8 @@ namespace PhoneScoutAdmin.ViewModels
             {
                 _selectedManufacturer = value;
                 OnPropertyChanged(nameof(SelectedManufacturer));
+                LoadSelectedManufterIntoFields();
+                RaiseCommandStates();
             }
         }
 
@@ -84,6 +86,22 @@ namespace PhoneScoutAdmin.ViewModels
 
 
         //  LOGIC
+
+        private void LoadSelectedManufterIntoFields()
+        {
+            if (SelectedManufacturer == null)
+            {
+                ManufacturerName = "";
+                ManufacturerEmail = "";
+                ManufacturerURL = "";
+                return;
+            }
+
+            ManufacturerName = SelectedManufacturer.manufacturerName;
+            ManufacturerEmail = SelectedManufacturer.manufacturerEmail;
+            ManufacturerURL = SelectedManufacturer.manufacturerUrl;
+        }
+
 
         private async Task LoadManufacturers()
         {

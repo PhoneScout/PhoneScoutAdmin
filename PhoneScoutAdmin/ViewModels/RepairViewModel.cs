@@ -86,7 +86,7 @@ namespace PhoneScoutAdmin.ViewModels
             SaveRepairCommand = new RelayCommand(async () => await SaveRepair(), () => SelectedRepair != null);
             DeleteRepairCommand = new RelayCommand(async () => await DeleteRepair(), () => SelectedRepair != null);
             AddPartCommand = new RelayCommand(AddPart);
-            RemovePartCommand = new RelayCommand<string>(RemovePart);
+            //RemovePartCommand = new RelayCommand<string>(RemovePart);
         }
 
         private void RaiseCommandStates()

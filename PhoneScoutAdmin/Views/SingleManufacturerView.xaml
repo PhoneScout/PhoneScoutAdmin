@@ -1,0 +1,129 @@
+﻿<UserControl x:Class="PhoneScoutAdmin.Views.SingleManufacturerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Background="LightGray">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <GroupBox Margin="20"
+                  Padding="25"
+                  Header="Modify the manufacturer details"
+                  BorderBrush="#2300B3"
+                  BorderThickness="2"
+                  VerticalAlignment="Center"
+                  HorizontalAlignment="Center">
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- ===================== -->
+                <!-- MANUFACTURER NAME -->
+                <!-- ===================== -->
+
+                <StackPanel Grid.Row="0"
+                            Grid.Column="0"
+                            Orientation="Horizontal"
+                            Margin="5">
+                    <TextBlock Text="ⓘ"
+                               FontSize="16"
+                               Foreground="#2300B3"
+                               VerticalAlignment="Center"
+                               ToolTip="Displays the name of the manufacturer." />
+                    <TextBlock Text="  Manufacturer name:"
+                               FontSize="16"
+                               VerticalAlignment="Center"/>
+                </StackPanel>
+
+                <TextBox Grid.Row="0"
+                         Grid.Column="1"
+                         Width="180"
+                         Margin="5"
+                         Text="{Binding ManufacturerName,
+                                        UpdateSourceTrigger=PropertyChanged}" />
+
+                <!-- ===================== -->
+                <!-- EMAIL -->
+                <!-- ===================== -->
+
+                <StackPanel Grid.Row="1"
+                            Grid.Column="0"
+                            Orientation="Horizontal"
+                            Margin="5">
+                    <TextBlock Text="ⓘ"
+                               FontSize="16"
+                               Foreground="#2300B3"
+                               VerticalAlignment="Center"
+                               ToolTip="Displays the manufacturer's e-mail address." />
+                    <TextBlock Text="  Manufacturer e-mail:"
+                               FontSize="16"
+                               VerticalAlignment="Center"/>
+                </StackPanel>
+
+                <TextBox Grid.Row="1"
+                         Grid.Column="1"
+                         Width="180"
+                         Margin="5"
+                         Text="{Binding ManufacturerEmail,
+                                        UpdateSourceTrigger=PropertyChanged}" />
+
+                <!-- ===================== -->
+                <!-- URL -->
+                <!-- ===================== -->
+
+                <StackPanel Grid.Row="2"
+                            Grid.Column="0"
+                            Orientation="Horizontal"
+                            Margin="5">
+                    <TextBlock Text="ⓘ"
+                               FontSize="16"
+                               Foreground="#2300B3"
+                               VerticalAlignment="Center"
+                               ToolTip="Displays the URL of the manufacturer's official website." />
+                    <TextBlock Text="  Manufacturer URL:"
+                               FontSize="16"
+                               VerticalAlignment="Center"/>
+                </StackPanel>
+
+                <TextBox Grid.Row="2"
+                         Grid.Column="1"
+                         Width="180"
+                         Margin="5"
+                         Text="{Binding ManufacturerUrl,
+                                        UpdateSourceTrigger=PropertyChanged}" />
+
+                <!-- ===================== -->
+                <!-- SAVE -->
+                <!-- ===================== -->
+
+                <Button Grid.Row="3"
+                        Grid.ColumnSpan="2"
+                        Margin="10,20,10,0"
+                        Padding="5"
+                        FontSize="18"
+                        Background="WhiteSmoke"
+                        BorderBrush="#68F145"
+                        BorderThickness="3"
+                        Content="Save changes"
+                        Command="{Binding SaveManufacturerCommand}" />
+
+            </Grid>
+        </GroupBox>
+    </Grid>
+</UserControl>

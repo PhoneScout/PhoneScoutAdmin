@@ -12,7 +12,7 @@ using System.Windows.Input;
 
 namespace PhoneScoutAdmin.ViewModels
 {
-    class StorageViewModel : INotifyPropertyChanged
+    public class StorageViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged(string name)
