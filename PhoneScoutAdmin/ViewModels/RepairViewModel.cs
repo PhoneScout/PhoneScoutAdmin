@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Linq;
 
 namespace PhoneScoutAdmin.ViewModels
 {
@@ -53,21 +54,33 @@ namespace PhoneScoutAdmin.ViewModels
         public int Price
         {
             get => _price;
-            set { _price = value; OnPropertyChanged(nameof(Price)); }
+            set
+            {
+                _price = value;
+                OnPropertyChanged(nameof(Price));
+            }
         }
 
         private ComboItemOrderStorage _selectedStatus;
         public ComboItemOrderStorage SelectedStatus
         {
             get => _selectedStatus;
-            set { _selectedStatus = value; OnPropertyChanged(nameof(SelectedStatus)); }
+            set
+            {
+                _selectedStatus = value;
+                OnPropertyChanged(nameof(SelectedStatus));
+            }
         }
 
         private string _newPart;
         public string NewPart
         {
             get => _newPart;
-            set { _newPart = value; OnPropertyChanged(nameof(NewPart)); }
+            set
+            {
+                _newPart = value;
+                OnPropertyChanged(nameof(NewPart));
+            }
         }
 
         // ======================
@@ -87,6 +100,9 @@ namespace PhoneScoutAdmin.ViewModels
             DeleteRepairCommand = new RelayCommand(async () => await DeleteRepair(), () => SelectedRepair != null);
             AddPartCommand = new RelayCommand(AddPart);
             //RemovePartCommand = new RelayCommand<string>(RemovePart);
+
+            // Load statuses immediately
+            _ = LoadStatuses();
         }
 
         private void RaiseCommandStates()
@@ -96,7 +112,19 @@ namespace PhoneScoutAdmin.ViewModels
         }
 
         // ======================
-        // LOGIC
+        // STATUS SYNC
+        // ======================
+
+        private void SyncSelectedStatus()
+        {
+            if (SelectedRepair == null || Statuses.Count == 0)
+                return;
+
+            SelectedStatus = Statuses.FirstOrDefault(s => s.statusCode == SelectedRepair.status);
+        }
+
+        // ======================
+        // LOAD SELECTED REPAIR
         // ======================
 
         private void LoadSelectedRepairIntoFields()
@@ -111,12 +139,20 @@ namespace PhoneScoutAdmin.ViewModels
             }
 
             Price = SelectedRepair.price;
-            SelectedStatus = Statuses
-                .FirstOrDefault(s => s.statusCode == SelectedRepair.status);
 
-            foreach (var part in SelectedRepair.parts)
-                Parts.Add(part);
+            if (SelectedRepair.parts != null)
+            {
+                foreach (var part in SelectedRepair.parts)
+                    Parts.Add(part);
+            }
+
+            // Sync status after repair is loaded
+            SyncSelectedStatus();
         }
+
+        // ======================
+        // API CALLS
+        // ======================
 
         private async Task LoadRepairs()
         {
@@ -134,12 +170,32 @@ namespace PhoneScoutAdmin.ViewModels
                 Repairs.Add(repair);
         }
 
+        private async Task LoadStatuses()
+        {
+            using HttpClient client = new HttpClient();
+            string url = "http://localhost:5175/api/Profile/GetAllStatuses";
+
+            var response = await client.GetAsync(url);
+            if (!response.IsSuccessStatusCode) return;
+
+            string json = await response.Content.ReadAsStringAsync();
+            var statuses = JsonSerializer.Deserialize<List<ComboItemOrderStorage>>(json);
+
+            Statuses.Clear();
+            foreach (var status in statuses)
+                Statuses.Add(status);
+
+            // Refresh the selected status if a repair is already selected
+            if (SelectedRepair != null)
+                SyncSelectedStatus();
+        }
+
         private async Task SaveRepair()
         {
             if (SelectedRepair == null) return;
 
             SelectedRepair.price = Price;
-            SelectedRepair.status = SelectedStatus.statusCode;
+            SelectedRepair.status = SelectedStatus?.statusCode ?? SelectedRepair.status;
             SelectedRepair.parts = Parts.ToList();
 
             using HttpClient client = new HttpClient();
@@ -163,18 +219,22 @@ namespace PhoneScoutAdmin.ViewModels
             SelectedRepair = null;
         }
 
+        // ======================
+        // PARTS
+        // ======================
+
         private void AddPart()
         {
             if (!string.IsNullOrWhiteSpace(NewPart))
             {
                 Parts.Add(NewPart);
-                NewPart = "";
+                NewPart = string.Empty;
             }
         }
 
         private void RemovePart(string part)
         {
-            if (Parts.Contains(part))
+            if (!string.IsNullOrEmpty(part))
                 Parts.Remove(part);
         }
     }

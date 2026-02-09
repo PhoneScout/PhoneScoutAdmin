@@ -14,32 +14,26 @@
             <ColumnDefinition Width="4*" />
         </Grid.ColumnDefinitions>
 
-        <!-- ===================== -->
-        <!-- REPAIRS DATA GRID -->
-        <!-- ===================== -->
-
+        <!-- REPAIRS GRID -->
         <DataGrid Grid.Row="0"
                   Grid.Column="0"
                   ItemsSource="{Binding Repairs}"
                   SelectedItem="{Binding SelectedRepair}"
                   AutoGenerateColumns="False"
                   CanUserAddRows="False"
-                  ColumnWidth="*"
                   Margin="5">
+
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Repair ID" Binding="{Binding RepairID}" />
-                <DataGridTextColumn Header="E-mail address" Binding="{Binding UserEmail}" />
-                <DataGridTextColumn Header="Manufacturer" Binding="{Binding ManufacturerName}" />
-                <DataGridTextColumn Header="Phone name" Binding="{Binding PhoneName}" />
-                <DataGridTextColumn Header="Price" Binding="{Binding Price}" />
-                <DataGridTextColumn Header="Status" Binding="{Binding Status}" />
+                <DataGridTextColumn Header="ID" Binding="{Binding repairID}" />
+                <DataGridTextColumn Header="Email" Binding="{Binding userEmail}" />
+                <DataGridTextColumn Header="Manufacturer" Binding="{Binding manufacturerName}" />
+                <DataGridTextColumn Header="Phone" Binding="{Binding phoneName}" />
+                <DataGridTextColumn Header="Price" Binding="{Binding price}" />
+                <DataGridTextColumn Header="Status" Binding="{Binding status}" />
             </DataGrid.Columns>
         </DataGrid>
 
-        <!-- ===================== -->
         <!-- RIGHT PANEL -->
-        <!-- ===================== -->
-
         <StackPanel Grid.Row="0"
                     Grid.Column="1"
                     VerticalAlignment="Center">
@@ -79,7 +73,6 @@
 
                     <TextBlock Grid.Row="4" Grid.Column="0" Text="Phone inspection:" FontSize="16" VerticalAlignment="Center"/>
                     <TextBlock Grid.Row="4" Grid.Column="1"
-                               
                                FontSize="16" VerticalAlignment="Center"/>
 
                     <Button Grid.Row="5" Grid.ColumnSpan="2"
@@ -90,12 +83,13 @@
                 </Grid>
             </GroupBox>
 
-            <!-- EDITABLE HIGHLIGHTED INFO -->
+
             <GroupBox Margin="5"
                       Padding="10"
                       Header="Highlighted informations (editable)"
                       BorderBrush="#2300B3"
                       BorderThickness="2">
+
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -104,73 +98,82 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
+
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Price:" FontSize="16" VerticalAlignment="Center"/>
-                    <TextBox Grid.Row="0" Grid.Column="1"
+                    <!-- PRICE -->
+                    <TextBlock Grid.Row="0" Text="Price:" FontSize="16"/>
+                    <TextBox Grid.Row="0"
+                             Grid.Column="1"
                              Width="180"
-                             Text="{Binding EditablePrice, UpdateSourceTrigger=PropertyChanged}"/>
+                             Text="{Binding Price, UpdateSourceTrigger=PropertyChanged}" />
 
-                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Status:" FontSize="16" VerticalAlignment="Center"/>
-                    <ComboBox Grid.Row="1" Grid.Column="1"
+                    <!-- STATUS -->
+                    <TextBlock Grid.Row="1" Text="Status:" FontSize="16"/>
+                    <ComboBox Grid.Row="1"
+                              Grid.Column="1"
                               Width="180"
                               ItemsSource="{Binding Statuses}"
-                              SelectedItem="{Binding SelectedStatus}"/>
+                              DisplayMemberPath="Name"
+                              SelectedItem="{Binding SelectedStatus, Mode=TwoWay}" />
 
-                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Parts:" FontSize="16" VerticalAlignment="Center"/>
-                    <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
-                        <TextBox Width="145" Text="{Binding NewPartName, UpdateSourceTrigger=PropertyChanged}" />
-                        <Button Content="Add" Width="30" Command="{Binding AddPartCommand}" Background="Green"/>
+                    <!-- ADD PART -->
+                    <TextBlock Grid.Row="2" Text="Parts:" FontSize="16"/>
+                    <StackPanel Grid.Row="2"
+                                Grid.Column="1"
+                                Orientation="Horizontal">
+
+                        <TextBox Width="145"
+                                 Text="{Binding NewPart, UpdateSourceTrigger=PropertyChanged}" />
+
+                        <Button Content="Add"
+                                Width="30"
+                                Margin="5,0,0,0"
+                                Command="{Binding AddPartCommand}" />
                     </StackPanel>
 
-                    <ComboBox Grid.Row="3" Grid.Column="1" Width="180"
-                              ItemsSource="{Binding SelectedRepair.Parts}">
+                    <!-- PARTS LIST -->
+                    <ComboBox Grid.Row="3"
+                              Grid.Column="1"
+                              Width="180"
+                              ItemsSource="{Binding Parts}">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="{Binding Name}" VerticalAlignment="Center"/>
-                                    <Button Content="✖" Foreground="Red" Width="20" Margin="5,0,0,0"
-                                            Command="{Binding DataContext.RemovePartCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                    <TextBlock Text="{Binding}" />
+                                    <Button Content="✖"
+                                            Width="20"
+                                            Margin="5,0,0,0"
+                                            Foreground="Red"
+                                            Command="{Binding DataContext.RemovePartCommand,
+                                                      RelativeSource={RelativeSource AncestorType=UserControl}}"
                                             CommandParameter="{Binding}" />
                                 </StackPanel>
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
 
-                    <Button Grid.Row="4" Grid.ColumnSpan="2"
-                            Content="Save datas"
-                            Margin="10,10,10,-20"
-                            Padding="5"
+                    <!-- SAVE -->
+                    <Button Grid.Row="4"
+                            Grid.ColumnSpan="2"
+                            Content="Save"
+                            Margin="10"
                             FontSize="18"
-                            Background="WhiteSmoke"
-                            BorderBrush="#68F145"
-                            BorderThickness="3"
                             Command="{Binding SaveRepairCommand}" />
                 </Grid>
             </GroupBox>
         </StackPanel>
 
-        <!-- ===================== -->
-        <!-- DELETE BUTTON -->
-        <!-- ===================== -->
-
-        <StackPanel Grid.Row="1"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="2"
-                    Orientation="Horizontal"
-                    HorizontalAlignment="Center"
-                    Margin="10">
-            <Button Width="200"
-                    Padding="5"
-                    FontSize="18"
-                    Background="WhiteSmoke"
-                    BorderBrush="Red"
-                    BorderThickness="3"
-                    Content="Delete repair"
-                    Command="{Binding DeleteRepairCommand}" />
-        </StackPanel>
+        <!-- DELETE -->
+        <Button Grid.Row="1"
+                Grid.ColumnSpan="2"
+                Width="200"
+                Margin="10"
+                FontSize="18"
+                Content="Delete repair"
+                Command="{Binding DeleteRepairCommand}" />
     </Grid>
 </UserControl>

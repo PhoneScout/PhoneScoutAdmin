@@ -17,7 +17,6 @@
         <!-- ===================== -->
         <!-- ORDERS DATA GRID -->
         <!-- ===================== -->
-
         <DataGrid Grid.Row="0"
                   Grid.Column="0"
                   ItemsSource="{Binding Orders}"
@@ -27,18 +26,17 @@
                   ColumnWidth="*"
                   Margin="5">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="E-mail address" Binding="{Binding UserEmail}" />
-                <DataGridTextColumn Header="Phone name" Binding="{Binding PhoneName}" />
-                <DataGridTextColumn Header="Price" Binding="{Binding Price}" />
-                <DataGridTextColumn Header="Status" Binding="{Binding Status}" />
-                <DataGridTextColumn Header="Amount" Binding="{Binding Amount}" />
+                <DataGridTextColumn Header="E-mail address" Binding="{Binding userEmail}" />
+                <DataGridTextColumn Header="Phone name" Binding="{Binding phoneName}" />
+                <DataGridTextColumn Header="Price" Binding="{Binding price}" />
+                <DataGridTextColumn Header="Status" Binding="{Binding status}" />
+                <DataGridTextColumn Header="Amount" Binding="{Binding amount}" />
             </DataGrid.Columns>
         </DataGrid>
 
         <!-- ===================== -->
         <!-- RIGHT PANEL -->
         <!-- ===================== -->
-
         <StackPanel Grid.Row="0"
                     Grid.Column="1"
                     VerticalAlignment="Top"
@@ -58,7 +56,6 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -66,25 +63,25 @@
                     </Grid.ColumnDefinitions>
 
                     <TextBlock Grid.Row="0" Grid.Column="0" Text="E-mail address:" FontSize="16" VerticalAlignment="Center"/>
-                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding SelectedOrder.UserEmail}" FontSize="16" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding SelectedOrder.userEmail}" FontSize="16" VerticalAlignment="Center"/>
 
                     <TextBlock Grid.Row="1" Grid.Column="0" Text="Address:" FontSize="16" VerticalAlignment="Center"/>
-                    <TextBlock Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Text="{Binding SelectedOrder.Address}" FontSize="16" TextWrapping="Wrap"/>
+                    <TextBlock Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Text="{Binding SelectedOrder.address}" FontSize="16" TextWrapping="Wrap"/>
 
                     <TextBlock Grid.Row="3" Grid.Column="0" Text="Phone number:" FontSize="16" VerticalAlignment="Center"/>
-                    <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding SelectedOrder.PhoneNumber}" FontSize="16" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding SelectedOrder.phoneNumber}" FontSize="16" VerticalAlignment="Center"/>
 
                     <TextBlock Grid.Row="4" Grid.Column="0" Text="Phone name:" FontSize="16" VerticalAlignment="Center"/>
-                    <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding SelectedOrder.PhoneName}" FontSize="16" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding SelectedOrder.phoneName}" FontSize="16" VerticalAlignment="Center"/>
 
                     <TextBlock Grid.Row="5" Grid.Column="0" Text="Color:" FontSize="16" VerticalAlignment="Center"/>
                     <StackPanel Grid.Row="5" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left">
-                        <TextBlock Text="{Binding SelectedOrder.PhoneColorName}" Margin="0,0,10,0"/>
-                        <TextBlock Text="{Binding SelectedOrder.PhoneColorHex}" Foreground="{Binding SelectedOrder.PhoneColorHex}" FontWeight="Bold"/>
+                        <TextBlock Text="{Binding SelectedOrder.phoneColorName}" Margin="0,0,10,0"/>
+                        <TextBlock Text="{Binding SelectedOrder.phoneColorHex}" Foreground="{Binding SelectedOrder.phoneColorHex}" FontWeight="Bold"/>
                     </StackPanel>
 
                     <TextBlock Grid.Row="6" Grid.Column="0" Text="Ram / Storage:" FontSize="16" VerticalAlignment="Center"/>
-                    <TextBlock Grid.Row="6" Grid.Column="1" Text="{Binding SelectedOrder.PhoneRam}" FontSize="16" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Row="6" Grid.Column="1" Text="{Binding SelectedOrder.phoneRam}" FontSize="16" VerticalAlignment="Center"/>
                 </Grid>
             </GroupBox>
 
@@ -108,17 +105,19 @@
 
                     <TextBlock Grid.Row="0" Grid.Column="0" Text="Price:" FontSize="16" VerticalAlignment="Center"/>
                     <TextBox Grid.Row="0" Grid.Column="1" Width="200"
-                             Text="{Binding EditablePrice, UpdateSourceTrigger=PropertyChanged}"/>
+                             Text="{Binding SelectedOrder.price, UpdateSourceTrigger=PropertyChanged}"/>
 
                     <TextBlock Grid.Row="1" Grid.Column="0" Text="Amount:" FontSize="16" VerticalAlignment="Center"/>
                     <TextBox Grid.Row="1" Grid.Column="1" Width="200"
-                             Text="{Binding EditableAmount, UpdateSourceTrigger=PropertyChanged}"/>
+                             Text="{Binding SelectedOrder.amount, UpdateSourceTrigger=PropertyChanged}"/>
 
                     <TextBlock Grid.Row="2" Grid.Column="0" Text="Status:" FontSize="16" VerticalAlignment="Center"/>
                     <ComboBox Grid.Row="2" Grid.Column="1"
                               Width="200"
                               ItemsSource="{Binding Statuses}"
-                              SelectedItem="{Binding SelectedStatus}"/>
+                              DisplayMemberPath="statusName"
+                              SelectedValuePath="statusCode"
+                              SelectedValue="{Binding SelectedOrder.status, Mode=TwoWay}"/>
 
                     <Button Grid.Row="3" Grid.ColumnSpan="2"
                             Content="Save datas"
@@ -136,7 +135,6 @@
         <!-- ===================== -->
         <!-- DELETE ORDER BUTTON -->
         <!-- ===================== -->
-
         <StackPanel Grid.Row="1"
                     Grid.Column="0"
                     Grid.ColumnSpan="2"

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
@@ -18,17 +19,12 @@ namespace PhoneScoutAdmin.ViewModels
         // ======================
         // DATA
         // ======================
-
-        public ObservableCollection<Order> Orders { get; }
-            = new ObservableCollection<Order>();
-
-        public ObservableCollection<ComboItemOrderStorage> Statuses { get; }
-            = new ObservableCollection<ComboItemOrderStorage>();
+        public ObservableCollection<Order> Orders { get; } = new ObservableCollection<Order>();
+        public ObservableCollection<ComboItemOrderStorage> Statuses { get; } = new ObservableCollection<ComboItemOrderStorage>();
 
         // ======================
         // SELECTION
         // ======================
-
         private Order _selectedOrder;
         public Order SelectedOrder
         {
@@ -37,46 +33,24 @@ namespace PhoneScoutAdmin.ViewModels
             {
                 _selectedOrder = value;
                 OnPropertyChanged(nameof(SelectedOrder));
-                LoadSelectedOrderIntoFields();
                 RaiseCommandStates();
             }
         }
 
         // ======================
-        // EDIT FIELDS
-        // ======================
-
-        private int _price;
-        public int Price
-        {
-            get => _price;
-            set { _price = value; OnPropertyChanged(nameof(Price)); }
-        }
-
-        private int _amount;
-        public int Amount
-        {
-            get => _amount;
-            set { _amount = value; OnPropertyChanged(nameof(Amount)); }
-        }
-
-        private ComboItemOrderStorage _selectedStatus;
-        public ComboItemOrderStorage SelectedStatus
-        {
-            get => _selectedStatus;
-            set { _selectedStatus = value; OnPropertyChanged(nameof(SelectedStatus)); }
-        }
-
-        // ======================
         // COMMANDS
         // ======================
-
         public ICommand LoadOrdersCommand { get; }
         public ICommand SaveOrderCommand { get; }
         public ICommand DeleteOrderCommand { get; }
 
         public OrderViewModel()
         {
+            // Populate status options
+            Statuses.Add(new ComboItemOrderStorage { statusCode = 0, statusName = "Pending" });
+            Statuses.Add(new ComboItemOrderStorage { statusCode = 1, statusName = "Shipped" });
+            Statuses.Add(new ComboItemOrderStorage { statusCode = 2, statusName = "Delivered" });
+
             LoadOrdersCommand = new RelayCommand(async () => await LoadOrders());
             SaveOrderCommand = new RelayCommand(async () => await SaveOrder(), () => SelectedOrder != null);
             DeleteOrderCommand = new RelayCommand(async () => await DeleteOrder(), () => SelectedOrder != null);
@@ -91,24 +65,6 @@ namespace PhoneScoutAdmin.ViewModels
         // ======================
         // LOGIC
         // ======================
-
-        private void LoadSelectedOrderIntoFields()
-        {
-            if (SelectedOrder == null)
-            {
-                Price = 0;
-                Amount = 0;
-                SelectedStatus = null;
-                return;
-            }
-
-            Price = SelectedOrder.price;
-            Amount = SelectedOrder.amount;
-
-            SelectedStatus = Statuses
-                .FirstOrDefault(s => s.statusCode == SelectedOrder.status);
-        }
-
         private async Task LoadOrders()
         {
             using HttpClient client = new HttpClient();
@@ -128,10 +84,6 @@ namespace PhoneScoutAdmin.ViewModels
         private async Task SaveOrder()
         {
             if (SelectedOrder == null) return;
-
-            SelectedOrder.price = Price;
-            SelectedOrder.amount = Amount;
-            SelectedOrder.status = SelectedStatus.statusCode;
 
             using HttpClient client = new HttpClient();
             string url = $"http://localhost:5175/api/Profile/updateOrderStatus/{SelectedOrder.orderID}";
@@ -153,5 +105,29 @@ namespace PhoneScoutAdmin.ViewModels
             Orders.Remove(SelectedOrder);
             SelectedOrder = null;
         }
+    }
+
+    // ======================
+    // SUPPORT CLASSES
+    // ======================
+    public class Order
+    {
+        public int orderID { get; set; }
+        public string userEmail { get; set; }
+        public string address { get; set; }
+        public long phoneNumber { get; set; }
+        public string phoneName { get; set; }
+        public string phoneColorName { get; set; }
+        public string phoneColorHex { get; set; }
+        public int phoneRam { get; set; }
+        public int price { get; set; }
+        public int amount { get; set; }
+        public int status { get; set; } // This is now directly bound to ComboBox.SelectedValue
+    }
+
+    public class ComboItemOrderStorage
+    {
+        public int statusCode { get; set; }
+        public string statusName { get; set; }
     }
 }
