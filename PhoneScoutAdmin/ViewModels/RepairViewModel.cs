@@ -1,12 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using PhoneScoutAdmin.Models;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
-using System.Linq;
 
 namespace PhoneScoutAdmin.ViewModels
 {
@@ -20,14 +22,9 @@ namespace PhoneScoutAdmin.ViewModels
         // DATA
         // ======================
 
-        public ObservableCollection<Repair> Repairs { get; }
-            = new ObservableCollection<Repair>();
-
-        public ObservableCollection<ComboItemOrderStorage> Statuses { get; }
-            = new ObservableCollection<ComboItemOrderStorage>();
-
-        public ObservableCollection<string> Parts { get; }
-            = new ObservableCollection<string>();
+        public ObservableCollection<Repair> Repairs { get; } = new();
+        public ObservableCollection<ComboItemOrderRepair> Statuses { get; } = new();
+        public ObservableCollection<string> Parts { get; } = new();
 
         // ======================
         // SELECTION
@@ -54,33 +51,14 @@ namespace PhoneScoutAdmin.ViewModels
         public int Price
         {
             get => _price;
-            set
-            {
-                _price = value;
-                OnPropertyChanged(nameof(Price));
-            }
-        }
-
-        private ComboItemOrderStorage _selectedStatus;
-        public ComboItemOrderStorage SelectedStatus
-        {
-            get => _selectedStatus;
-            set
-            {
-                _selectedStatus = value;
-                OnPropertyChanged(nameof(SelectedStatus));
-            }
+            set { _price = value; OnPropertyChanged(nameof(Price)); }
         }
 
         private string _newPart;
         public string NewPart
         {
             get => _newPart;
-            set
-            {
-                _newPart = value;
-                OnPropertyChanged(nameof(NewPart));
-            }
+            set { _newPart = value; OnPropertyChanged(nameof(NewPart)); }
         }
 
         // ======================
@@ -95,32 +73,23 @@ namespace PhoneScoutAdmin.ViewModels
 
         public RepairViewModel()
         {
+            Statuses.Add(new ComboItemOrderRepair { statusCode = 0, statusName = "Pending" });
+            Statuses.Add(new ComboItemOrderRepair { statusCode = 1, statusName = "Shipped" });
+            Statuses.Add(new ComboItemOrderRepair { statusCode = 2, statusName = "Delivered" });
+
             LoadRepairsCommand = new RelayCommand(async () => await LoadRepairs());
             SaveRepairCommand = new RelayCommand(async () => await SaveRepair(), () => SelectedRepair != null);
             DeleteRepairCommand = new RelayCommand(async () => await DeleteRepair(), () => SelectedRepair != null);
-            AddPartCommand = new RelayCommand(AddPart);
-            //RemovePartCommand = new RelayCommand<string>(RemovePart);
 
-            // Load statuses immediately
-            _ = LoadStatuses();
+            AddPartCommand = new RelayCommand(AddPart);
+            RemovePartCommand = new RelayCommand<string>(RemovePart);
+
         }
 
         private void RaiseCommandStates()
         {
             (SaveRepairCommand as RelayCommand)?.RaiseCanExecuteChanged();
             (DeleteRepairCommand as RelayCommand)?.RaiseCanExecuteChanged();
-        }
-
-        // ======================
-        // STATUS SYNC
-        // ======================
-
-        private void SyncSelectedStatus()
-        {
-            if (SelectedRepair == null || Statuses.Count == 0)
-                return;
-
-            SelectedStatus = Statuses.FirstOrDefault(s => s.statusCode == SelectedRepair.status);
         }
 
         // ======================
@@ -134,7 +103,6 @@ namespace PhoneScoutAdmin.ViewModels
             if (SelectedRepair == null)
             {
                 Price = 0;
-                SelectedStatus = null;
                 return;
             }
 
@@ -145,49 +113,28 @@ namespace PhoneScoutAdmin.ViewModels
                 foreach (var part in SelectedRepair.parts)
                     Parts.Add(part);
             }
-
-            // Sync status after repair is loaded
-            SyncSelectedStatus();
         }
 
         // ======================
-        // API CALLS
+        // API
         // ======================
 
         private async Task LoadRepairs()
         {
-            using HttpClient client = new HttpClient();
+            using HttpClient client = new();
             string url = "http://localhost:5175/api/Profile/GetAllRepair";
 
             var response = await client.GetAsync(url);
             if (!response.IsSuccessStatusCode) return;
 
-            string json = await response.Content.ReadAsStringAsync();
-            var repairList = JsonSerializer.Deserialize<List<Repair>>(json);
+            var json = await response.Content.ReadAsStringAsync();
+            var list = JsonSerializer.Deserialize<List<Repair>>(json);
 
             Repairs.Clear();
-            foreach (var repair in repairList)
+            foreach (var repair in list)
                 Repairs.Add(repair);
-        }
 
-        private async Task LoadStatuses()
-        {
-            using HttpClient client = new HttpClient();
-            string url = "http://localhost:5175/api/Profile/GetAllStatuses";
 
-            var response = await client.GetAsync(url);
-            if (!response.IsSuccessStatusCode) return;
-
-            string json = await response.Content.ReadAsStringAsync();
-            var statuses = JsonSerializer.Deserialize<List<ComboItemOrderStorage>>(json);
-
-            Statuses.Clear();
-            foreach (var status in statuses)
-                Statuses.Add(status);
-
-            // Refresh the selected status if a repair is already selected
-            if (SelectedRepair != null)
-                SyncSelectedStatus();
         }
 
         private async Task SaveRepair()
@@ -195,23 +142,29 @@ namespace PhoneScoutAdmin.ViewModels
             if (SelectedRepair == null) return;
 
             SelectedRepair.price = Price;
-            SelectedRepair.status = SelectedStatus?.statusCode ?? SelectedRepair.status;
             SelectedRepair.parts = Parts.ToList();
+            // status is already updated via binding (same as Order)
 
-            using HttpClient client = new HttpClient();
+            using HttpClient client = new();
             string url = $"http://localhost:5175/api/Profile/updateRepair/{SelectedRepair.repairID}";
 
-            string json = JsonSerializer.Serialize(SelectedRepair);
+            MessageBox.Show(url);
+
+
+            var json = JsonSerializer.Serialize(SelectedRepair);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            await client.PutAsync(url, content);
+            var response = await client.PutAsync(url, content);
+
+            if (!response.IsSuccessStatusCode)
+                MessageBox.Show(response.Content.ToString());
         }
 
         private async Task DeleteRepair()
         {
             if (SelectedRepair == null) return;
 
-            using HttpClient client = new HttpClient();
+            using HttpClient client = new();
             string url = $"http://localhost:5175/api/Profile/deleteRepair/{SelectedRepair.repairID}";
 
             await client.DeleteAsync(url);

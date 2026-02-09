@@ -51,39 +51,42 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
+
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Manufacturer:" FontSize="16" VerticalAlignment="Center"/>
-                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding SelectedRepair.ManufacturerName}" FontSize="16" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Row="0" Text="Manufacturer:" FontSize="16"/>
+                    <TextBlock Grid.Row="0" Grid.Column="1"
+                               Text="{Binding SelectedRepair.manufacturerName}"
+                               FontSize="16"/>
 
-                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Phone name:" FontSize="16" VerticalAlignment="Center"/>
-                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding SelectedRepair.PhoneName}" FontSize="16" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Row="1" Text="Phone name:" FontSize="16"/>
+                    <TextBlock Grid.Row="1" Grid.Column="1"
+                               Text="{Binding SelectedRepair.phoneName}"
+                               FontSize="16"/>
 
-                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Address:" FontSize="16" VerticalAlignment="Center"/>
-                    <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding SelectedRepair.Address}" FontSize="16" VerticalAlignment="Center" TextWrapping="Wrap"/>
+                    <TextBlock Grid.Row="2" Text="Address:" FontSize="16"/>
+                    <TextBlock Grid.Row="2" Grid.Column="1"
+                               Text="{Binding SelectedRepair.address}"
+                               FontSize="16"
+                               TextWrapping="Wrap"/>
 
-                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Phone number:" FontSize="16" VerticalAlignment="Center"/>
-                    <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding SelectedRepair.PhoneNumber}" FontSize="16" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Row="3" Text="Phone number:" FontSize="16"/>
+                    <TextBlock Grid.Row="3" Grid.Column="1"
+                               Text="{Binding SelectedRepair.phoneNumber}"
+                               FontSize="16"/>
 
-                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Phone inspection:" FontSize="16" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Row="4" Text="Phone inspection:" FontSize="16"/>
                     <TextBlock Grid.Row="4" Grid.Column="1"
-                               FontSize="16" VerticalAlignment="Center"/>
-
-                    <Button Grid.Row="5" Grid.ColumnSpan="2"
-                            Content="View problem description"
-                            FontSize="12"
-                            Margin="5"
-                            Command="{Binding ViewProblemDescriptionCommand}"/>
+                               Text="{Binding SelectedRepair.phoneInspection}"
+                               FontSize="16"/>
                 </Grid>
             </GroupBox>
 
-
+            <!-- EDITABLE -->
             <GroupBox Margin="5"
                       Padding="10"
                       Header="Highlighted informations (editable)"
@@ -111,14 +114,15 @@
                              Width="180"
                              Text="{Binding Price, UpdateSourceTrigger=PropertyChanged}" />
 
-                    <!-- STATUS -->
+                    <!-- STATUS (FIXED LIKE ORDER) -->
                     <TextBlock Grid.Row="1" Text="Status:" FontSize="16"/>
                     <ComboBox Grid.Row="1"
                               Grid.Column="1"
                               Width="180"
                               ItemsSource="{Binding Statuses}"
-                              DisplayMemberPath="Name"
-                              SelectedItem="{Binding SelectedStatus, Mode=TwoWay}" />
+                              DisplayMemberPath="statusName"
+                              SelectedValuePath="statusCode"
+                              SelectedValue="{Binding SelectedRepair.status, Mode=TwoWay}"/>
 
                     <!-- ADD PART -->
                     <TextBlock Grid.Row="2" Text="Parts:" FontSize="16"/>

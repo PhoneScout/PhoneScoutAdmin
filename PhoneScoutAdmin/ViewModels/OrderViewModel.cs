@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using PhoneScoutAdmin.Models;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace PhoneScoutAdmin.ViewModels
@@ -19,8 +20,8 @@ namespace PhoneScoutAdmin.ViewModels
         // ======================
         // DATA
         // ======================
-        public ObservableCollection<Order> Orders { get; } = new ObservableCollection<Order>();
-        public ObservableCollection<ComboItemOrderStorage> Statuses { get; } = new ObservableCollection<ComboItemOrderStorage>();
+        public ObservableCollection<Order> Orders { get; } = new();
+        public ObservableCollection<ComboItemOrderRepair> Statuses { get; } = new();
 
         // ======================
         // SELECTION
@@ -46,10 +47,9 @@ namespace PhoneScoutAdmin.ViewModels
 
         public OrderViewModel()
         {
-            // Populate status options
-            Statuses.Add(new ComboItemOrderStorage { statusCode = 0, statusName = "Pending" });
-            Statuses.Add(new ComboItemOrderStorage { statusCode = 1, statusName = "Shipped" });
-            Statuses.Add(new ComboItemOrderStorage { statusCode = 2, statusName = "Delivered" });
+            Statuses.Add(new ComboItemOrderRepair { statusCode = 0, statusName = "Pending" });
+            Statuses.Add(new ComboItemOrderRepair { statusCode = 1, statusName = "Shipped" });
+            Statuses.Add(new ComboItemOrderRepair { statusCode = 2, statusName = "Delivered" });
 
             LoadOrdersCommand = new RelayCommand(async () => await LoadOrders());
             SaveOrderCommand = new RelayCommand(async () => await SaveOrder(), () => SelectedOrder != null);
@@ -67,7 +67,7 @@ namespace PhoneScoutAdmin.ViewModels
         // ======================
         private async Task LoadOrders()
         {
-            using HttpClient client = new HttpClient();
+            using HttpClient client = new();
             string url = "http://localhost:5175/api/Profile/GetAllOrder";
 
             var response = await client.GetAsync(url);
@@ -85,49 +85,29 @@ namespace PhoneScoutAdmin.ViewModels
         {
             if (SelectedOrder == null) return;
 
-            using HttpClient client = new HttpClient();
-            string url = $"http://localhost:5175/api/Profile/updateOrderStatus/{SelectedOrder.orderID}";
+            using HttpClient client = new();
+            string url = $"http://localhost:5175/api/Profile/updateOrder/{SelectedOrder.orderID}";
 
+            // Send full updated order (change to DTO if backend expects otherwise)
             string json = JsonSerializer.Serialize(SelectedOrder);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            await client.PutAsync(url, content);
+            var response = await client.PutAsync(url, content);
+
+            if (!response.IsSuccessStatusCode)
+                MessageBox.Show("Failed to save order.");
         }
 
         private async Task DeleteOrder()
         {
             if (SelectedOrder == null) return;
 
-            using HttpClient client = new HttpClient();
+            using HttpClient client = new();
             string url = $"http://localhost:5175/api/Profile/deleteOrder/{SelectedOrder.orderID}";
 
             await client.DeleteAsync(url);
             Orders.Remove(SelectedOrder);
             SelectedOrder = null;
         }
-    }
-
-    // ======================
-    // SUPPORT CLASSES
-    // ======================
-    public class Order
-    {
-        public int orderID { get; set; }
-        public string userEmail { get; set; }
-        public string address { get; set; }
-        public long phoneNumber { get; set; }
-        public string phoneName { get; set; }
-        public string phoneColorName { get; set; }
-        public string phoneColorHex { get; set; }
-        public int phoneRam { get; set; }
-        public int price { get; set; }
-        public int amount { get; set; }
-        public int status { get; set; } // This is now directly bound to ComboBox.SelectedValue
-    }
-
-    public class ComboItemOrderStorage
-    {
-        public int statusCode { get; set; }
-        public string statusName { get; set; }
     }
 }
