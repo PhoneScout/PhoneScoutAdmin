@@ -20,7 +20,7 @@
 
         <DataGrid Grid.Row="0"
                   Grid.Column="0"
-                  ItemsSource="{Binding StorageParts}"
+                  ItemsSource="{Binding parts}"
                   SelectedItem="{Binding SelectedPart}"
                   AutoGenerateColumns="True"
                   CanUserAddRows="False"
@@ -86,7 +86,7 @@
                             BorderBrush="#68F145"
                             BorderThickness="3"
                             Content="Save changes"
-                            Command="{Binding UpdateStorageCommand}" />
+                            Command="{Binding SavePartCommand}" />
                 </Grid>
             </GroupBox>
 
@@ -142,7 +142,7 @@
                             BorderBrush="#2300B3"
                             BorderThickness="3"
                             Content="Upload part"
-                            Command="{Binding CreateStorageCommand}" />
+                            Command="{Binding CreatePartCommand}" />
                 </Grid>
             </GroupBox>
         </StackPanel>

@@ -53,23 +53,38 @@ namespace PhoneScoutAdmin.ViewModels
             set { _partAmount = value; OnPropertyChanged(nameof(PartAmount)); }
         }
 
+        private string _newPartName;
+        public string NewPartName
+        {
+            get => _newPartName;
+            set { _newPartName = value; OnPropertyChanged(nameof(NewPartName)); }
+        }
 
+        private int _newPartAmount;
+        public int NewPartAmount
+        {
+            get => _newPartAmount;
+            set { _newPartAmount = value; OnPropertyChanged(nameof(NewPartAmount)); }
+        }
 
 
         public ICommand LoadPartsCommand { get; }
         public ICommand SavePartCommand { get; }
+        public ICommand CreatePartCommand { get; }
         public ICommand DeletePartCommand { get; }
 
         public StorageViewModel()
         {
             LoadPartsCommand = new RelayCommand(async () => await LoadParts());
             SavePartCommand = new RelayCommand(async () => await SavePart(), () => SelectedPart != null);
+            CreatePartCommand = new RelayCommand(async () => await CreatePart());
             DeletePartCommand = new RelayCommand(async () => await DeletePart(), () => SelectedPart != null);
         }
 
         private void RaiseCommandStates()
         {
             (SavePartCommand as RelayCommand)?.RaiseCanExecuteChanged();
+            (CreatePartCommand as RelayCommand)?.RaiseCanExecuteChanged();
             (DeletePartCommand as RelayCommand)?.RaiseCanExecuteChanged();
         }
 
@@ -120,6 +135,35 @@ namespace PhoneScoutAdmin.ViewModels
 
             await client.PutAsync(url, content);
         }
+
+        private async Task CreatePart()
+        {
+            // 1. Create a new object using the "New" properties from your XAML bindings
+            var newPart = new Part // Assuming your class name is Part
+            {
+                partName = NewPartName,
+                partAmount = NewPartAmount
+            };
+
+            using HttpClient client = new HttpClient();
+            string url = "http://localhost:5175/api/wpfStorage";
+
+            // 2. Serialize the new object
+            string json = JsonSerializer.Serialize(newPart);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            // 3. POST to the collection URL
+            var response = await client.PostAsync(url, content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                // Optional: Clear fields after successful upload
+                NewPartName = string.Empty;
+                NewPartAmount = 0;
+            }
+        }
+
+
 
         private async Task DeletePart()
         {

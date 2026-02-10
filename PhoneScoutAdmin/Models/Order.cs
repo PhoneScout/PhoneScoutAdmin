@@ -9,8 +9,11 @@ namespace PhoneScoutAdmin.Models
 {
     public class Order
     {
+        [JsonPropertyName("id")]
+        public int ID { get; set; }
+
         [JsonPropertyName("orderID")]
-        public int orderID { get; set; }
+        public string orderID { get; set; }
 
         [JsonPropertyName("userID")]
         public int userID { get; set; }

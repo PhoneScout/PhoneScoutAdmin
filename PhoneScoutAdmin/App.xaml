@@ -4,7 +4,7 @@
              xmlns:local="clr-namespace:PhoneScoutAdmin"
              xmlns:vm="clr-namespace:PhoneScoutAdmin.ViewModels"
              xmlns:views="clr-namespace:PhoneScoutAdmin.Views"
-             StartupUri="Home.xaml">
+             StartupUri="ManufacturerHome.xaml">
     <Application.Resources>
         
         
