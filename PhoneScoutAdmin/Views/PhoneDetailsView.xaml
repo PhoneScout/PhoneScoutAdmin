@@ -14,6 +14,18 @@
         <DataTemplate DataType="{x:Type vm:SensorsViewModel}">
             <views:SensorsView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:ScreenViewModel}">
+            <views:ScreenView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:ConnectivityViewModel}">
+            <views:ConnectivityView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:BatteryChargingViewModel}">
+            <views:BatteryChargingView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:BodySpeakerViewModel}">
+            <views:BodySpeakerView/>
+        </DataTemplate>
     </Window.Resources>
 
     <DockPanel>
@@ -82,13 +94,13 @@
 
                     <Button Grid.Row="2" Content="Sensors" Margin="15,10,15,0" FontSize="16" Width="180" Padding="5" Background="#80A4CB" Foreground="White" BorderBrush="White" BorderThickness="3" VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding ShowSensorsCommand}"/>
 
-                <Button Grid.Row="3" Content="Screen" Margin="15,10,15,0" FontSize="16" Width="180" Padding="5" Background="#80A4CB" Foreground="White" BorderBrush="White" BorderThickness="3" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <Button Grid.Row="3" Content="Screen" Margin="15,10,15,0" FontSize="16" Width="180" Padding="5" Background="#80A4CB" Foreground="White" BorderBrush="White" BorderThickness="3" VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding ShowScreenCommand}"/>
 
-                <Button Grid.Row="4" Content="Connectivity" Margin="15,10,15,0" FontSize="16" Width="180" Padding="5" Background="#80A4CB" Foreground="White" BorderBrush="White" BorderThickness="3" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <Button Grid.Row="4" Content="Connectivity" Margin="15,10,15,0" FontSize="16" Width="180" Padding="5" Background="#80A4CB" Foreground="White" BorderBrush="White" BorderThickness="3" VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding ShowConnectivityCommand}"/>
 
-                <Button Grid.Row="5" Content="Battery and Charging" Margin="15,10,15,0" FontSize="16" Width="180" Padding="5" Background="#80A4CB" Foreground="White" BorderBrush="White" BorderThickness="3" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <Button Grid.Row="5" Content="Battery and Charging" Margin="15,10,15,0" FontSize="16" Width="180" Padding="5" Background="#80A4CB" Foreground="White" BorderBrush="White" BorderThickness="3" VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding ShowBatteryChargingCommand}"/>
 
-                <Button Grid.Row="6" Content="Body and Speaker" Margin="15,10,15,0" FontSize="16" Width="180" Padding="5" Background="#80A4CB" Foreground="White" BorderBrush="White" BorderThickness="3" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <Button Grid.Row="6" Content="Body and Speaker" Margin="15,10,15,0" FontSize="16" Width="180" Padding="5" Background="#80A4CB" Foreground="White" BorderBrush="White" BorderThickness="3" VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding ShowBodySpeakerCommand}"/>
 
                 <Button Grid.Row="7" Content="Camera" Margin="15,10,15,0" FontSize="16" Width="180" Padding="5" Background="#80A4CB" Foreground="White" BorderBrush="White" BorderThickness="3" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 

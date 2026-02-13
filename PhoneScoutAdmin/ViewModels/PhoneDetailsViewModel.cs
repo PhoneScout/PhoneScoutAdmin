@@ -13,6 +13,10 @@ namespace PhoneScoutAdmin
         // SECTION VMs
         public CPUdetailsViewModel CpuVM { get; } = new CPUdetailsViewModel();
         public SensorsViewModel SensorsVM { get; } = new SensorsViewModel();
+        public ScreenViewModel ScreenVM { get; } = new ScreenViewModel();
+        public ConnectivityViewModel ConnectivityVM { get; } = new ConnectivityViewModel();
+        public BatteryChargingViewModel BatteryChargingVM { get; } = new BatteryChargingViewModel();
+        public BodySpeakerViewModel BodySpeakerVM { get; } = new BodySpeakerViewModel();
         // Add others later...
 
         private object _currentViewModel;
@@ -29,13 +33,21 @@ namespace PhoneScoutAdmin
         // COMMANDS
         public ICommand ShowCpuCommand { get; }
         public ICommand ShowSensorsCommand { get; }
+        public ICommand ShowScreenCommand { get; }
+        public ICommand ShowConnectivityCommand { get; }
+        public ICommand ShowBatteryChargingCommand { get; }
+        public ICommand ShowBodySpeakerCommand { get; }
 
-        public double TotalProgress => CpuVM.Progress + SensorsVM.Progress; // expand later
+        public double TotalProgress => CpuVM.Progress + SensorsVM.Progress + ConnectivityVM.Progress + ScreenVM.Progress; // expand later
 
         public PhoneDetailsViewModel()
         {
             ShowCpuCommand = new RelayCommand(() => CurrentViewModel = CpuVM);
             ShowSensorsCommand = new RelayCommand(() => CurrentViewModel = SensorsVM);
+            ShowConnectivityCommand = new RelayCommand(() => CurrentViewModel = ConnectivityVM);
+            ShowScreenCommand = new RelayCommand(() => CurrentViewModel = ScreenVM);
+            ShowBatteryChargingCommand = new RelayCommand(() => CurrentViewModel = BatteryChargingVM);
+            ShowBodySpeakerCommand = new RelayCommand(() => CurrentViewModel = BodySpeakerVM);
 
             CpuVM.PropertyChanged += (s, e) =>
             {
@@ -45,6 +57,26 @@ namespace PhoneScoutAdmin
             SensorsVM.PropertyChanged += (s, e) =>
             {
                 if (e.PropertyName == nameof(SensorsVM.Progress))
+                    OnPropertyChanged(nameof(TotalProgress));
+            };
+            ConnectivityVM.PropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName == nameof(ConnectivityVM.Progress))
+                    OnPropertyChanged(nameof(TotalProgress));
+            };
+            ScreenVM.PropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName == nameof(ScreenVM.Progress))
+                    OnPropertyChanged(nameof(TotalProgress));
+            };
+            BatteryChargingVM.PropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName == nameof(BatteryChargingVM.Progress))
+                    OnPropertyChanged(nameof(TotalProgress));
+            };
+            BodySpeakerVM.PropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName == nameof(BodySpeakerVM.Progress))
                     OnPropertyChanged(nameof(TotalProgress));
             };
 
