@@ -1,0 +1,75 @@
+﻿<UserControl x:Class="PhoneScoutAdmin.Views.ImageView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Background="LightGray">
+
+    <Grid Margin="15">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="5*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- LEFT COLUMN -->
+        <GroupBox Header="Image Controls"
+                  Grid.Column="0"
+                  Margin="5"
+                  Padding="15"
+                  BorderBrush="#2300B3"
+                  BorderThickness="2">
+
+            <StackPanel>
+                <Button Content="Add Images"
+                        Height="35"
+                        Margin="5"
+                        Command="{Binding AddImageCommand}"/>
+
+                <TextBlock Text="You can upload multiple images."
+                           Margin="5"
+                           TextWrapping="Wrap"/>
+            </StackPanel>
+        </GroupBox>
+
+        <!-- RIGHT COLUMN -->
+        <GroupBox Header="Preview"
+                  Grid.Column="1"
+                  Margin="5"
+                  Padding="10"
+                  BorderBrush="#68F145"
+                  BorderThickness="2">
+
+            <ScrollViewer>
+                <ItemsControl ItemsSource="{Binding Images}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="8">
+                                <Border BorderBrush="Gray"
+                                        BorderThickness="1"
+                                        CornerRadius="5">
+                                    <Image Source="{Binding Preview}"
+                                           Width="150"
+                                           Height="150"
+                                           Stretch="UniformToFill"/>
+                                </Border>
+
+                                <Button Content="X"
+                                        Width="25"
+                                        Height="25"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Top"
+                                        Command="{Binding DataContext.RemoveImageCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                        CommandParameter="{Binding}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+
+        </GroupBox>
+    </Grid>
+</UserControl>
