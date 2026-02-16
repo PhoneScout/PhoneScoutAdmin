@@ -46,7 +46,7 @@ namespace PhoneScoutAdmin.ViewModels
         {
             var cam = new RamStorageViewModel
             {
-                Name = $"Camera {RamStorages.Count + 1}"
+                RamAmount = SelectedRamStorage.RamAmount
             };
 
             RamStorages.Add(cam);

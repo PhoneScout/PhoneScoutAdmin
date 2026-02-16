@@ -8,7 +8,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="350"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         
@@ -17,13 +17,102 @@
 
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="100"/>
+                    <RowDefinition Height="150"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
 
                 <WrapPanel Grid.Row="0">
-                    
+                    <GroupBox Grid.Row="0"
+         Grid.Column="1"
+         Margin="5"
+         Padding="25"
+         Header="Modify the ram speed and storage speed details"
+         BorderBrush="#2300B3"
+         BorderThickness="2"
+         VerticalAlignment="Center">
+
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+
+                            </Grid.RowDefinitions>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Name -->
+                            <StackPanel Grid.Row="0"
+       Grid.Column="0"
+       Orientation="Horizontal"
+       VerticalAlignment="Center">
+
+
+
+                                <TextBlock Text="ℹ"
+          FontSize="14"
+          Foreground="DodgerBlue"
+          Cursor="Hand"
+          VerticalAlignment="Center"
+                          ToolTipService.InitialShowDelay="500">
+
+                                    <TextBlock.ToolTip>
+                                        <ToolTip>
+                                            The manufacturer name of the CPU (e.g., Intel, AMD).
+                                        </ToolTip>
+                                    </TextBlock.ToolTip>
+
+                                </TextBlock>
+                                <TextBlock Text="Ram speed:"
+          Margin="5,5,2,5"
+          FontSize="16"
+          VerticalAlignment="Center"/>
+                            </StackPanel>
+
+                            <TextBox Grid.Row="0"
+Grid.Column="1"
+Width="180"
+Margin="5"
+Text="{Binding RamSpeed, UpdateSourceTrigger=PropertyChanged}" />
+
+                            <!-- URL -->
+                            <StackPanel Grid.Row="1"
+       Grid.Column="0"
+       Orientation="Horizontal"
+       VerticalAlignment="Center">
+
+
+
+                                <TextBlock Text="ℹ"
+          FontSize="14"
+          Foreground="DodgerBlue"
+          Cursor="Hand"
+          VerticalAlignment="Center" ToolTipService.InitialShowDelay="500">
+
+                                    <TextBlock.ToolTip>
+                                        <ToolTip>
+                                            The manufacturer name of the CPU (e.g., Intel, AMD).
+                                        </ToolTip>
+                                    </TextBlock.ToolTip>
+
+                                </TextBlock>
+                                <TextBlock Text="Storage speed:"
+          Margin="5,5,2,5"
+          FontSize="16"
+          VerticalAlignment="Center"/>
+                            </StackPanel>
+
+                            <TextBox Grid.Row="1"
+                Grid.Column="1"
+                Width="180"
+                Margin="5"
+                Text="{Binding StorageSpeed, UpdateSourceTrigger=PropertyChanged}" />
+
+                        </Grid>
+                    </GroupBox>
                 </WrapPanel>
                 <WrapPanel Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Center">
                     <Button Content="Add Ram / Storage"

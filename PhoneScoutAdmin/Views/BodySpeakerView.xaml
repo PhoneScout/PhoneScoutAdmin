@@ -13,7 +13,7 @@
               Grid.Column="1"
               Margin="5"
               Padding="25"
-              Header="Modify the CPU details"
+              Header="Modify the body and speaker details"
               BorderBrush="#2300B3"
               BorderThickness="2"
               VerticalAlignment="Center">
@@ -67,7 +67,7 @@
      Grid.Column="1"
      Width="180"
      Margin="5"
-     Text="{Binding ManufacturerUrl, UpdateSourceTrigger=PropertyChanged}" />
+     Text="{Binding BodyHeight, UpdateSourceTrigger=PropertyChanged}" />
 
                 <!-- URL -->
                 <StackPanel Grid.Row="1"
@@ -100,7 +100,7 @@
                      Grid.Column="1"
                      Width="180"
                      Margin="5"
-                     Text="{Binding ManufacturerUrl, UpdateSourceTrigger=PropertyChanged}" />
+                     Text="{Binding BodyWidth, UpdateSourceTrigger=PropertyChanged}" />
 
                 <!-- Email -->
                 <StackPanel Grid.Row="2"
@@ -133,7 +133,7 @@
                      Grid.Column="1"
                      Width="180"
                      Margin="5"
-                     Text="{Binding ManufacturerEmail, UpdateSourceTrigger=PropertyChanged}" />
+                     Text="{Binding BodyThickness, UpdateSourceTrigger=PropertyChanged}" />
 
                 <StackPanel Grid.Row="3"
             Grid.Column="0"
@@ -165,7 +165,7 @@
      Grid.Column="1"
      Width="180"
      Margin="5"
-     Text="{Binding ManufacturerEmail, UpdateSourceTrigger=PropertyChanged}" />
+     Text="{Binding WaterproofType, UpdateSourceTrigger=PropertyChanged}" />
 
                 <StackPanel Grid.Row="4"
             Grid.Column="0"
@@ -197,7 +197,7 @@
      Grid.Column="1"
      Width="180"
      Margin="5"
-     Text="{Binding ManufacturerEmail, UpdateSourceTrigger=PropertyChanged}" />
+     Text="{Binding BodyBackMaterial, UpdateSourceTrigger=PropertyChanged}" />
 
                 <StackPanel Grid.Row="5"
        Grid.Column="0"
@@ -229,19 +229,9 @@
 Grid.Column="1"
 Width="180"
 Margin="5"
-Text="{Binding ManufacturerEmail, UpdateSourceTrigger=PropertyChanged}" />
+Text="{Binding SpeakerType, UpdateSourceTrigger=PropertyChanged}" />
 
-                <!-- Save -->
-                <Button Grid.Row="6"
-                    Grid.ColumnSpan="2"
-                    Margin="10,15,10,0"
-                    Padding="5"
-                    FontSize="18"
-                    Background="WhiteSmoke"
-                    BorderBrush="#68F145"
-                    BorderThickness="3"
-                    Content="Save changes"
-                    Command="{Binding SaveManufacturerCommand}" />
+                
             </Grid>
         </GroupBox>
 

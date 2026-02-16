@@ -142,7 +142,7 @@
                     
                     <Button Grid.Row="10" Content="Images" Margin="15,10,15,0" FontSize="16" Width="180" Padding="5" Background="#80A4CB" Foreground="White" BorderBrush="White" BorderThickness="3" VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding ShowImagesCommand}"/>
 
-                    <Button Grid.Row="11" Content="load" Margin="15,10,15,0" FontSize="16" Width="180" Padding="5" Background="#80A4CB" Foreground="White" BorderBrush="White" BorderThickness="3" VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding LoadPhoneCommand}" CommandParameter="1"/>
+                    <Button Grid.Row="11" Content="save" Margin="15,10,15,0" FontSize="16" Width="180" Padding="5" Background="#80A4CB" Foreground="White" BorderBrush="White" BorderThickness="3" VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding SavePhoneCommand}" CommandParameter="1"/>
 
 
 

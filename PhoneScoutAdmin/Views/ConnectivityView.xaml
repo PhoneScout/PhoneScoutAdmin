@@ -68,7 +68,7 @@
      Grid.Column="1"
      Width="180"
      Margin="5"
-     Text="{Binding ManufacturerUrl, UpdateSourceTrigger=PropertyChanged}" />
+     Text="{Binding Wifi, UpdateSourceTrigger=PropertyChanged}" />
 
                 <!-- URL -->
                 <StackPanel Grid.Row="1"
@@ -101,7 +101,7 @@
                      Grid.Column="1"
                      Width="180"
                      Margin="5"
-                     Text="{Binding ManufacturerUrl, UpdateSourceTrigger=PropertyChanged}" />
+                     Text="{Binding Bluetooth, UpdateSourceTrigger=PropertyChanged}" />
 
                 <!-- Email -->
                 <StackPanel Grid.Row="2"
@@ -134,7 +134,7 @@
                      Grid.Column="1"
                      Width="180"
                      Margin="5"
-                     Text="{Binding ManufacturerEmail, UpdateSourceTrigger=PropertyChanged}" />
+                     Text="{Binding MobileNetwork, UpdateSourceTrigger=PropertyChanged}" />
 
                 <StackPanel Grid.Row="3"
             Grid.Column="0"
@@ -166,7 +166,7 @@
      Grid.Column="1"
      Width="180"
      Margin="5"
-     Text="{Binding ManufacturerEmail, UpdateSourceTrigger=PropertyChanged}" />
+     Text="{Binding DualSim, UpdateSourceTrigger=PropertyChanged}" />
 
                 <StackPanel Grid.Row="4"
             Grid.Column="0"
@@ -198,7 +198,7 @@
 Grid.Column="1"
 Margin="5"
 HorizontalAlignment="Left"
-IsChecked="{Binding PhoneInStore}" />
+IsChecked="{Binding ESim}" />
 
 
                 <StackPanel Grid.Row="5"
@@ -231,7 +231,7 @@ IsChecked="{Binding PhoneInStore}" />
 Grid.Column="1"
 Margin="5"
 HorizontalAlignment="Left"
-IsChecked="{Binding PhoneInStore}" />
+IsChecked="{Binding Nfc}" />
 
                 <StackPanel Grid.Row="6"
        Grid.Column="0"
@@ -263,7 +263,7 @@ IsChecked="{Binding PhoneInStore}" />
 Grid.Column="1"
 Margin="5"
 HorizontalAlignment="Left"
-IsChecked="{Binding PhoneInStore}" />
+IsChecked="{Binding Jack}" />
 
                 <StackPanel Grid.Row="7"
        Grid.Column="0"
@@ -295,7 +295,7 @@ IsChecked="{Binding PhoneInStore}" />
 Grid.Column="1"
 Width="180"
 Margin="5"
-Text="{Binding ManufacturerEmail, UpdateSourceTrigger=PropertyChanged}" />
+Text="{Binding ConnectionSpeed, UpdateSourceTrigger=PropertyChanged}" />
 
 
                 

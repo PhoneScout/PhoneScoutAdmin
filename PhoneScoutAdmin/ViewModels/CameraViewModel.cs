@@ -14,39 +14,70 @@ namespace PhoneScoutAdmin.ViewModels
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
 
-        private string _name;
-        public string Name
+        private string _cameraName;
+        public string CameraName
         {
-            get => _name;
+            get => _cameraName;
             set
             {
-                _name = value;
-                OnPropertyChanged(nameof(Name));
+                _cameraName = value;
+                OnPropertyChanged(nameof(CameraName));
             }
         }
 
-        private string _resolution;
-        public string Resolution
+        private string _cameraResolution;
+        public string CameraResolution
         {
-            get => _resolution;
+            get => _cameraResolution;
             set
             {
-                _resolution = value;
-                OnPropertyChanged(nameof(Resolution));
+                _cameraResolution = value;
+                OnPropertyChanged(nameof(CameraResolution));
             }
         }
 
-        private double _megapixels;
-        public double Megapixels
+        private string _cameraAperture;
+        public string CameraAperture
         {
-            get => _megapixels;
+            get => _cameraAperture;
             set
             {
-                _megapixels = value;
-                OnPropertyChanged(nameof(Megapixels));
+                _cameraAperture = value;
+                OnPropertyChanged(nameof(CameraAperture));
             }
         }
 
-        
+        private int _cameraFocalLength;
+        public int CameraFocalLength
+        {
+            get => _cameraFocalLength;
+            set
+            {
+                _cameraFocalLength = value;
+                OnPropertyChanged(nameof(CameraFocalLength));
+            }
+        }
+
+        private string _cameraOIS;
+        public string CameraOIS
+        {
+            get => _cameraOIS;
+            set
+            {
+                _cameraOIS = value;
+                OnPropertyChanged(nameof(CameraOIS));
+            }
+        }
+
+        private string _cameraType;
+        public string CameraType
+        {
+            get => _cameraType;
+            set
+            {
+                _cameraType = value;
+                OnPropertyChanged(nameof(CameraType));
+            }
+        }
     }
 }

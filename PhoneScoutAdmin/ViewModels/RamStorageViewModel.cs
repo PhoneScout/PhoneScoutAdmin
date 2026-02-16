@@ -14,36 +14,47 @@ namespace PhoneScoutAdmin.ViewModels
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
 
-        private string _name;
-        public string Name
+        private int _ramAmount;
+        public int RamAmount
         {
-            get => _name;
+            get => _ramAmount;
             set
             {
-                _name = value;
-                OnPropertyChanged(nameof(Name));
+                _ramAmount = value;
+                OnPropertyChanged(nameof(RamAmount));
             }
         }
 
-        private string _resolution;
-        public string Resolution
+        private int _storageAmount;
+        public int StorageAmount
         {
-            get => _resolution;
+            get => _storageAmount;
             set
             {
-                _resolution = value;
-                OnPropertyChanged(nameof(Resolution));
+                _storageAmount = value;
+                OnPropertyChanged(nameof(StorageAmount));
             }
         }
 
-        private double _megapixels;
-        public double Megapixels
+        private string _ramSpeed;
+        public string RamSpeed
         {
-            get => _megapixels;
+            get => _ramSpeed;
             set
             {
-                _megapixels = value;
-                OnPropertyChanged(nameof(Megapixels));
+                _ramSpeed = value;
+                OnPropertyChanged(nameof(RamSpeed));
+            }
+        }
+
+        private string _storageSpeed;
+        public string StorageSpeed
+        {
+            get => _storageSpeed;
+            set
+            {
+                _storageSpeed = value;
+                OnPropertyChanged(nameof(_storageSpeed));
             }
         }
 

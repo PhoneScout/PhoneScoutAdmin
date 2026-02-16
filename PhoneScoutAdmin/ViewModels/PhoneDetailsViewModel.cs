@@ -26,6 +26,7 @@ namespace PhoneScoutAdmin
         public CameraSectionViewModel CameraSectionVM { get; } = new CameraSectionViewModel();
         public ColorSectionViewModel ColorSectionVM { get; } = new ColorSectionViewModel();
         public RamStorageSectionViewModel RamStorageSectionVM { get; } = new RamStorageSectionViewModel();
+        public RamStorageViewModel RamStorageVM { get; } = new RamStorageViewModel();
         public ImageViewModel ImageVM { get; } = new ImageViewModel();
 
 
@@ -143,7 +144,7 @@ namespace PhoneScoutAdmin
                 if (e.PropertyName == nameof(ImageVM.Progress))
                     OnPropertyChanged(nameof(TotalProgress));
             };
-            
+
 
             // Default view
             CurrentViewModel = GeneralInfosVM;
@@ -182,114 +183,147 @@ namespace PhoneScoutAdmin
         {
             // GENERAL
             GeneralInfosVM.PhoneName = phone.phoneName;
-            //GeneralInfosVM.PhoneAntutu = phone.phoneAntutu;
-            //GeneralInfosVM.PhoneReleaseDate = phone.phoneReleaseDate;
-            //GeneralInfosVM.PhonePrice = phone.phonePrice;
+            GeneralInfosVM.PhonePrice = phone.phonePrice.ToString();
+            GeneralInfosVM.PhoneWeight = phone.phoneWeight.ToString();
+            GeneralInfosVM.ManufacturerName = phone.manufacturerName;
+            GeneralInfosVM.ReleaseDate = phone.phoneReleaseDate.ToString();
+            GeneralInfosVM.PhoneInStore = phone.phoneInStore;
 
-            // BATTERY
-            BatteryChargingVM.BatteryCapacity = phone.batteryCapacity?.ToString();
-            BatteryChargingVM.MaxWiredCharging = phone.batteryMaxChargingWired?.ToString();
-            BatteryChargingVM.MaxWirelessCharging = phone.batteryMaxChargingWireless?.ToString();
-            BatteryChargingVM.BatteryType = phone.batteryType;
-            BatteryChargingVM.ChargerType = phone.chargerType;
-
-            // CPU
+            //CPU
             CpuVM.CpuName = phone.cpuName;
-            /*CpuVM.CpuClock = phone.cpuClock;
-            CpuVM.CpuCores = phone.cpuCores;
-            CpuVM.CpuTech = phone.cpuTech;
+            CpuVM.AntutuScore = phone.phoneAntutu.ToString();
+            CpuVM.ClockSpeed = phone.cpuClock.ToString();
+            CpuVM.CoreNumber = phone.cpuCores.ToString();
+            CpuVM.ManufacturingTech = phone.cpuTech.ToString();
 
-            // SCREEN
-            ScreenVM.ScreenSize = phone.screenSize;
-            ScreenVM.ScreenRefreshRate = phone.screenRefreshRate;
-            ScreenVM.ScreenMaxBrightness = phone.screenMaxBrightness;
-            ScreenVM.ScreenSharpness = phone.screenSharpness;
+            //SENSORS
+            SensorsVM.FinSenPlace = phone.fingerprintPlace;
+            SensorsVM.FinSenType = phone.fingerprintType;
+            SensorsVM.Infrared = phone.sensorsInfrared;
+
+            //SCREEN
             ScreenVM.ScreenType = phone.screenType;
+            ScreenVM.ScreenResH = phone.phoneResolutionHeight.ToString();
+            ScreenVM.ScreenResW = phone.phoneResolutionWidth.ToString();
+            ScreenVM.ScreenSize = phone.screenSize.ToString();
+            ScreenVM.ScreenRefreshRate = phone.screenRefreshRate.ToString();
+            ScreenVM.ScreenMaxBrightness = phone.screenMaxBrightness.ToString();
 
-            // CONNECTIVITY
-            ConnectivityVM.MaxWifi = phone.connectionMaxWifi;
-            ConnectivityVM.MaxBluetooth = phone.connectionMaxBluetooth;
-            ConnectivityVM.MaxMobileNetwork = phone.connectionMaxMobileNetwork;
-            ConnectivityVM.DualSim = phone.connectionDualSim;
-            ConnectivityVM.Esim = phone.connectionEsim;
-            ConnectivityVM.Nfc = phone.connectionNfc;
-            ConnectivityVM.ConnectionSpeed = phone.connectionConnectionSpeed;
-            ConnectivityVM.Jack = phone.connectionJack;
+            //CONNECTIVITY
+            ConnectivityVM.Wifi = phone.connectionMaxWifi.ToString();
+            ConnectivityVM.Bluetooth = phone.connectionMaxBluetooth.ToString();
+            ConnectivityVM.MobileNetwork = phone.connectionMaxMobileNetwork.ToString();
+            ConnectivityVM.DualSim = phone.connectionDualSim.ToString();
+            ConnectivityVM.ESim = phone.connectionEsim.ToString();
+            ConnectivityVM.Nfc = phone.connectionNfc.ToString();
+            ConnectivityVM.Jack = phone.connectionJack.ToString();
+            ConnectivityVM.ConnectionSpeed = phone.connectionConnectionSpeed.ToString();
 
-            // COLLECTIONS
+            //BATTERY
+            BatteryChargingVM.BatteryCapacity = phone.batteryCapacity.ToString();
+            BatteryChargingVM.BatteryType = phone.batteryType;
+            BatteryChargingVM.MaxWiredCharging = phone.batteryMaxChargingWired.ToString();
+            BatteryChargingVM.MaxWirelessCharging = phone.batteryMaxChargingWireless.ToString();
+            BatteryChargingVM.BatteryType = phone.batteryType;
+
+            //BODY SPEAKER
+            BodySpeakerVM.BodyHeight = phone.caseHeight.ToString();
+            BodySpeakerVM.BodyWidth = phone.caseWidth.ToString();
+            BodySpeakerVM.BodyThickness = phone.caseThickness.ToString();
+            BodySpeakerVM.WaterproofType = phone.waterproofType;
+            BodySpeakerVM.BodyBackMaterial = phone.backMaterial;
+            BodySpeakerVM.SpeakerType = phone.speakerType;
+
+            //COLORS
             ColorSectionVM.Colors.Clear();
+
             foreach (var color in phone.colors ?? new List<Color>())
-                ColorSectionVM.Colors.Add(color);
+            {
+                ColorSectionVM.Colors.Add(new ColorViewModel
+                {
+                    ColorName = color.colorName,
+                    ColorHex = color.colorHex
+                });
+            }
 
             CameraSectionVM.Cameras.Clear();
-            foreach (var cam in phone.cameras ?? new List<Camera>())
-                CameraSectionVM.Cameras.Add(cam);
 
-            RamStorageSectionVM.RamStoragePairs.Clear();
-            foreach (var pair in phone.ramStoragePairs ?? new List<RamStorage>())
-                RamStorageSectionVM.RamStoragePairs.Add(pair);*/
+            foreach (var camera in phone.cameras ?? new List<Camera>())
+            {
+                CameraSectionVM.Cameras.Add(new CameraViewModel
+                {
+                    CameraName = camera.cameraName,
+                    CameraResolution = camera.cameraResolution.ToString(),
+                    CameraAperture = camera.cameraAperture.ToString(),
+                    CameraFocalLength = camera.cameraFocalLength,
+                    CameraOIS = camera.cameraOis.ToString(),
+                    CameraType = camera.cameraType.ToString(),
+                });
+            }
+
+
+            RamStorageVM.RamSpeed = phone.ramSpeed;
+            RamStorageVM.StorageSpeed = phone.storageSpeed;
+
+            RamStorageSectionVM.RamStorages.Clear();
+
+            foreach (var ramStorage in phone.ramStoragePairs ?? new List<RamStorage>())
+            {
+                RamStorageSectionVM.RamStorages.Add(new RamStorageViewModel
+                {
+                    RamAmount = ramStorage.ramAmount,
+                    StorageAmount = ramStorage.storageAmount,
+                });
+            }
+
+
+
         }
 
 
         private async Task CreatePhone()
         {
-            var newPhone = new FullPhone
+            try
             {
-                // GENERAL INFO
-                phoneName = GeneralInfosVM.PhoneName,
-                phonePrice = int.Parse(GeneralInfosVM.PhonePrice),
-                manufacturerName = GeneralInfosVM.ManufacturerName,
-                phoneWeight = decimal.Parse(GeneralInfosVM.PhoneWeight),
-                phoneReleaseDate = DateOnly.Parse(GeneralInfosVM.ReleaseDate),
-                phoneInStore = GeneralInfosVM.PhoneInStore,
+                
 
-                // BATTERY
-                batteryCapacity = int.TryParse(BatteryChargingVM.BatteryCapacity, out var cap) ? cap : null,
-                batteryMaxChargingWired = int.TryParse(BatteryChargingVM.MaxWiredCharging, out var wired) ? wired : null,
-                batteryMaxChargingWireless = int.TryParse(BatteryChargingVM.MaxWirelessCharging, out var wireless) ? wireless : null,
-                batteryType = BatteryChargingVM.BatteryType,
-                chargerType = BatteryChargingVM.ChargerType,
+                var newPhone = new FullPhone
+                {
+                    phoneName = GeneralInfosVM.PhoneName,
+                    //phonePrice = price,
+                    manufacturerName = GeneralInfosVM.ManufacturerName,
+                    //phoneWeight = weight,
+                    //phoneReleaseDate = releaseDate,
+                    phoneInStore = GeneralInfosVM.PhoneInStore,
 
-                // CPU
-                /*cpuName = CpuVM.CpuName,
-                cpuClock = CpuVM.CpuClock,
-                cpuCores = CpuVM.CpuCores,
-                cpuTech = CpuVM.CpuTech,
+                    batteryCapacity = int.TryParse(BatteryChargingVM.BatteryCapacity, out var cap) ? cap : null,
+                    batteryMaxChargingWired = int.TryParse(BatteryChargingVM.MaxWiredCharging, out var wired) ? wired : null,
+                    batteryMaxChargingWireless = int.TryParse(BatteryChargingVM.MaxWirelessCharging, out var wireless) ? wireless : null,
+                    batteryType = BatteryChargingVM.BatteryType,
+                    chargerType = BatteryChargingVM.ChargerType,
+                };
 
-                // SCREEN
-                screenSize = ScreenVM.ScreenSize,
-                screenRefreshRate = ScreenVM.ScreenRefreshRate,
-                screenMaxBrightness = ScreenVM.ScreenMaxBrightness,
-                screenSharpness = ScreenVM.ScreenSharpness,
-                screenType = ScreenVM.ScreenType,
+                using HttpClient client = new HttpClient();
+                string url = "http://localhost:5175/api/phones";
 
-                // CONNECTIVITY
-                connectionMaxWifi = ConnectivityVM.MaxWifi,
-                connectionMaxBluetooth = ConnectivityVM.MaxBluetooth,
-                connectionMaxMobileNetwork = ConnectivityVM.MaxMobileNetwork,
-                connectionDualSim = ConnectivityVM.DualSim,
-                connectionEsim = ConnectivityVM.Esim,
-                connectionNfc = ConnectivityVM.Nfc,
-                connectionConnectionSpeed = ConnectivityVM.ConnectionSpeed,
-                connectionJack = ConnectivityVM.Jack,
+                string json = JsonSerializer.Serialize(newPhone);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                // COLLECTIONS
-                colors = ColorSectionVM.Colors.ToList(),
-                cameras = CameraSectionVM.Cameras.ToList(),
-                ramStoragePairs = RamStorageSectionVM.RamStoragePairs.ToList()*/
-            };
+                var response = await client.PostAsync(url, content);
 
-            using HttpClient client = new HttpClient();
-            string url = "http://localhost:5175/api/phones";
-
-            string json = JsonSerializer.Serialize(newPhone);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            var response = await client.PostAsync(url, content);
-
-            if (response.IsSuccessStatusCode)
+                if (response.IsSuccessStatusCode)
+                {
+                    MessageBox.Show("Save successful");
+                }
+                else
+                {
+                    var error = await response.Content.ReadAsStringAsync();
+                    MessageBox.Show($"Save failed: {error}");
+                }
+            }
+            catch (Exception ex)
             {
-                // Optional success handling
+                MessageBox.Show($"Error: {ex.Message}");
             }
         }
 

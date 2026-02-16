@@ -95,6 +95,7 @@ namespace PhoneScoutAdmin.ViewModels
                 if (!string.IsNullOrWhiteSpace(BodyWidth)) filled++;
                 if (!string.IsNullOrWhiteSpace(BodyThickness)) filled++;
                 if (!string.IsNullOrWhiteSpace(WaterproofType)) filled++;
+                if (!string.IsNullOrWhiteSpace(BodyBackMaterial)) filled++;
                 if (!string.IsNullOrWhiteSpace(SpeakerType)) filled++;
 
                 return filled / 8.0;

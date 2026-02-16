@@ -46,7 +46,7 @@ namespace PhoneScoutAdmin.ViewModels
         {
             var cam = new CameraViewModel
             {
-                Name = $"Camera {Cameras.Count + 1}"
+                CameraName = $"Camera {Cameras.Count + 1}"
             };
 
             Cameras.Add(cam);

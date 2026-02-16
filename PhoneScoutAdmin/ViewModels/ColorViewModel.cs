@@ -14,38 +14,29 @@ namespace PhoneScoutAdmin.ViewModels
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
 
-        private string _name;
-        public string Name
+        private string _colorName;
+        public string ColorName
         {
-            get => _name;
+            get => _colorName;
             set
             {
-                _name = value;
-                OnPropertyChanged(nameof(Name));
+                _colorName = value;
+                OnPropertyChanged(nameof(ColorName));
             }
         }
 
-        private string _resolution;
-        public string Resolution
+        private string _colorHex;
+        public string ColorHex
         {
-            get => _resolution;
+            get => _colorHex;
             set
             {
-                _resolution = value;
-                OnPropertyChanged(nameof(Resolution));
+                _colorHex = value;
+                OnPropertyChanged(nameof(ColorHex));
             }
         }
 
-        private double _megapixels;
-        public double Megapixels
-        {
-            get => _megapixels;
-            set
-            {
-                _megapixels = value;
-                OnPropertyChanged(nameof(Megapixels));
-            }
-        }
+        
 
 
     }

@@ -46,7 +46,7 @@ namespace PhoneScoutAdmin.ViewModels
         {
             var cam = new ColorViewModel
             {
-                Name = $"Camera {Colors.Count + 1}"
+                ColorName = $"Camera {Colors.Count + 1}"
             };
 
             Colors.Add(cam);
