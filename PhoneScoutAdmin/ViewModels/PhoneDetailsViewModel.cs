@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.Json;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace PhoneScoutAdmin
 {
@@ -187,7 +188,7 @@ namespace PhoneScoutAdmin
             GeneralInfosVM.PhoneWeight = phone.phoneWeight.ToString();
             GeneralInfosVM.ManufacturerName = phone.manufacturerName;
             GeneralInfosVM.ReleaseDate = phone.phoneReleaseDate.ToString();
-            GeneralInfosVM.PhoneInStore = phone.phoneInStore;
+            GeneralInfosVM.PhoneInStore = phone.phoneInStore == 1 ? true : false;
 
             //CPU
             CpuVM.CpuName = phone.cpuName;
@@ -199,7 +200,7 @@ namespace PhoneScoutAdmin
             //SENSORS
             SensorsVM.FinSenPlace = phone.fingerprintPlace;
             SensorsVM.FinSenType = phone.fingerprintType;
-            SensorsVM.Infrared = phone.sensorsInfrared;
+            SensorsVM.Infrared = phone.sensorsInfrared == 1 ? true : false;
 
             //SCREEN
             ScreenVM.ScreenType = phone.screenType;
@@ -213,17 +214,17 @@ namespace PhoneScoutAdmin
             ConnectivityVM.Wifi = phone.connectionMaxWifi.ToString();
             ConnectivityVM.Bluetooth = phone.connectionMaxBluetooth.ToString();
             ConnectivityVM.MobileNetwork = phone.connectionMaxMobileNetwork.ToString();
-            ConnectivityVM.DualSim = phone.connectionDualSim.ToString();
-            ConnectivityVM.ESim = phone.connectionEsim.ToString();
-            ConnectivityVM.Nfc = phone.connectionNfc.ToString();
-            ConnectivityVM.Jack = phone.connectionJack.ToString();
+            ConnectivityVM.DualSim = phone.connectionDualSim == 1 ? true : false;
+            ConnectivityVM.ESim = phone.connectionEsim == 1 ? true : false;
+            ConnectivityVM.Nfc = phone.connectionNfc == 1 ? true : false;
+            ConnectivityVM.Jack = phone.connectionJack == 1 ? true : false;
             ConnectivityVM.ConnectionSpeed = phone.connectionConnectionSpeed.ToString();
 
             //BATTERY
-            BatteryChargingVM.BatteryCapacity = phone.batteryCapacity.ToString();
+            BatteryChargingVM.BatteryCapacity = (int)phone.batteryCapacity;
             BatteryChargingVM.BatteryType = phone.batteryType;
-            BatteryChargingVM.MaxWiredCharging = phone.batteryMaxChargingWired.ToString();
-            BatteryChargingVM.MaxWirelessCharging = phone.batteryMaxChargingWireless.ToString();
+            BatteryChargingVM.MaxWiredCharging = (int)phone.batteryMaxChargingWired;
+            BatteryChargingVM.MaxWirelessCharging = (int)phone.batteryMaxChargingWireless;
             BatteryChargingVM.BatteryType = phone.batteryType;
 
             //BODY SPEAKER
@@ -237,7 +238,7 @@ namespace PhoneScoutAdmin
             //COLORS
             ColorSectionVM.Colors.Clear();
 
-            foreach (var color in phone.colors ?? new List<Color>())
+            foreach (var color in phone.colors ?? new List<ColorDTO>())
             {
                 ColorSectionVM.Colors.Add(new ColorViewModel
                 {
@@ -253,10 +254,10 @@ namespace PhoneScoutAdmin
                 CameraSectionVM.Cameras.Add(new CameraViewModel
                 {
                     CameraName = camera.cameraName,
-                    CameraResolution = camera.cameraResolution.ToString(),
+                    CameraResolution = camera.cameraResolution,
                     CameraAperture = camera.cameraAperture.ToString(),
                     CameraFocalLength = camera.cameraFocalLength,
-                    CameraOIS = camera.cameraOis.ToString(),
+                    CameraOIS = camera.cameraOis==1?true:false,
                     CameraType = camera.cameraType.ToString(),
                 });
             }
@@ -285,26 +286,112 @@ namespace PhoneScoutAdmin
         {
             try
             {
-                
+                List<ColorDTO> selectedColors = new List<ColorDTO>();
+                List<Camera> selectedCameras = new List<Camera>();
+                List<RamStorage> selectedRamStorages = new List<RamStorage>();
+
+
+
+                foreach (var color in ColorSectionVM.Colors)
+                {
+                    selectedColors.Add(new ColorDTO
+                    {
+                        colorName = color.ColorName,
+                        colorHex = color.ColorHex
+                    });
+                }
+
+                foreach (var camera in CameraSectionVM.Cameras)
+                {
+                    selectedCameras.Add(new Camera
+                    {
+                        cameraName = camera.CameraName,
+                        cameraResolution = camera.CameraResolution,
+                        cameraAperture = camera.CameraAperture,
+                        cameraFocalLength = camera.CameraFocalLength,
+                        //cameraOis = camera.CameraOIS == 1 ? true : false,
+                        cameraType = camera.CameraType,
+                    });
+                }
+
+                foreach (var ramStorage in RamStorageSectionVM.RamStorages)
+                {
+                    selectedRamStorages.Add(new RamStorage
+                    {
+                        ramAmount = ramStorage.RamAmount,
+                        storageAmount = ramStorage.StorageAmount,
+                    });
+                }
+
 
                 var newPhone = new FullPhone
                 {
-                    phoneName = GeneralInfosVM.PhoneName,
-                    //phonePrice = price,
-                    manufacturerName = GeneralInfosVM.ManufacturerName,
-                    //phoneWeight = weight,
-                    //phoneReleaseDate = releaseDate,
-                    phoneInStore = GeneralInfosVM.PhoneInStore,
+                    // GENERAL
+                    phoneName = (GeneralInfosVM.PhoneName != "" ? GeneralInfosVM.PhoneName : ""),
+                    phonePrice = (GeneralInfosVM.PhonePrice is int ? int.Parse(GeneralInfosVM.PhonePrice) : 0),
+                    phoneWeight = (GeneralInfosVM.PhoneWeight is int ? int.Parse(GeneralInfosVM.PhoneWeight) : 0),
+                    manufacturerName = (GeneralInfosVM.ManufacturerName != "" ? GeneralInfosVM.ManufacturerName : ""),
+                    phoneReleaseDate = (GeneralInfosVM.ReleaseDate is DateOnly ? DateOnly.Parse(GeneralInfosVM.ReleaseDate) : DateOnly.MinValue),
+                    phoneInStore = (GeneralInfosVM.PhoneInStore == true ? 1 : 0),
 
-                    batteryCapacity = int.TryParse(BatteryChargingVM.BatteryCapacity, out var cap) ? cap : null,
-                    batteryMaxChargingWired = int.TryParse(BatteryChargingVM.MaxWiredCharging, out var wired) ? wired : null,
-                    batteryMaxChargingWireless = int.TryParse(BatteryChargingVM.MaxWirelessCharging, out var wireless) ? wireless : null,
-                    batteryType = BatteryChargingVM.BatteryType,
-                    chargerType = BatteryChargingVM.ChargerType,
-                };
+
+                    //CPU
+                    cpuName = (CpuVM.CpuName != "" ? CpuVM.CpuName : ""),
+                    phoneAntutu = (CpuVM.AntutuScore is int ? int.Parse(CpuVM.AntutuScore) : 0),
+                    cpuClock = (CpuVM.ClockSpeed is int ? int.Parse(CpuVM.ClockSpeed) : 0),
+                    cpuCores = (CpuVM.CoreNumber is int ? int.Parse(CpuVM.CoreNumber) : 0),
+                    cpuTech = (CpuVM.ManufacturingTech is int ? int.Parse(CpuVM.ManufacturingTech) : 0),
+
+                    //SENSORS
+                    fingerprintPlace = (SensorsVM.FinSenPlace != "" ? SensorsVM.FinSenPlace : ""),
+                    fingerprintType = (SensorsVM.FinSenType != "" ? SensorsVM.FinSenType : ""),
+                    sensorsInfrared = (SensorsVM.Infrared == true ? 1 : 0),
+
+                    //SCREEN
+                    screenType = (ScreenVM.ScreenType != "" ? ScreenVM.ScreenType : ""),
+                    phoneResolutionHeight = (ScreenVM.ScreenResH is int ? int.Parse(ScreenVM.ScreenResH) : 0),
+                    phoneResolutionWidth = (ScreenVM.ScreenResW is int ? int.Parse(ScreenVM.ScreenResW) : 0),
+                    screenSize = (ScreenVM.ScreenSize is int ? int.Parse(ScreenVM.ScreenSize) : 0),
+                    screenRefreshRate = (ScreenVM.ScreenRefreshRate is int ? int.Parse(ScreenVM.ScreenRefreshRate) : 0),
+                    screenMaxBrightness = (ScreenVM.ScreenMaxBrightness is int ? int.Parse(ScreenVM.ScreenMaxBrightness) : 0),
+
+                    //CONNECTIVITY
+                    connectionMaxWifi = (ConnectivityVM.Wifi is double ? double.Parse(ConnectivityVM.Wifi) : 0),
+                    connectionMaxBluetooth = (ConnectivityVM.Bluetooth is decimal ? decimal.Parse(ConnectivityVM.Bluetooth) : 0),
+                    connectionMaxMobileNetwork = (ConnectivityVM.MobileNetwork is int ? int.Parse(ConnectivityVM.MobileNetwork) : 0),
+                    connectionDualSim = (ConnectivityVM.DualSim == true ? 1 : 0),
+                    connectionEsim = (ConnectivityVM.ESim == true ? 1 : 0),
+                    connectionNfc = (ConnectivityVM.Jack == true ? 1 : 0),
+                    connectionJack = (ConnectivityVM.Jack == true ? 1 : 0),
+                    connectionConnectionSpeed = (ConnectivityVM.ConnectionSpeed is double ? double.Parse(ConnectivityVM.ConnectionSpeed) : 0),
+
+                    //BATTERY
+                    batteryCapacity = (BatteryChargingVM.BatteryCapacity is int ? BatteryChargingVM.BatteryCapacity : 0),
+                    batteryType = (BatteryChargingVM.BatteryType != "" ? BatteryChargingVM.BatteryType : ""),
+                    batteryMaxChargingWired = (BatteryChargingVM.MaxWiredCharging is int ? BatteryChargingVM.MaxWiredCharging : 0),
+                    batteryMaxChargingWireless = (BatteryChargingVM.MaxWirelessCharging is int ? BatteryChargingVM.MaxWirelessCharging : 0),
+
+                    //BODY SPEAKER
+                    caseHeight = (BodySpeakerVM.BodyHeight is decimal ? decimal.Parse(BodySpeakerVM.BodyHeight) : 0),
+                    caseWidth = (BodySpeakerVM.BodyWidth is decimal ? decimal.Parse(BodySpeakerVM.BodyWidth) : 0),
+                    caseThickness = (BodySpeakerVM.BodyThickness is decimal ? decimal.Parse(BodySpeakerVM.BodyThickness) : 0),
+                    waterproofType = (BodySpeakerVM.WaterproofType != "" ? BodySpeakerVM.WaterproofType : ""),
+                    backMaterial = (BodySpeakerVM.BodyBackMaterial != "" ? BodySpeakerVM.BodyBackMaterial : ""),
+                    speakerType = (BodySpeakerVM.SpeakerType != "" ? BodySpeakerVM.SpeakerType : ""),
+
+                    //COLORS
+
+                    colors = selectedColors,
+                    cameras = selectedCameras,
+                    ramStoragePairs = selectedRamStorages,
+
+                    ramSpeed = (RamStorageVM.RamSpeed != "" ? RamStorageVM.RamSpeed : ""),
+                    storageSpeed = (RamStorageVM.StorageSpeed != "" ? RamStorageVM.StorageSpeed : ""),
+                
+            };
 
                 using HttpClient client = new HttpClient();
-                string url = "http://localhost:5175/api/phones";
+                string url = "http://localhost:5175/api/wpfPhone/phonePost";
 
                 string json = JsonSerializer.Serialize(newPhone);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");

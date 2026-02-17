@@ -23,13 +23,13 @@ namespace PhoneScoutAdmin.Models
         public double? connectionMaxWifi { get; set; }
         public decimal? connectionMaxBluetooth { get; set; }
         public int? connectionMaxMobileNetwork { get; set; }
-        public string? connectionDualSim { get; set; }
-        public string? connectionEsim { get; set; }
-        public string? connectionNfc { get; set; }
+        public int? connectionDualSim { get; set; }
+        public int? connectionEsim { get; set; }
+        public int? connectionNfc { get; set; }
         public double? connectionConnectionSpeed { get; set; }
-        public string? connectionJack { get; set; }
+        public int? connectionJack { get; set; }
 
-        public string? sensorsInfrared { get; set; }
+        public int? sensorsInfrared { get; set; }
 
         public int? batteryCapacity { get; set; }
         public int? batteryMaxChargingWired { get; set; }
@@ -41,7 +41,7 @@ namespace PhoneScoutAdmin.Models
         public decimal? phoneWeight { get; set; }
         public DateOnly? phoneReleaseDate { get; set; }
         public int? phonePrice { get; set; }
-        public string? phoneInStore { get; set; }
+        public int? phoneInStore { get; set; }
         public int? phoneInStoreAmount { get; set; }
 
         // Related entities
@@ -63,7 +63,7 @@ namespace PhoneScoutAdmin.Models
         public string? speakerType { get; set; }
 
         // Collections
-        public List<Color> colors { get; set; }
+        public List<ColorDTO> colors { get; set; }
         public List<Camera> cameras { get; set; }
         public List<RamStorage> ramStoragePairs { get; set; }
     }

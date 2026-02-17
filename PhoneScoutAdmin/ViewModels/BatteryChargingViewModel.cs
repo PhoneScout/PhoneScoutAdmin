@@ -13,8 +13,8 @@ namespace PhoneScoutAdmin.ViewModels
         private void OnPropertyChanged(string name)
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
-        private string _batteryCapacity;
-        public string BatteryCapacity
+        private int _batteryCapacity;
+        public int BatteryCapacity
         {
             get => _batteryCapacity;
             set
@@ -37,8 +37,8 @@ namespace PhoneScoutAdmin.ViewModels
             }
         }
 
-        private string _maxWiredCharging;
-        public string MaxWiredCharging
+        private int _maxWiredCharging;
+        public int MaxWiredCharging
         {
             get => _maxWiredCharging;
             set
@@ -49,8 +49,8 @@ namespace PhoneScoutAdmin.ViewModels
             }
         }
 
-        private string _maxWirelessCharging;
-        public string MaxWirelessCharging
+        private int _maxWirelessCharging;
+        public int MaxWirelessCharging
         {
             get => _maxWirelessCharging;
             set
@@ -79,10 +79,10 @@ namespace PhoneScoutAdmin.ViewModels
             {
                 int filled = 0;
 
-                if (!string.IsNullOrWhiteSpace(BatteryCapacity)) filled++;
+                //if (!string.IsNullOrWhiteSpace(BatteryCapacity)) filled++;
                 if (!string.IsNullOrWhiteSpace(BatteryType)) filled++;
-                if (!string.IsNullOrWhiteSpace(MaxWiredCharging)) filled++;
-                if (!string.IsNullOrWhiteSpace(MaxWirelessCharging)) filled++;
+                //if (!string.IsNullOrWhiteSpace(MaxWiredCharging)) filled++;
+                //if (!string.IsNullOrWhiteSpace(MaxWirelessCharging)) filled++;
                 if (!string.IsNullOrWhiteSpace(ChargerType)) filled++;
 
                 return filled / 8.0;

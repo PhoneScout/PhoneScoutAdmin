@@ -49,8 +49,8 @@ namespace PhoneScoutAdmin.ViewModels
             }
         }
 
-        private string _dualSim;
-        public string DualSim
+        private bool _dualSim;
+        public bool DualSim
         {
             get => _dualSim;
             set
@@ -61,8 +61,8 @@ namespace PhoneScoutAdmin.ViewModels
             }
         }
 
-        private string _eSim;
-        public string ESim
+        private bool _eSim;
+        public bool ESim
         {
             get => _eSim;
             set
@@ -73,8 +73,8 @@ namespace PhoneScoutAdmin.ViewModels
             }
         }
 
-        private string _nfc;
-        public string Nfc
+        private bool _nfc;
+        public bool Nfc
         {
             get => _nfc;
             set
@@ -85,8 +85,8 @@ namespace PhoneScoutAdmin.ViewModels
             }
         }
 
-        private string _jack;
-        public string Jack
+        private bool _jack;
+        public bool Jack
         {
             get => _jack;
             set

@@ -162,11 +162,11 @@
                VerticalAlignment="Center"/>
                 </StackPanel>
 
-                <TextBox Grid.Row="3"
-     Grid.Column="1"
-     Width="180"
-     Margin="5"
-     Text="{Binding DualSim, UpdateSourceTrigger=PropertyChanged}" />
+                <CheckBox Grid.Row="4"
+Grid.Column="1"
+Margin="5"
+HorizontalAlignment="Left"
+IsChecked="{Binding DualSim}" />
 
                 <StackPanel Grid.Row="4"
             Grid.Column="0"

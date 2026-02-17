@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PhoneScoutAdmin.Models
 {
-    public class Color
+    public class ColorDTO
     {
         public int? ID { get; set; }
         public string? colorName { get; set; }

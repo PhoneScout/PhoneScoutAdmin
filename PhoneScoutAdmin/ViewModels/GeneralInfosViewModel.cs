@@ -73,8 +73,8 @@ namespace PhoneScoutAdmin.ViewModels
             }
         }
 
-        private string _phoneInStore;
-        public string PhoneInStore
+        private bool _phoneInStore;
+        public bool PhoneInStore
         {
             get => _phoneInStore;
             set
@@ -96,7 +96,7 @@ namespace PhoneScoutAdmin.ViewModels
                 if (!string.IsNullOrWhiteSpace(ManufacturerName)) filled++;
                 if (!string.IsNullOrWhiteSpace(ReleaseDate)) filled++;
                 if (!string.IsNullOrWhiteSpace(PhoneWeight)) filled++;
-                if (!string.IsNullOrWhiteSpace(PhoneInStore)) filled++;
+                //if (!string.IsNullOrWhiteSpace(PhoneInStore)) filled++;
 
                 return filled / 8.0;
             }

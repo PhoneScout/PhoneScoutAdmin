@@ -25,8 +25,8 @@ namespace PhoneScoutAdmin.ViewModels
             }
         }
 
-        private string _cameraResolution;
-        public string CameraResolution
+        private int _cameraResolution;
+        public int CameraResolution
         {
             get => _cameraResolution;
             set
@@ -58,8 +58,8 @@ namespace PhoneScoutAdmin.ViewModels
             }
         }
 
-        private string _cameraOIS;
-        public string CameraOIS
+        private bool _cameraOIS;
+        public bool CameraOIS
         {
             get => _cameraOIS;
             set

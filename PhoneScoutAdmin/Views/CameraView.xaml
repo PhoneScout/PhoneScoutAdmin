@@ -186,11 +186,11 @@
                VerticalAlignment="Center"/>
             </StackPanel>
 
-            <TextBox Grid.Row="4"
-     Grid.Column="1"
-     Width="180"
-     Margin="5"
-     Text="{Binding CameraOIS, UpdateSourceTrigger=PropertyChanged}" />
+            <CheckBox Grid.Row="4"
+Grid.Column="1"
+Margin="5"
+HorizontalAlignment="Left"
+IsChecked="{Binding CameraOIS}" />
 
             <StackPanel Grid.Row="5"
        Grid.Column="0"

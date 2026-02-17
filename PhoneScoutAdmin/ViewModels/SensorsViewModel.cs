@@ -37,8 +37,8 @@ namespace PhoneScoutAdmin.ViewModels
             }
         }
 
-        private string _infrared;
-        public string Infrared
+        private bool _infrared;
+        public bool Infrared
         {
             get => _infrared;
             set
@@ -59,7 +59,7 @@ namespace PhoneScoutAdmin.ViewModels
 
                 if (!string.IsNullOrWhiteSpace(FinSenPlace)) filled++;
                 if (!string.IsNullOrWhiteSpace(FinSenType)) filled++;
-                if (!string.IsNullOrWhiteSpace(Infrared)) filled++;
+                //if (!string.IsNullOrWhiteSpace(Infrared)) filled++;
 
                 return filled / 8.0;
             }
