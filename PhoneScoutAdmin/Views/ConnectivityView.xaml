@@ -45,15 +45,15 @@
 
 
                     <TextBlock Text="ℹ"
-               FontSize="14"
-               Foreground="DodgerBlue"
+               FontSize="16"
+Foreground="#2300B3"
                Cursor="Hand"
                VerticalAlignment="Center"
                                ToolTipService.InitialShowDelay="500">
 
                         <TextBlock.ToolTip>
                             <ToolTip>
-                                The manufacturer name of the CPU (e.g., Intel, AMD).
+                                Displays the best Wifi version the phone can use.
                             </ToolTip>
                         </TextBlock.ToolTip>
 
@@ -79,14 +79,14 @@
 
 
                     <TextBlock Text="ℹ"
-               FontSize="14"
-               Foreground="DodgerBlue"
+               FontSize="16"
+Foreground="#2300B3"
                Cursor="Hand"
                VerticalAlignment="Center" ToolTipService.InitialShowDelay="500">
 
                         <TextBlock.ToolTip>
                             <ToolTip>
-                                The manufacturer name of the CPU (e.g., Intel, AMD).
+                                Displays the best Bluetooth version the phone can use.
                             </ToolTip>
                         </TextBlock.ToolTip>
 
@@ -112,14 +112,14 @@
 
 
                     <TextBlock Text="ℹ"
-               FontSize="14"
-               Foreground="DodgerBlue"
+              FontSize="16"
+Foreground="#2300B3"
                Cursor="Hand"
                VerticalAlignment="Center" ToolTipService.InitialShowDelay="500">
 
                         <TextBlock.ToolTip>
                             <ToolTip>
-                                The manufacturer name of the CPU (e.g., Intel, AMD).
+                                Displays the best Mobile netwoek version the phone can use.
                             </ToolTip>
                         </TextBlock.ToolTip>
 
@@ -144,8 +144,8 @@
 
 
                     <TextBlock Text="ℹ"
-               FontSize="14"
-               Foreground="DodgerBlue"
+               FontSize="16"
+Foreground="#2300B3"
                Cursor="Hand"
                VerticalAlignment="Center" ToolTipService.InitialShowDelay="500">
 
@@ -162,10 +162,10 @@
                VerticalAlignment="Center"/>
                 </StackPanel>
 
-                <CheckBox Grid.Row="4"
+                <CheckBox Grid.Row="3" VerticalAlignment="Center"
 Grid.Column="1"
 Margin="5"
-HorizontalAlignment="Left"
+HorizontalAlignment="Center"
 IsChecked="{Binding DualSim}" />
 
                 <StackPanel Grid.Row="4"
@@ -176,8 +176,8 @@ IsChecked="{Binding DualSim}" />
 
 
                     <TextBlock Text="ℹ"
-               FontSize="14"
-               Foreground="DodgerBlue"
+               FontSize="16"
+Foreground="#2300B3"
                Cursor="Hand"
                VerticalAlignment="Center" ToolTipService.InitialShowDelay="500">
 
@@ -194,10 +194,10 @@ IsChecked="{Binding DualSim}" />
                VerticalAlignment="Center"/>
                 </StackPanel>
 
-                <CheckBox Grid.Row="4"
+                <CheckBox Grid.Row="4" VerticalAlignment="Center"
 Grid.Column="1"
 Margin="5"
-HorizontalAlignment="Left"
+HorizontalAlignment="Center"
 IsChecked="{Binding ESim}" />
 
 
@@ -209,8 +209,8 @@ IsChecked="{Binding ESim}" />
 
 
                     <TextBlock Text="ℹ"
-          FontSize="14"
-          Foreground="DodgerBlue"
+          FontSize="16"
+Foreground="#2300B3"
           Cursor="Hand"
           VerticalAlignment="Center" ToolTipService.InitialShowDelay="500">
 
@@ -227,10 +227,10 @@ IsChecked="{Binding ESim}" />
           VerticalAlignment="Center"/>
                 </StackPanel>
 
-                <CheckBox Grid.Row="5"
+                <CheckBox Grid.Row="5" VerticalAlignment="Center"
 Grid.Column="1"
 Margin="5"
-HorizontalAlignment="Left"
+HorizontalAlignment="Center"
 IsChecked="{Binding Nfc}" />
 
                 <StackPanel Grid.Row="6"
@@ -241,8 +241,8 @@ IsChecked="{Binding Nfc}" />
 
 
                     <TextBlock Text="ℹ"
-          FontSize="14"
-          Foreground="DodgerBlue"
+          FontSize="16"
+Foreground="#2300B3"
           Cursor="Hand"
           VerticalAlignment="Center" ToolTipService.InitialShowDelay="500">
 
@@ -259,10 +259,10 @@ IsChecked="{Binding Nfc}" />
           VerticalAlignment="Center"/>
                 </StackPanel>
 
-                <CheckBox Grid.Row="6"
+                <CheckBox Grid.Row="6" VerticalAlignment="Center"
 Grid.Column="1"
 Margin="5"
-HorizontalAlignment="Left"
+HorizontalAlignment="Center"
 IsChecked="{Binding Jack}" />
 
                 <StackPanel Grid.Row="7"
@@ -273,19 +273,19 @@ IsChecked="{Binding Jack}" />
 
 
                     <TextBlock Text="ℹ"
-          FontSize="14"
-          Foreground="DodgerBlue"
+          FontSize="16"
+Foreground="#2300B3"
           Cursor="Hand"
           VerticalAlignment="Center" ToolTipService.InitialShowDelay="500">
 
                         <TextBlock.ToolTip>
                             <ToolTip>
-                                The manufacturer name of the CPU (e.g., Intel, AMD).
+                                Displays the USB generation. Example: 3.0
                             </ToolTip>
                         </TextBlock.ToolTip>
 
                     </TextBlock>
-                    <TextBlock Text="Connection speed:"
+                    <TextBlock Text="USB generation:"
           Margin="5,5,2,5"
           FontSize="16"
           VerticalAlignment="Center"/>

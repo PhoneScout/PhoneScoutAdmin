@@ -43,15 +43,15 @@
 
 
                     <TextBlock Text="ℹ"
-               FontSize="14"
-               Foreground="DodgerBlue"
+               FontSize="16"
+Foreground="#2300B3"
                Cursor="Hand"
                VerticalAlignment="Center"
                                ToolTipService.InitialShowDelay="500">
 
                         <TextBlock.ToolTip>
                             <ToolTip>
-                                The manufacturer name of the CPU (e.g., Intel, AMD).
+                                Displays the screen type.
                             </ToolTip>
                         </TextBlock.ToolTip>
 
@@ -77,14 +77,14 @@
 
 
                     <TextBlock Text="ℹ"
-               FontSize="14"
-               Foreground="DodgerBlue"
+               FontSize="16"
+Foreground="#2300B3"
                Cursor="Hand"
                VerticalAlignment="Center" ToolTipService.InitialShowDelay="500">
 
                         <TextBlock.ToolTip>
                             <ToolTip>
-                                The manufacturer name of the CPU (e.g., Intel, AMD).
+                                Displays the height of the screen resolution.
                             </ToolTip>
                         </TextBlock.ToolTip>
 
@@ -110,14 +110,14 @@
 
 
                     <TextBlock Text="ℹ"
-               FontSize="14"
-               Foreground="DodgerBlue"
+               FontSize="16"
+Foreground="#2300B3"
                Cursor="Hand"
                VerticalAlignment="Center" ToolTipService.InitialShowDelay="500">
 
                         <TextBlock.ToolTip>
                             <ToolTip>
-                                The manufacturer name of the CPU (e.g., Intel, AMD).
+                                Displays the width of the screen resolution.
                             </ToolTip>
                         </TextBlock.ToolTip>
 
@@ -142,14 +142,14 @@
 
 
                     <TextBlock Text="ℹ"
-               FontSize="14"
-               Foreground="DodgerBlue"
+               FontSize="16"
+Foreground="#2300B3"
                Cursor="Hand"
                VerticalAlignment="Center" ToolTipService.InitialShowDelay="500">
 
                         <TextBlock.ToolTip>
                             <ToolTip>
-                                The manufacturer name of the CPU (e.g., Intel, AMD).
+                                Displays the screen size.
                             </ToolTip>
                         </TextBlock.ToolTip>
 
@@ -174,14 +174,14 @@
 
 
                     <TextBlock Text="ℹ"
-               FontSize="14"
-               Foreground="DodgerBlue"
+               FontSize="16"
+Foreground="#2300B3"
                Cursor="Hand"
                VerticalAlignment="Center" ToolTipService.InitialShowDelay="500">
 
                         <TextBlock.ToolTip>
                             <ToolTip>
-                                The manufacturer name of the CPU (e.g., Intel, AMD).
+                                Displays the screen refresh rate.
                             </ToolTip>
                         </TextBlock.ToolTip>
 
@@ -207,14 +207,14 @@
 
 
                     <TextBlock Text="ℹ"
-          FontSize="14"
-          Foreground="DodgerBlue"
+          FontSize="16"
+Foreground="#2300B3"
           Cursor="Hand"
           VerticalAlignment="Center" ToolTipService.InitialShowDelay="500">
 
                         <TextBlock.ToolTip>
                             <ToolTip>
-                                The manufacturer name of the CPU (e.g., Intel, AMD).
+                                Displays the screen's max brightness.
                             </ToolTip>
                         </TextBlock.ToolTip>
 

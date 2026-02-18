@@ -44,15 +44,15 @@
 
 
                     <TextBlock Text="ℹ"
-               FontSize="14"
-               Foreground="DodgerBlue"
+               FontSize="16"
+Foreground="#2300B3"
                Cursor="Hand"
                VerticalAlignment="Center"
                                ToolTipService.InitialShowDelay="500">
 
                         <TextBlock.ToolTip>
                             <ToolTip>
-                                The manufacturer name of the CPU (e.g., Intel, AMD).
+                                Displays the name of the phone.
                             </ToolTip>
                         </TextBlock.ToolTip>
 
@@ -78,14 +78,14 @@
 
 
                     <TextBlock Text="ℹ"
-               FontSize="14"
-               Foreground="DodgerBlue"
+               FontSize="16"
+Foreground="#2300B3"
                Cursor="Hand"
                VerticalAlignment="Center" ToolTipService.InitialShowDelay="500">
 
                         <TextBlock.ToolTip>
                             <ToolTip>
-                                The manufacturer name of the CPU (e.g., Intel, AMD).
+                                Displays the price of the phone.
                             </ToolTip>
                         </TextBlock.ToolTip>
 
@@ -111,14 +111,14 @@
 
 
                     <TextBlock Text="ℹ"
-               FontSize="14"
-               Foreground="DodgerBlue"
+               FontSize="16"
+Foreground="#2300B3"
                Cursor="Hand"
                VerticalAlignment="Center" ToolTipService.InitialShowDelay="500">
 
                         <TextBlock.ToolTip>
                             <ToolTip>
-                                The manufacturer name of the CPU (e.g., Intel, AMD).
+                                Displays the manufacturer name.
                             </ToolTip>
                         </TextBlock.ToolTip>
 
@@ -143,14 +143,14 @@
 
 
                     <TextBlock Text="ℹ"
-               FontSize="14"
-               Foreground="DodgerBlue"
+               FontSize="16"
+Foreground="#2300B3"
                Cursor="Hand"
                VerticalAlignment="Center" ToolTipService.InitialShowDelay="500">
 
                         <TextBlock.ToolTip>
                             <ToolTip>
-                                The manufacturer name of the CPU (e.g., Intel, AMD).
+                                Displays the phone's weight.
                             </ToolTip>
                         </TextBlock.ToolTip>
 
@@ -175,14 +175,14 @@
 
 
                     <TextBlock Text="ℹ"
-               FontSize="14"
-               Foreground="DodgerBlue"
+               FontSize="16"
+Foreground="#2300B3"
                Cursor="Hand"
                VerticalAlignment="Center" ToolTipService.InitialShowDelay="500">
 
                         <TextBlock.ToolTip>
                             <ToolTip>
-                                The manufacturer name of the CPU (e.g., Intel, AMD).
+                                Displays the phone's release date.
                             </ToolTip>
                         </TextBlock.ToolTip>
 
@@ -207,14 +207,14 @@
 
 
                     <TextBlock Text="ℹ"
-          FontSize="14"
-          Foreground="DodgerBlue"
+          FontSize="16"
+Foreground="#2300B3"
           Cursor="Hand"
           VerticalAlignment="Center" ToolTipService.InitialShowDelay="500">
 
                         <TextBlock.ToolTip>
                             <ToolTip>
-                                The manufacturer name of the CPU (e.g., Intel, AMD).
+                                Displays if the phone is in store or not.
                             </ToolTip>
                         </TextBlock.ToolTip>
 
@@ -225,10 +225,10 @@
           VerticalAlignment="Center"/>
                 </StackPanel>
 
-                <CheckBox Grid.Row="5"
+                <CheckBox Grid.Row="5" VerticalAlignment="Center"
 Grid.Column="1"
 Margin="5"
-HorizontalAlignment="Left"
+HorizontalAlignment="Center"
 IsChecked="{Binding PhoneInStore}" />
                 
             </Grid>

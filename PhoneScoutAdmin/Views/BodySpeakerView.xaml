@@ -44,15 +44,15 @@
 
 
                     <TextBlock Text="ℹ"
-               FontSize="14"
-               Foreground="DodgerBlue"
+               FontSize="16"
+               Foreground="#2300B3"
                Cursor="Hand"
                VerticalAlignment="Center"
                                ToolTipService.InitialShowDelay="500">
 
                         <TextBlock.ToolTip>
                             <ToolTip>
-                                The manufacturer name of the CPU (e.g., Intel, AMD).
+                                Displays the phone's body height in milimeters.
                             </ToolTip>
                         </TextBlock.ToolTip>
 
@@ -78,14 +78,14 @@
 
 
                     <TextBlock Text="ℹ"
-               FontSize="14"
-               Foreground="DodgerBlue"
+               FontSize="16"
+               Foreground="#2300B3"
                Cursor="Hand"
                VerticalAlignment="Center" ToolTipService.InitialShowDelay="500">
 
                         <TextBlock.ToolTip>
                             <ToolTip>
-                                The manufacturer name of the CPU (e.g., Intel, AMD).
+                                Displays the phone's body width in milimeters.
                             </ToolTip>
                         </TextBlock.ToolTip>
 
@@ -111,14 +111,14 @@
 
 
                     <TextBlock Text="ℹ"
-               FontSize="14"
-               Foreground="DodgerBlue"
+               FontSize="16"
+               Foreground="#2300B3"
                Cursor="Hand"
                VerticalAlignment="Center" ToolTipService.InitialShowDelay="500">
 
                         <TextBlock.ToolTip>
                             <ToolTip>
-                                The manufacturer name of the CPU (e.g., Intel, AMD).
+                                Displays the phone's body thickness in milimeters.
                             </ToolTip>
                         </TextBlock.ToolTip>
 
@@ -143,14 +143,14 @@
 
 
                     <TextBlock Text="ℹ"
-               FontSize="14"
-               Foreground="DodgerBlue"
+               FontSize="16"
+               Foreground="#2300B3"
                Cursor="Hand"
                VerticalAlignment="Center" ToolTipService.InitialShowDelay="500">
 
                         <TextBlock.ToolTip>
                             <ToolTip>
-                                The manufacturer name of the CPU (e.g., Intel, AMD).
+                                Displays the phone's waterproof type.
                             </ToolTip>
                         </TextBlock.ToolTip>
 
@@ -175,14 +175,14 @@
 
 
                     <TextBlock Text="ℹ"
-               FontSize="14"
-               Foreground="DodgerBlue"
+               FontSize="16"
+               Foreground="#2300B3"
                Cursor="Hand"
                VerticalAlignment="Center" ToolTipService.InitialShowDelay="500">
 
                         <TextBlock.ToolTip>
                             <ToolTip>
-                                The manufacturer name of the CPU (e.g., Intel, AMD).
+                                Displays the phone's body back material.
                             </ToolTip>
                         </TextBlock.ToolTip>
 
@@ -207,14 +207,14 @@
 
 
                     <TextBlock Text="ℹ"
-          FontSize="14"
-          Foreground="DodgerBlue"
+          FontSize="16"
+          Foreground="#2300B3"
           Cursor="Hand"
           VerticalAlignment="Center" ToolTipService.InitialShowDelay="500">
 
                         <TextBlock.ToolTip>
                             <ToolTip>
-                                The manufacturer name of the CPU (e.g., Intel, AMD).
+                                Displays the phone's speaker type.
                             </ToolTip>
                         </TextBlock.ToolTip>
 

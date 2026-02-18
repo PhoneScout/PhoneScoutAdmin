@@ -41,20 +41,20 @@
                     
 
                     <TextBlock Text="ℹ"
-               FontSize="14"
-               Foreground="DodgerBlue"
+               FontSize="16"
+Foreground="#2300B3"
                Cursor="Hand"
                VerticalAlignment="Center"
                                ToolTipService.InitialShowDelay="500">
 
                         <TextBlock.ToolTip>
                             <ToolTip>
-                                The manufacturer name of the CPU (e.g., Intel, AMD).
+                                Displays the name of the CPU.
                             </ToolTip>
                         </TextBlock.ToolTip>
 
                     </TextBlock>
-<TextBlock Text="CPU name:"
+<TextBlock Text="Name:"
                Margin="5,5,2,5"
                FontSize="16"
                VerticalAlignment="Center"/>
@@ -75,19 +75,19 @@
 
 
                     <TextBlock Text="ℹ"
-               FontSize="14"
-               Foreground="DodgerBlue"
+               FontSize="16"
+Foreground="#2300B3"
                Cursor="Hand"
                VerticalAlignment="Center" ToolTipService.InitialShowDelay="500">
 
                         <TextBlock.ToolTip>
                             <ToolTip>
-                                The manufacturer name of the CPU (e.g., Intel, AMD).
+                                Displays the antutu score of the CPU.
                             </ToolTip>
                         </TextBlock.ToolTip>
 
                     </TextBlock>
-                    <TextBlock Text="CPU Antutu score:"
+                    <TextBlock Text="Antutu score:"
                Margin="5,5,2,5"
                FontSize="16"
                VerticalAlignment="Center"/>
@@ -108,19 +108,19 @@
 
 
                     <TextBlock Text="ℹ"
-               FontSize="14"
-               Foreground="DodgerBlue"
+               FontSize="16"
+Foreground="#2300B3"
                Cursor="Hand"
                VerticalAlignment="Center" ToolTipService.InitialShowDelay="500">
 
                         <TextBlock.ToolTip>
                             <ToolTip>
-                                The manufacturer name of the CPU (e.g., Intel, AMD).
+                                Displays the clockspeed of the CPU.
                             </ToolTip>
                         </TextBlock.ToolTip>
 
                     </TextBlock>
-                    <TextBlock Text="CPU clockspeed:"
+                    <TextBlock Text="Clockspeed:"
                Margin="5,5,2,5"
                FontSize="16"
                VerticalAlignment="Center"/>
@@ -140,19 +140,19 @@
 
 
                     <TextBlock Text="ℹ"
-               FontSize="14"
-               Foreground="DodgerBlue"
+               FontSize="16"
+Foreground="#2300B3"
                Cursor="Hand"
                VerticalAlignment="Center" ToolTipService.InitialShowDelay="500">
 
                         <TextBlock.ToolTip>
                             <ToolTip>
-                                The manufacturer name of the CPU (e.g., Intel, AMD).
+                                Displays the core number of the CPU.
                             </ToolTip>
                         </TextBlock.ToolTip>
 
                     </TextBlock>
-                    <TextBlock Text="CPU core number:"
+                    <TextBlock Text="Core number:"
                Margin="5,5,2,5"
                FontSize="16"
                VerticalAlignment="Center"/>
@@ -172,19 +172,19 @@
 
 
                     <TextBlock Text="ℹ"
-               FontSize="14"
-               Foreground="DodgerBlue"
+               FontSize="16"
+Foreground="#2300B3"
                Cursor="Hand"
                VerticalAlignment="Center" ToolTipService.InitialShowDelay="500">
 
                         <TextBlock.ToolTip>
                             <ToolTip>
-                                The manufacturer name of the CPU (e.g., Intel, AMD).
+                                Displays the manufacturing technology of the CPU.
                             </ToolTip>
                         </TextBlock.ToolTip>
 
                     </TextBlock>
-                    <TextBlock Text="CPU man. tech.:"
+                    <TextBlock Text="Manufacturing technology:"
                Margin="5,5,2,5"
                FontSize="16"
                VerticalAlignment="Center"/>

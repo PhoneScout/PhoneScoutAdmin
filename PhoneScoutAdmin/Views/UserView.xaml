@@ -54,11 +54,32 @@
                 </Grid.ColumnDefinitions>
 
                 <!-- Full name -->
-                <TextBlock Grid.Row="0"
-                           Grid.Column="0"
-                           Margin="5"
-                           FontSize="16"
-                           Text="User full name:" />
+                <StackPanel Grid.Row="0"
+       Grid.Column="0"
+       Orientation="Horizontal"
+       VerticalAlignment="Center">
+
+
+
+                    <TextBlock Text="ℹ"
+          FontSize="16"
+Foreground="#2300B3"
+          Cursor="Hand"
+          VerticalAlignment="Center" ToolTipService.InitialShowDelay="500">
+
+                        <TextBlock.ToolTip>
+                            <ToolTip>
+                                Displays the full name of the selected user.
+                            </ToolTip>
+                        </TextBlock.ToolTip>
+
+                    </TextBlock>
+                    <TextBlock Text="Full name:"
+          Margin="5,5,2,5"
+          FontSize="16"
+          VerticalAlignment="Center"/>
+                </StackPanel>
+
 
                 <TextBox Grid.Row="0"
                          Grid.Column="1"
@@ -67,11 +88,31 @@
                          Text="{Binding FullName, UpdateSourceTrigger=PropertyChanged}" />
 
                 <!-- Email -->
-                <TextBlock Grid.Row="1"
-                           Grid.Column="0"
-                           Margin="5"
-                           FontSize="16"
-                           Text="User email address:" />
+                <StackPanel Grid.Row="1"
+       Grid.Column="0"
+       Orientation="Horizontal"
+       VerticalAlignment="Center">
+
+
+
+                    <TextBlock Text="ℹ"
+          FontSize="16"
+Foreground="#2300B3"
+          Cursor="Hand"
+          VerticalAlignment="Center" ToolTipService.InitialShowDelay="500">
+
+                        <TextBlock.ToolTip>
+                            <ToolTip>
+                                Displays the e-mail address of the selected user.
+                            </ToolTip>
+                        </TextBlock.ToolTip>
+
+                    </TextBlock>
+                    <TextBlock Text="E-mail address:"
+          Margin="5,5,2,5"
+          FontSize="16"
+          VerticalAlignment="Center"/>
+                </StackPanel>
 
                 <TextBox Grid.Row="1"
                          Grid.Column="1"
@@ -80,11 +121,31 @@
                          Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}" />
 
                 <!-- Privilege -->
-                <TextBlock Grid.Row="2"
-                           Grid.Column="0"
-                           Margin="5"
-                           FontSize="16"
-                           Text="User privilege:" />
+                <StackPanel Grid.Row="2"
+       Grid.Column="0"
+       Orientation="Horizontal"
+       VerticalAlignment="Center">
+
+
+
+                    <TextBlock Text="ℹ"
+          FontSize="16"
+Foreground="#2300B3"
+          Cursor="Hand"
+          VerticalAlignment="Center" ToolTipService.InitialShowDelay="500">
+
+                        <TextBlock.ToolTip>
+                            <ToolTip>
+                                Displays the privilege of the selected user.
+                            </ToolTip>
+                        </TextBlock.ToolTip>
+
+                    </TextBlock>
+                    <TextBlock Text="Privilege:"
+          Margin="5,5,2,5"
+          FontSize="16"
+          VerticalAlignment="Center"/>
+                </StackPanel>
 
                 <ComboBox Grid.Row="2"
                           Grid.Column="1"
@@ -94,25 +155,52 @@
                           SelectedItem="{Binding SelectedPrivilege}" />
 
                 <!-- Active -->
-                <TextBlock Grid.Row="3"
-                           Grid.Column="0"
-                           Margin="5"
-                           FontSize="16"
-                           Text="User active:" />
+                <StackPanel Grid.Row="3"
+       Grid.Column="0"
+       Orientation="Horizontal"
+       VerticalAlignment="Center">
+
+
+
+                    <TextBlock Text="ℹ"
+          FontSize="16"
+Foreground="#2300B3"
+          Cursor="Hand"
+          VerticalAlignment="Center" ToolTipService.InitialShowDelay="500">
+
+                        <TextBlock.ToolTip>
+                            <ToolTip>
+                                Displays if the user is active or not.
+                            </ToolTip>
+                        </TextBlock.ToolTip>
+
+                    </TextBlock>
+                    <TextBlock Text="Active:"
+          Margin="5,5,2,5"
+          FontSize="16"
+          VerticalAlignment="Center"/>
+                </StackPanel>
 
                 <CheckBox Grid.Row="3"
                           Grid.Column="1"
-                          HorizontalAlignment="Left"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Center"
                           Margin="5"
                           IsChecked="{Binding IsActive}" />
 
                 <!-- Save -->
                 <Button Grid.Row="4"
-                        Grid.ColumnSpan="2"
-                        Margin="10,15,10,0"
-                        FontSize="18"
-                        Content="Save changes"
-                        Command="{Binding SaveUserCommand}" />
+        Grid.ColumnSpan="2"
+        Margin="10,20,10,0"
+        Padding="5"
+        FontSize="18"
+        Background="WhiteSmoke"
+        BorderBrush="#68F145"
+        BorderThickness="3"
+        Content="Save changes"
+        Command="{Binding SaveUserCommand}" />
+                
+                
             </Grid>
         </GroupBox>
 
@@ -128,9 +216,15 @@
                     Margin="10">
 
             <Button Width="200"
-                    FontSize="18"
-                    Content="Delete user"
-                    Command="{Binding DeleteUserCommand}" />
+        Margin="10"
+        Padding="5"
+        FontSize="18"
+        Background="WhiteSmoke"
+        BorderBrush="Red"
+        BorderThickness="3"
+        Content="Delete user"
+        Command="{Binding DeleteUserCommand}" />
+
         </StackPanel>
 
     </Grid>

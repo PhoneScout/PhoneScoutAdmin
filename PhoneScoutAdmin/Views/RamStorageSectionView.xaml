@@ -53,15 +53,15 @@
 
 
                                 <TextBlock Text="ℹ"
-          FontSize="14"
-          Foreground="DodgerBlue"
+          FontSize="16"
+Foreground="#2300B3"
           Cursor="Hand"
           VerticalAlignment="Center"
                           ToolTipService.InitialShowDelay="500">
 
                                     <TextBlock.ToolTip>
                                         <ToolTip>
-                                            The manufacturer name of the CPU (e.g., Intel, AMD).
+                                            Displays the ram speed.
                                         </ToolTip>
                                     </TextBlock.ToolTip>
 
@@ -87,14 +87,14 @@ Text="{Binding RamSpeed, UpdateSourceTrigger=PropertyChanged}" />
 
 
                                 <TextBlock Text="ℹ"
-          FontSize="14"
-          Foreground="DodgerBlue"
+          FontSize="16"
+Foreground="#2300B3"
           Cursor="Hand"
           VerticalAlignment="Center" ToolTipService.InitialShowDelay="500">
 
                                     <TextBlock.ToolTip>
                                         <ToolTip>
-                                            The manufacturer name of the CPU (e.g., Intel, AMD).
+                                            Displays the storage speed.
                                         </ToolTip>
                                     </TextBlock.ToolTip>
 
@@ -114,19 +114,27 @@ Text="{Binding RamSpeed, UpdateSourceTrigger=PropertyChanged}" />
                         </Grid>
                     </GroupBox>
                 </WrapPanel>
+                
+                
+                
+                
+                
                 <WrapPanel Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Center">
-                    <Button Content="Add Ram / Storage"
-        Command="{Binding AddRamStorageCommand}"
-        Margin="10"/>
+
+                    <Button Grid.Row="2" Content="Add ram / storage" Margin="0,10,0,10" FontSize="16" Width="180" Padding="5" Background="White" Foreground="Green" BorderBrush="#80A4CB" BorderThickness="3" VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding AddRamStorageCommand}"/>
+
+
+
 
                     <ListBox ItemsSource="{Binding RamStorages}"
-         SelectedItem="{Binding SelectedRamStorage}"
-         DisplayMemberPath="Name"
-         Margin="10"/>
+SelectedItem="{Binding SelectedRamStorage}"
+DisplayMemberPath="Name"
+Margin="10"/>
 
-                    <Button Content="Delete Ram / Storage"
-        Command="{Binding RemoveRamStorageCommand}"
-        Margin="10"/>
+                    <Button Grid.Row="2" Content="Remove ram / storage" Margin="0,10,0,10" FontSize="16" Width="180" Padding="5" Background="White" Foreground="Red" BorderBrush="#80A4CB" BorderThickness="3" VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding RemoveRamStorageCommand}"/>
+
+
+                    
                 </WrapPanel>
 
                 

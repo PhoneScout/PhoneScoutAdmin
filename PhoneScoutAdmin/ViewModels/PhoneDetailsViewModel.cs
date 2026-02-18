@@ -309,7 +309,7 @@ namespace PhoneScoutAdmin
                         cameraResolution = camera.CameraResolution,
                         cameraAperture = camera.CameraAperture,
                         cameraFocalLength = camera.CameraFocalLength,
-                        //cameraOis = camera.CameraOIS == 1 ? true : false,
+                        cameraOis = camera.CameraOIS == true ? 1 : 0,
                         cameraType = camera.CameraType,
                     });
                 }

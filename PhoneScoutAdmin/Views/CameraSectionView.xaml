@@ -15,18 +15,17 @@
         <!-- LEFT SIDE -->
         <StackPanel Grid.Column="0" Background="#EAEAEA">
 
-            <Button Content="Add Camera"
-                    Command="{Binding AddCameraCommand}"
-                    Margin="10"/>
+            <Button Grid.Row="2" Content="Add camera" Margin="0,10,0,10" FontSize="16" Width="180" Padding="5" Background="White" Foreground="Green" BorderBrush="#80A4CB" BorderThickness="3" VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding AddCameraCommand}"/>
+
+            
+
 
             <ListBox ItemsSource="{Binding Cameras}"
                      SelectedItem="{Binding SelectedCamera}"
                      DisplayMemberPath="Name"
                      Margin="10"/>
 
-            <Button Content="Delete Camera"
-                    Command="{Binding RemoveCameraCommand}"
-                    Margin="10"/>
+            <Button Grid.Row="2" Content="Remove camera" Margin="0,10,0,10" FontSize="16" Width="180" Padding="5" Background="White" Foreground="Red" BorderBrush="#80A4CB" BorderThickness="3" VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding RemoveCameraCommand}"/>
 
         </StackPanel>
 

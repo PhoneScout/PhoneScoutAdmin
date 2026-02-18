@@ -58,10 +58,10 @@
                             Grid.Column="0"
                             Orientation="Horizontal"
                             Margin="5">
-                    <TextBlock Text="ⓘ"
+                    <TextBlock Text="ℹ"
                                FontSize="16"
-                               Foreground="#2300B3"
-                               ToolTip="Displays the phone name."
+Foreground="#2300B3"
+                               ToolTip="Displays the selected phone's name."
                                VerticalAlignment="Center"/>
                     <TextBlock Text="  Phone name:"
                                FontSize="16"
@@ -80,10 +80,10 @@
                             Grid.Column="0"
                             Orientation="Horizontal"
                             Margin="5">
-                    <TextBlock Text="ⓘ"
+                    <TextBlock Text="ℹ"
                                FontSize="16"
                                Foreground="#2300B3"
-                               ToolTip="Displays the phone price."
+                               ToolTip="Displays the selecte phone price."
                                VerticalAlignment="Center"/>
                     <TextBlock Text="  Phone price:"
                                FontSize="16"
@@ -102,7 +102,7 @@
                             Grid.Column="0"
                             Orientation="Horizontal"
                             Margin="5">
-                    <TextBlock Text="ⓘ"
+                    <TextBlock Text="ℹ"
                                FontSize="16"
                                Foreground="#2300B3"
                                ToolTip="Indicates if the phone is in storage."
@@ -127,7 +127,7 @@
                             Grid.Column="0"
                             Orientation="Horizontal"
                             Margin="5">
-                    <TextBlock Text="ⓘ"
+                    <TextBlock Text="ℹ"
                                FontSize="16"
                                Foreground="#2300B3"
                                ToolTip="Indicates if the phone is available for sale."

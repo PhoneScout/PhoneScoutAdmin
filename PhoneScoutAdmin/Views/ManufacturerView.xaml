@@ -53,11 +53,34 @@
                 </Grid.ColumnDefinitions>
 
                 <!-- Name -->
-                <TextBlock Grid.Row="0"
-                           Grid.Column="0"
-                           Margin="5"
-                           FontSize="16"
-                           Text="Name:" />
+                <StackPanel Grid.Row="0"
+       Grid.Column="0"
+       Orientation="Horizontal"
+       VerticalAlignment="Center">
+
+
+
+                    <TextBlock Text="ℹ"
+          FontSize="16"
+Foreground="#2300B3"
+          Cursor="Hand"
+          VerticalAlignment="Center" ToolTipService.InitialShowDelay="500">
+
+                        <TextBlock.ToolTip>
+                            <ToolTip>
+                                Displays the name of the manufacturer
+                            </ToolTip>
+                        </TextBlock.ToolTip>
+
+                    </TextBlock>
+                    <TextBlock Text="Name:"
+          Margin="5,5,2,5"
+          FontSize="16"
+          VerticalAlignment="Center"/>
+                </StackPanel>
+                
+                
+
 
                 <TextBox Grid.Row="0"
                          Grid.Column="1"
@@ -66,11 +89,32 @@
                          Text="{Binding ManufacturerName, UpdateSourceTrigger=PropertyChanged}" />
 
                 <!-- URL -->
-                <TextBlock Grid.Row="1"
-                           Grid.Column="0"
-                           Margin="5"
-                           FontSize="16"
-                           Text="URL:" />
+                <StackPanel Grid.Row="1"
+       Grid.Column="0"
+       Orientation="Horizontal"
+       VerticalAlignment="Center">
+
+
+
+                    <TextBlock Text="ℹ"
+          FontSize="16"
+Foreground="#2300B3"
+          Cursor="Hand"
+          VerticalAlignment="Center" ToolTipService.InitialShowDelay="500">
+
+                        <TextBlock.ToolTip>
+                            <ToolTip>
+                                Displays the manufacturer's official website's URL.
+                            </ToolTip>
+                        </TextBlock.ToolTip>
+
+                    </TextBlock>
+                    <TextBlock Text="URL:"
+          Margin="5,5,2,5"
+          FontSize="16"
+          VerticalAlignment="Center"/>
+                </StackPanel>
+
 
                 <TextBox Grid.Row="1"
                          Grid.Column="1"
@@ -79,11 +123,32 @@
                          Text="{Binding ManufacturerUrl, UpdateSourceTrigger=PropertyChanged}" />
 
                 <!-- Email -->
-                <TextBlock Grid.Row="2"
-                           Grid.Column="0"
-                           Margin="5"
-                           FontSize="16"
-                           Text="E-mail address:" />
+                <StackPanel Grid.Row="2"
+       Grid.Column="0"
+       Orientation="Horizontal"
+       VerticalAlignment="Center">
+
+
+
+                    <TextBlock Text="ℹ"
+          FontSize="16"
+Foreground="#2300B3"
+          Cursor="Hand"
+          VerticalAlignment="Center" ToolTipService.InitialShowDelay="500">
+
+                        <TextBlock.ToolTip>
+                            <ToolTip>
+                                Displays the manufacturer's e-mail address.
+                            </ToolTip>
+                        </TextBlock.ToolTip>
+
+                    </TextBlock>
+                    <TextBlock Text="E-mail:"
+          Margin="5,5,2,5"
+          FontSize="16"
+          VerticalAlignment="Center"/>
+                </StackPanel>
+
 
                 <TextBox Grid.Row="2"
                          Grid.Column="1"

@@ -41,7 +41,7 @@
                             Grid.Column="0"
                             Orientation="Horizontal"
                             Margin="5">
-                    <TextBlock Text="ⓘ"
+                    <TextBlock Text="ℹ"
                                FontSize="16"
                                Foreground="#2300B3"
                                VerticalAlignment="Center"
@@ -66,7 +66,7 @@
                             Grid.Column="0"
                             Orientation="Horizontal"
                             Margin="5">
-                    <TextBlock Text="ⓘ"
+                    <TextBlock Text="ℹ"
                                FontSize="16"
                                Foreground="#2300B3"
                                VerticalAlignment="Center"
@@ -91,7 +91,7 @@
                             Grid.Column="0"
                             Orientation="Horizontal"
                             Margin="5">
-                    <TextBlock Text="ⓘ"
+                    <TextBlock Text="ℹ"
                                FontSize="16"
                                Foreground="#2300B3"
                                VerticalAlignment="Center"
