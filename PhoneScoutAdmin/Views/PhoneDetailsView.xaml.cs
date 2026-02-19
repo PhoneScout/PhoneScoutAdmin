@@ -10,7 +10,6 @@ namespace PhoneScoutAdmin
         public PhoneDetailsView()
         {
             InitializeComponent();
-            DataContext = new PhoneDetailsViewModel();
         }
     }
 }

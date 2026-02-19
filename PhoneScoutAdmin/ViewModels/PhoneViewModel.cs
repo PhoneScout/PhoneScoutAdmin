@@ -80,12 +80,18 @@ namespace PhoneScoutAdmin.ViewModels
         public ICommand LoadPhonesCommand { get; }
         public ICommand SavePhoneCommand { get; }
         public ICommand DeletePhoneCommand { get; }
+        public ICommand CreatePhoneCommand { get; }
+        public ICommand UpdatePhoneCommand { get; }
+
 
         public PhoneViewModel()
         {
             LoadPhonesCommand = new RelayCommand(async () => await LoadPhones());
             SavePhoneCommand = new RelayCommand(async () => await SavePhone(), () => SelectedPhone != null);
             DeletePhoneCommand = new RelayCommand(async () => await DeletePhone(), () => SelectedPhone != null);
+
+            CreatePhoneCommand = new RelayCommand(OpenCreatePhoneWindow);
+            UpdatePhoneCommand = new RelayCommand(OpenUpdatePhoneWindow);
         }
 
         private void RaiseCommandStates()
@@ -111,7 +117,7 @@ namespace PhoneScoutAdmin.ViewModels
 
             PhoneName = SelectedPhone.phoneName;
             PhonePrice = SelectedPhone.phonePrice;
-            PhoneInStore = SelectedPhone.phoneInStore == "van";
+            PhoneInStore = SelectedPhone.phoneInStore == 1;
             PhoneAvailable = SelectedPhone.phoneAvailable == 1;
         }
 
@@ -137,7 +143,7 @@ namespace PhoneScoutAdmin.ViewModels
 
             SelectedPhone.phoneName = PhoneName;
             SelectedPhone.phonePrice = PhonePrice;
-            SelectedPhone.phoneInStore = PhoneInStore ? "van" : "nincs";
+            SelectedPhone.phoneInStore = PhoneInStore ? 1 : 0;
             SelectedPhone.phoneAvailable = PhoneAvailable ? 1 : 0;
 
             using HttpClient client = new HttpClient();
@@ -160,5 +166,20 @@ namespace PhoneScoutAdmin.ViewModels
             Phones.Remove(SelectedPhone);
             SelectedPhone = null;
         }
+
+        private void OpenCreatePhoneWindow()
+        {
+            var window = new PhoneDetailsView();
+            window.DataContext = new PhoneDetailsViewModel();
+            window.Show();          
+        }
+
+        private void OpenUpdatePhoneWindow()
+        {
+            var window = new PhoneDetailsView();
+            window.DataContext = new PhoneDetailsViewModel(SelectedPhone.phoneID);
+            window.Show();
+        }
+
     }
 }

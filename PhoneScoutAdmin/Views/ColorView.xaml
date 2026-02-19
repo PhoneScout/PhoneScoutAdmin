@@ -6,7 +6,7 @@
               Grid.Column="1"
               Margin="5"
               Padding="25"
-              Header="Modify the body and speaker details"
+              Header="Modify the color details"
               BorderBrush="#2300B3"
               BorderThickness="2"
               VerticalAlignment="Center">
@@ -45,7 +45,7 @@ Foreground="#2300B3"
 
                     <TextBlock.ToolTip>
                         <ToolTip>
-                            The manufacturer name of the CPU (e.g., Intel, AMD).
+                            Displays the color's name.
                         </ToolTip>
                     </TextBlock.ToolTip>
 
@@ -78,7 +78,7 @@ Foreground="#2300B3"
 
                     <TextBlock.ToolTip>
                         <ToolTip>
-                            The manufacturer name of the CPU (e.g., Intel, AMD).
+                            Displays the color's HEX code.
                         </ToolTip>
                     </TextBlock.ToolTip>
 

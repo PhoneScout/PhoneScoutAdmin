@@ -13,7 +13,7 @@
               Grid.Column="1"
               Margin="5"
               Padding="25"
-              Header="Modify the CPU details"
+              Header="Modify the ram/storage details"
               BorderBrush="#2300B3"
               BorderThickness="2"
               VerticalAlignment="Center">

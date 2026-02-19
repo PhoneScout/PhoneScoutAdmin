@@ -151,7 +151,7 @@ Foreground="#2300B3"
 
                         <TextBlock.ToolTip>
                             <ToolTip>
-                                The manufacturer name of the CPU (e.g., Intel, AMD).
+                                Displays if the phone supports dual SIM cards.
                             </ToolTip>
                         </TextBlock.ToolTip>
 
@@ -183,7 +183,7 @@ Foreground="#2300B3"
 
                         <TextBlock.ToolTip>
                             <ToolTip>
-                                The manufacturer name of the CPU (e.g., Intel, AMD).
+                                Displays if the phone supports E-SIM cards.
                             </ToolTip>
                         </TextBlock.ToolTip>
 
@@ -216,7 +216,7 @@ Foreground="#2300B3"
 
                         <TextBlock.ToolTip>
                             <ToolTip>
-                                The manufacturer name of the CPU (e.g., Intel, AMD).
+                                Displays if the phone supports NFC.
                             </ToolTip>
                         </TextBlock.ToolTip>
 
@@ -248,7 +248,7 @@ Foreground="#2300B3"
 
                         <TextBlock.ToolTip>
                             <ToolTip>
-                                The manufacturer name of the CPU (e.g., Intel, AMD).
+                                Displays if the phone has a jack port or not.
                             </ToolTip>
                         </TextBlock.ToolTip>
 

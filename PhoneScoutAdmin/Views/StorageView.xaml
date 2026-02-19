@@ -61,7 +61,7 @@
                FontSize="16"
                Foreground="#2300B3"
                VerticalAlignment="Center"
-               ToolTip="Displays the URL of the manufacturer's official website." />
+               ToolTip="Displays the name of the selected part." />
                         <TextBlock Text="Part name:"
                FontSize="16"
                VerticalAlignment="Center"/>
@@ -74,11 +74,20 @@
                              Margin="5"
                              Text="{Binding PartName, UpdateSourceTrigger=PropertyChanged}" />
 
-                    <TextBlock Grid.Row="1"
-                               Grid.Column="0"
-                               Margin="5"
-                               FontSize="16"
-                               Text="Part amount:" />
+                    <StackPanel Grid.Row="1"
+Grid.Column="0"
+Orientation="Horizontal"
+Margin="5">
+                        <TextBlock Text="ℹ"
+   FontSize="16"
+   Foreground="#2300B3"
+   VerticalAlignment="Center"
+   ToolTip="Displays the amount of the selected part." />
+                        <TextBlock Text="Part amount:"
+   FontSize="16"
+   VerticalAlignment="Center"/>
+
+                    </StackPanel>
 
                     <TextBox Grid.Row="1"
                              Grid.Column="1"
@@ -118,11 +127,20 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock Grid.Row="0"
-                               Grid.Column="0"
-                               Margin="5"
-                               FontSize="16"
-                               Text="Part name:" />
+                    <StackPanel Grid.Row="0"
+Grid.Column="0"
+Orientation="Horizontal"
+Margin="5">
+                        <TextBlock Text="ℹ"
+   FontSize="16"
+   Foreground="#2300B3"
+   VerticalAlignment="Center"
+   ToolTip="Diaplys the name of the part." />
+                        <TextBlock Text="Part name:"
+   FontSize="16"
+   VerticalAlignment="Center"/>
+
+                    </StackPanel>
 
                     <TextBox Grid.Row="0"
                              Grid.Column="1"
@@ -130,11 +148,20 @@
                              Margin="5"
                              Text="{Binding NewPartName, UpdateSourceTrigger=PropertyChanged}" />
 
-                    <TextBlock Grid.Row="1"
-                               Grid.Column="0"
-                               Margin="5"
-                               FontSize="16"
-                               Text="Part amount:" />
+                    <StackPanel Grid.Row="1"
+Grid.Column="0"
+Orientation="Horizontal"
+Margin="5">
+                        <TextBlock Text="ℹ"
+   FontSize="16"
+   Foreground="#2300B3"
+   VerticalAlignment="Center"
+   ToolTip="Diaplys the amount of the part." />
+                        <TextBlock Text="Part amount:"
+   FontSize="16"
+   VerticalAlignment="Center"/>
+
+                    </StackPanel>
 
                     <TextBox Grid.Row="1"
                              Grid.Column="1"

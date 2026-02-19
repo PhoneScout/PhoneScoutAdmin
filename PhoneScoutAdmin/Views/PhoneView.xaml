@@ -53,11 +53,31 @@
                 </Grid.ColumnDefinitions>
 
                 <!-- Phone Name -->
-                <TextBlock Grid.Row="0"
-                           Grid.Column="0"
-                           Margin="5"
-                           Text="Phone name:"
-                           FontSize="16"/>
+                <StackPanel Grid.Row="0"
+       Grid.Column="0"
+       Orientation="Horizontal"
+       VerticalAlignment="Center">
+
+
+
+                    <TextBlock Text="ℹ"
+          FontSize="16"
+Foreground="#2300B3"
+          Cursor="Hand"
+          VerticalAlignment="Center" ToolTipService.InitialShowDelay="500">
+
+                        <TextBlock.ToolTip>
+                            <ToolTip>
+                                Displays the name of the selected phone.
+                            </ToolTip>
+                        </TextBlock.ToolTip>
+
+                    </TextBlock>
+                    <TextBlock Text="Phone name:"
+          Margin="5,5,2,5"
+          FontSize="16"
+          VerticalAlignment="Center"/>
+                </StackPanel>
 
                 <TextBox Grid.Row="0"
                          Grid.Column="1"
@@ -66,11 +86,31 @@
                          Text="{Binding PhoneName, UpdateSourceTrigger=PropertyChanged}" />
 
                 <!-- Phone Price -->
-                <TextBlock Grid.Row="1"
-                           Grid.Column="0"
-                           Margin="5"
-                           Text="Phone price:"
-                           FontSize="16"/>
+                <StackPanel Grid.Row="1"
+       Grid.Column="0"
+       Orientation="Horizontal"
+       VerticalAlignment="Center">
+
+
+
+                    <TextBlock Text="ℹ"
+          FontSize="16"
+Foreground="#2300B3"
+          Cursor="Hand"
+          VerticalAlignment="Center" ToolTipService.InitialShowDelay="500">
+
+                        <TextBlock.ToolTip>
+                            <ToolTip>
+                                Displays the price of the selected phone.
+                            </ToolTip>
+                        </TextBlock.ToolTip>
+
+                    </TextBlock>
+                    <TextBlock Text="Phone price:"
+          Margin="5,5,2,5"
+          FontSize="16"
+          VerticalAlignment="Center"/>
+                </StackPanel>
 
                 <TextBox Grid.Row="1"
                          Grid.Column="1"
@@ -79,29 +119,69 @@
                          Text="{Binding PhonePrice}" />
 
                 <!-- In Store -->
-                <TextBlock Grid.Row="2"
-                           Grid.Column="0"
-                           Margin="5"
-                           Text="Phone in store:"
-                           FontSize="16"/>
+                <StackPanel Grid.Row="2"
+       Grid.Column="0"
+       Orientation="Horizontal"
+       VerticalAlignment="Center">
+
+
+
+                    <TextBlock Text="ℹ"
+          FontSize="16"
+Foreground="#2300B3"
+          Cursor="Hand"
+          VerticalAlignment="Center" ToolTipService.InitialShowDelay="500">
+
+                        <TextBlock.ToolTip>
+                            <ToolTip>
+                                Displays if the phone is available in store or not.
+                            </ToolTip>
+                        </TextBlock.ToolTip>
+
+                    </TextBlock>
+                    <TextBlock Text="Phone in store:"
+          Margin="5,5,2,5"
+          FontSize="16"
+          VerticalAlignment="Center"/>
+                </StackPanel>
 
                 <CheckBox Grid.Row="2"
                           Grid.Column="1"
                           Margin="5"
-                          HorizontalAlignment="Left"
+                          HorizontalAlignment="Center" VerticalAlignment="Center"
                           IsChecked="{Binding PhoneInStore}" />
 
                 <!-- Available -->
-                <TextBlock Grid.Row="3"
-                           Grid.Column="0"
-                           Margin="5"
-                           Text="Phone available:"
-                           FontSize="16"/>
+                                    <StackPanel Grid.Row="3"
+       Grid.Column="0"
+       Orientation="Horizontal"
+       VerticalAlignment="Center">
+
+
+
+                        <TextBlock Text="ℹ"
+          FontSize="16"
+Foreground="#2300B3"
+          Cursor="Hand"
+          VerticalAlignment="Center" ToolTipService.InitialShowDelay="500">
+
+                            <TextBlock.ToolTip>
+                                <ToolTip>
+                                Displays if the phone is visible on the website or not.
+                            </ToolTip>
+                            </TextBlock.ToolTip>
+
+                        </TextBlock>
+                        <TextBlock Text="Phone available:"
+          Margin="5,5,2,5"
+          FontSize="16"
+          VerticalAlignment="Center"/>
+                    </StackPanel>
 
                 <CheckBox Grid.Row="3"
                           Grid.Column="1"
                           Margin="5"
-                          HorizontalAlignment="Left"
+                          HorizontalAlignment="Center" VerticalAlignment="Center"
                           IsChecked="{Binding PhoneAvailable}" />
 
                 <!-- Save -->
@@ -137,6 +217,24 @@
                     BorderThickness="3"
                     Background="WhiteSmoke"
                     Command="{Binding DeletePhoneCommand}" />
+
+            <Button Width="200"
+        Margin="10,0"
+        FontSize="16"
+        Content="Create a new phone"
+        BorderBrush="#2300B3"
+        BorderThickness="3"
+        Background="WhiteSmoke"
+        Command="{Binding CreatePhoneCommand}" />
+
+            <Button Width="200"
+Margin="10,0"
+FontSize="16"
+Content="Update this phone"
+BorderBrush="#2300B3"
+BorderThickness="3"
+Background="WhiteSmoke"
+Command="{Binding UpdatePhoneCommand}" />
         </StackPanel>
 
     </Grid>

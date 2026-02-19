@@ -6,7 +6,7 @@
               Grid.Column="1"
               Margin="5"
               Padding="25"
-              Header="Modify the body and speaker details"
+              Header="Modify the camera details"
               BorderBrush="#2300B3"
               BorderThickness="2"
               VerticalAlignment="Center">

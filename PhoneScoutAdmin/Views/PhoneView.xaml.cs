@@ -24,5 +24,7 @@ namespace PhoneScoutAdmin.Views
         {
             InitializeComponent();
         }
+
+        
     }
 }

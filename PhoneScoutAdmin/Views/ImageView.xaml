@@ -37,8 +37,9 @@
                   BorderBrush="#68F145"
                   BorderThickness="2">
 
-            <ScrollViewer>
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <ItemsControl ItemsSource="{Binding Images}">
+
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <WrapPanel/>
@@ -47,26 +48,49 @@
 
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Grid Margin="8">
+                            <Grid Width="160"
+                                  Height="180"
+                                  Margin="8">
+
+                                <!-- Image Border -->
                                 <Border BorderBrush="Gray"
                                         BorderThickness="1"
-                                        CornerRadius="5">
+                                        CornerRadius="5"
+                                        Background="White">
                                     <Image Source="{Binding Preview}"
                                            Width="150"
                                            Height="150"
-                                           Stretch="UniformToFill"/>
+                                           Stretch="UniformToFill"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"/>
                                 </Border>
 
+                                <!-- INDEX CHECKBOX -->
+                                <CheckBox Content="Index"
+                                          IsChecked="{Binding IsIndex, Mode=TwoWay}"
+                                          VerticalAlignment="Bottom"
+                                          HorizontalAlignment="Left"
+                                          Margin="5"
+                                          Background="White"
+                                          Padding="4"/>
+
+                                <!-- REMOVE BUTTON -->
                                 <Button Content="X"
                                         Width="25"
                                         Height="25"
+                                        FontWeight="Bold"
+                                        Background="Red"
+                                        Foreground="White"
                                         HorizontalAlignment="Right"
                                         VerticalAlignment="Top"
+                                        Margin="5"
                                         Command="{Binding DataContext.RemoveImageCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
                                         CommandParameter="{Binding}"/>
+
                             </Grid>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
+
                 </ItemsControl>
             </ScrollViewer>
 

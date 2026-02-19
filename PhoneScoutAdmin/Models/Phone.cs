@@ -17,7 +17,7 @@ namespace PhoneScoutAdmin
         public int phonePrice { get; set; }
 
         [JsonPropertyName("phoneInstore")]
-        public string phoneInStore { get; set; }
+        public int phoneInStore { get; set; }
 
         [JsonPropertyName("phoneAvailable")]
         public int phoneAvailable { get; set; }

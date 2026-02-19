@@ -193,7 +193,7 @@ namespace PhoneScoutAdmin.ViewModels
 
             PhoneName = SelectedPhone.phoneName;
             PhonePrice = SelectedPhone.phonePrice;
-            IsInStorage = SelectedPhone.phoneInStore == "van";
+            IsInStorage = SelectedPhone.phoneInStore == 1;
             IsAvailable = SelectedPhone.phoneAvailable == 0;
         }
 
@@ -201,8 +201,8 @@ namespace PhoneScoutAdmin.ViewModels
         {
             SelectedPhone.phoneName = PhoneName;
             SelectedPhone.phonePrice = (int)PhonePrice;
-            SelectedPhone.phoneInStore = IsInStorage ? "van" : "nincs";
-            SelectedPhone.phoneAvailable = IsAvailable ? 0 : 1;
+            SelectedPhone.phoneInStore = IsInStorage ? 1 : 0;
+            SelectedPhone.phoneAvailable = IsAvailable ? 1 : 0;
 
             using HttpClient client = new();
             var json = JsonSerializer.Serialize(SelectedPhone);

@@ -103,17 +103,96 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Price:" FontSize="16" VerticalAlignment="Center"/>
-                    <TextBox Grid.Row="0" Grid.Column="1" Width="200"
+
+                    <StackPanel Grid.Row="0"
+       Grid.Column="0"
+       Orientation="Horizontal"
+       VerticalAlignment="Center">
+
+
+
+                        <TextBlock Text="ℹ"
+          FontSize="16"
+Foreground="#2300B3"
+          Cursor="Hand"
+          VerticalAlignment="Center" ToolTipService.InitialShowDelay="500">
+
+                            <TextBlock.ToolTip>
+                                <ToolTip>
+                                    Displays the price of the selected order.
+                                </ToolTip>
+                            </TextBlock.ToolTip>
+
+                        </TextBlock>
+                        <TextBlock Text="Price:"
+          Margin="5,5,2,5"
+          FontSize="16"
+          VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <TextBox Grid.Row="0" Grid.Column="1" Width="200" Margin="5"
                              Text="{Binding SelectedOrder.price, UpdateSourceTrigger=PropertyChanged}"/>
 
-                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Amount:" FontSize="16" VerticalAlignment="Center"/>
-                    <TextBox Grid.Row="1" Grid.Column="1" Width="200"
+
+
+
+                    <StackPanel Grid.Row="1"
+       Grid.Column="0"
+       Orientation="Horizontal"
+       VerticalAlignment="Center">
+
+
+
+                        <TextBlock Text="ℹ"
+          FontSize="16"
+Foreground="#2300B3"
+          Cursor="Hand"
+          VerticalAlignment="Center" ToolTipService.InitialShowDelay="500">
+
+                            <TextBlock.ToolTip>
+                                <ToolTip>
+                                    Displays the amount of the selected order.
+                                </ToolTip>
+                            </TextBlock.ToolTip>
+
+                        </TextBlock>
+                        <TextBlock Text="Amount:"
+          Margin="5,5,2,5"
+          FontSize="16"
+          VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <TextBox Grid.Row="1" Grid.Column="1" Width="200" Margin="5"
                              Text="{Binding SelectedOrder.amount, UpdateSourceTrigger=PropertyChanged}"/>
 
-                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Status:" FontSize="16" VerticalAlignment="Center"/>
+
+
+
+                    <StackPanel Grid.Row="2"
+       Grid.Column="0"
+       Orientation="Horizontal"
+       VerticalAlignment="Center">
+
+
+
+                        <TextBlock Text="ℹ"
+          FontSize="16"
+Foreground="#2300B3"
+          Cursor="Hand"
+          VerticalAlignment="Center" ToolTipService.InitialShowDelay="500">
+
+                            <TextBlock.ToolTip>
+                                <ToolTip>
+                                    Displays the status of the selected order.
+                                </ToolTip>
+                            </TextBlock.ToolTip>
+
+                        </TextBlock>
+                        <TextBlock Text="Status:"
+          Margin="5,5,2,5"
+          FontSize="16"
+          VerticalAlignment="Center"/>
+                    </StackPanel>
                     <ComboBox Grid.Row="2" Grid.Column="1"
-                              Width="200"
+                              Width="200" Margin="5"
                               ItemsSource="{Binding Statuses}"
                               DisplayMemberPath="statusName"
                               SelectedValuePath="statusCode"

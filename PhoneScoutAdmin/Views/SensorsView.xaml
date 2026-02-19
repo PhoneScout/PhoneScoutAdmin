@@ -126,10 +126,10 @@ Foreground="#2300B3"
                VerticalAlignment="Center"/>
                 </StackPanel>
 
-                <CheckBox Grid.Row="2"
+                <CheckBox Grid.Row="2" VerticalAlignment="Center"
           Grid.Column="1"
           Margin="5"
-          HorizontalAlignment="Left"
+          HorizontalAlignment="Center"
           IsChecked="{Binding Infrared}" />
 
                 
