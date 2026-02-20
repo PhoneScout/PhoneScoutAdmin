@@ -52,7 +52,7 @@ namespace PhoneScoutAdmin.ViewModels
                         FileName = Path.GetFileName(file),
                         ImageData = imageBytes,
                         Preview = bitmap,
-                        IsIndex = Images.Count == 0 // first image as default index
+                        IsIndex = false// first image as default index
                     });
                 }
 

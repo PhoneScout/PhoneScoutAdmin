@@ -640,9 +640,7 @@ namespace PhoneScoutAdmin
                 if (response.IsSuccessStatusCode)
                 {
                     var resultJson = await response.Content.ReadAsStringAsync();
-                    MessageBox.Show("Response content:\n" + resultJson);
-                    var createdPhone = JsonSerializer.Deserialize<FullPhone>(resultJson);
-                    CurrentPhoneId = createdPhone?.phoneId; // <-- important
+                    MessageBox.Show("Sikeresen frissítve.");
                 }
                 else
                 {

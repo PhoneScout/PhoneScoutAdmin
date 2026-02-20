@@ -141,23 +141,33 @@ namespace PhoneScoutAdmin.ViewModels
         {
             if (SelectedRepair == null) return;
 
-            SelectedRepair.price = Price;
-            SelectedRepair.parts = Parts.ToList();
-            // status is already updated via binding (same as Order)
+            var dto = new Repair
+            {
+                repairID = SelectedRepair.repairID,
+                userID = SelectedRepair.userID,
+                postalCode = SelectedRepair.postalCode,
+                city = SelectedRepair.city,
+                address = SelectedRepair.address,
+                phoneNumber = SelectedRepair.phoneNumber,
+                phoneName = SelectedRepair.phoneName,
+                price = Price,
+                status = SelectedRepair.status,
+                manufacturerName = SelectedRepair.manufacturerName,
+                phoneInspection = (sbyte)SelectedRepair.phoneInspection,
+                problemDescription = SelectedRepair.problemDescription,
+                parts = Parts.ToList()
+            };
 
             using HttpClient client = new();
             string url = $"http://localhost:5175/api/Profile/updateRepair/{SelectedRepair.repairID}";
 
-            MessageBox.Show(url);
-
-
-            var json = JsonSerializer.Serialize(SelectedRepair);
+            var json = JsonSerializer.Serialize(dto);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
             var response = await client.PutAsync(url, content);
 
             if (!response.IsSuccessStatusCode)
-                MessageBox.Show(response.Content.ToString());
+                MessageBox.Show(await response.Content.ReadAsStringAsync());
         }
 
         private async Task DeleteRepair()

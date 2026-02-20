@@ -176,6 +176,5 @@ namespace PhoneScoutAdmin.ViewModels
             parts.Remove(SelectedPart);
             SelectedPart = null;
         }
-
     }
 }
