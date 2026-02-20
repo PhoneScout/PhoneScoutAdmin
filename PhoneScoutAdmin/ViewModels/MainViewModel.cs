@@ -95,7 +95,7 @@ namespace PhoneScoutAdmin.ViewModels
             });
 
             // Default view
-            CurrentViewModel = RepairVM;
+            CurrentViewModel = PhoneVM;
         }
     }
 }

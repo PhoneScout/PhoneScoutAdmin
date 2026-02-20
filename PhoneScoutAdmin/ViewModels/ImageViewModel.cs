@@ -1,5 +1,4 @@
 ﻿using Microsoft.Win32;
-using PhoneScoutAdmin;
 using PhoneScoutAdmin.Models;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -15,8 +14,7 @@ namespace PhoneScoutAdmin.ViewModels
         private void OnPropertyChanged(string name)
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
-        public ObservableCollection<PhoneImage> Images { get; }
-            = new ObservableCollection<PhoneImage>();
+        public ObservableCollection<PhoneImage> Images { get; } = new ObservableCollection<PhoneImage>();
 
         public ICommand AddImageCommand { get; }
         public ICommand RemoveImageCommand { get; }
@@ -45,7 +43,7 @@ namespace PhoneScoutAdmin.ViewModels
                     bitmap.BeginInit();
                     bitmap.CacheOption = BitmapCacheOption.OnLoad;
                     bitmap.StreamSource = new MemoryStream(imageBytes);
-                    bitmap.DecodePixelWidth = 300; // prevent memory explosion
+                    bitmap.DecodePixelWidth = 300; // prevent memory issues
                     bitmap.EndInit();
                     bitmap.Freeze();
 
@@ -53,7 +51,8 @@ namespace PhoneScoutAdmin.ViewModels
                     {
                         FileName = Path.GetFileName(file),
                         ImageData = imageBytes,
-                        Preview = bitmap
+                        Preview = bitmap,
+                        IsIndex = Images.Count == 0 // first image as default index
                     });
                 }
 

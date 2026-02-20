@@ -75,77 +75,7 @@ Foreground="#2300B3"
                          Text="{Binding PhoneName,
                                         UpdateSourceTrigger=PropertyChanged}" />
 
-                <!-- PRICE -->
-                <StackPanel Grid.Row="1"
-                            Grid.Column="0"
-                            Orientation="Horizontal"
-                            Margin="5">
-                    <TextBlock Text="ℹ"
-                               FontSize="16"
-                               Foreground="#2300B3"
-                               ToolTip="Displays the selecte phone price."
-                               VerticalAlignment="Center"/>
-                    <TextBlock Text="  Phone price:"
-                               FontSize="16"
-                               VerticalAlignment="Center"/>
-                </StackPanel>
-
-                <TextBox Grid.Row="1"
-                         Grid.Column="1"
-                         Width="180"
-                         Margin="5"
-                         Text="{Binding PhonePrice,
-                                        UpdateSourceTrigger=PropertyChanged}" />
-
-                <!-- IN STORAGE -->
-                <StackPanel Grid.Row="2"
-                            Grid.Column="0"
-                            Orientation="Horizontal"
-                            Margin="5">
-                    <TextBlock Text="ℹ"
-                               FontSize="16"
-                               Foreground="#2300B3"
-                               ToolTip="Indicates if the phone is in storage."
-                               VerticalAlignment="Center"/>
-                    <TextBlock Text="  In storage:"
-                               FontSize="16"
-                               VerticalAlignment="Center"/>
-                </StackPanel>
-
-                <CheckBox Grid.Row="2"
-                          Grid.Column="1"
-                          HorizontalAlignment="Center"
-                          VerticalAlignment="Center"
-                          IsChecked="{Binding IsInStorage}">
-                    <CheckBox.LayoutTransform>
-                        <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
-                    </CheckBox.LayoutTransform>
-                </CheckBox>
-
-                <!-- AVAILABLE -->
-                <StackPanel Grid.Row="3"
-                            Grid.Column="0"
-                            Orientation="Horizontal"
-                            Margin="5">
-                    <TextBlock Text="ℹ"
-                               FontSize="16"
-                               Foreground="#2300B3"
-                               ToolTip="Indicates if the phone is available for sale."
-                               VerticalAlignment="Center"/>
-                    <TextBlock Text="  Available:"
-                               FontSize="16"
-                               VerticalAlignment="Center"/>
-                </StackPanel>
-
-                <CheckBox Grid.Row="3"
-                          Grid.Column="1"
-                          HorizontalAlignment="Center"
-                          VerticalAlignment="Center"
-                          IsChecked="{Binding IsAvailable}">
-                    <CheckBox.LayoutTransform>
-                        <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
-                    </CheckBox.LayoutTransform>
-                </CheckBox>
+                
 
                 <!-- SAVE -->
                 <Button Grid.Row="4"

@@ -13,8 +13,8 @@ namespace PhoneScoutAdmin.ViewModels
         private void OnPropertyChanged(string name)
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
-        private int _batteryCapacity;
-        public int BatteryCapacity
+        private string _batteryCapacity;
+        public string BatteryCapacity
         {
             get => _batteryCapacity;
             set
@@ -37,8 +37,8 @@ namespace PhoneScoutAdmin.ViewModels
             }
         }
 
-        private int _maxWiredCharging;
-        public int MaxWiredCharging
+        private string _maxWiredCharging;
+        public string MaxWiredCharging
         {
             get => _maxWiredCharging;
             set
@@ -49,8 +49,8 @@ namespace PhoneScoutAdmin.ViewModels
             }
         }
 
-        private int _maxWirelessCharging;
-        public int MaxWirelessCharging
+        private string _maxWirelessCharging;
+        public string MaxWirelessCharging
         {
             get => _maxWirelessCharging;
             set

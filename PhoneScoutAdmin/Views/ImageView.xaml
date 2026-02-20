@@ -68,10 +68,10 @@
                                 <!-- INDEX CHECKBOX -->
                                 <CheckBox Content="Index"
                                           IsChecked="{Binding IsIndex, Mode=TwoWay}"
-                                          VerticalAlignment="Bottom"
-                                          HorizontalAlignment="Left"
-                                          Margin="5"
-                                          Background="White"
+                                          
+                                          Margin="0,20,0,0"
+                                          Background="Red"
+                                          Foreground="White"
                                           Padding="4"/>
 
                                 <!-- REMOVE BUTTON -->

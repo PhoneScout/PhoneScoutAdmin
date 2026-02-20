@@ -1,6 +1,7 @@
 ﻿using PhoneScoutAdmin.Models;
 using PhoneScoutAdmin.ViewModels;
 using System.ComponentModel;
+using System.IO;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
@@ -94,7 +95,7 @@ namespace PhoneScoutAdmin
 
 
 
-            SavePhoneCommand = new RelayCommand(async () => await SavePhone());
+            SavePhoneCommand = new RelayCommand(async () => await SavePhoneWithImages());
             LoadPhoneCommand = new RelayCommand<object>(async (param) =>
             {
                 if (param == null) return;
@@ -170,10 +171,7 @@ namespace PhoneScoutAdmin
             ShowColorCommand = new RelayCommand(() => CurrentViewModel = ColorSectionVM);
             ShowRamStorageCommand = new RelayCommand(() => CurrentViewModel = RamStorageSectionVM);
             ShowImagesCommand = new RelayCommand(() => CurrentViewModel = ImageVM);
-
-
-
-            SavePhoneCommand = new RelayCommand(async () => await SavePhone());
+            SavePhoneCommand = new RelayCommand(async () => await SavePhoneWithImages());
             LoadPhoneCommand = new RelayCommand<object>(async (param) =>
             {
                 if (param == null) return;
@@ -235,12 +233,14 @@ namespace PhoneScoutAdmin
             CurrentViewModel = GeneralInfosVM;
         }
 
-        private async Task SavePhone()
+        private async Task SavePhoneWithImages()
         {
             if (CurrentPhoneId == null)
                 await CreatePhone();
             else
                 await UpdatePhone();
+
+            await UploadImages(); // this will now be called after save
         }
 
 
@@ -313,10 +313,10 @@ namespace PhoneScoutAdmin
             ConnectivityVM.ConnectionSpeed = phone.connectionConnectionSpeed.ToString();
 
             //BATTERY
-            BatteryChargingVM.BatteryCapacity = (int)phone.batteryCapacity;
+            BatteryChargingVM.BatteryCapacity = phone.batteryCapacity.ToString();
             BatteryChargingVM.BatteryType = phone.batteryType;
-            BatteryChargingVM.MaxWiredCharging = (int)phone.batteryMaxChargingWired;
-            BatteryChargingVM.MaxWirelessCharging = (int)phone.batteryMaxChargingWireless;
+            BatteryChargingVM.MaxWiredCharging = phone.batteryMaxChargingWired.ToString();
+            BatteryChargingVM.MaxWirelessCharging = phone.batteryMaxChargingWireless.ToString();
             BatteryChargingVM.BatteryType = phone.batteryType;
 
             //BODY SPEAKER
@@ -422,19 +422,20 @@ namespace PhoneScoutAdmin
                 {
                     // GENERAL
                     phoneName = (GeneralInfosVM.PhoneName != "" ? GeneralInfosVM.PhoneName : ""),
-                    phonePrice = (GeneralInfosVM.PhonePrice is int ? int.Parse(GeneralInfosVM.PhonePrice) : 0),
-                    phoneWeight = (GeneralInfosVM.PhoneWeight is int ? int.Parse(GeneralInfosVM.PhoneWeight) : 0),
+                    phonePrice = int.TryParse(GeneralInfosVM.PhonePrice, out var phonePriceValue) ? phonePriceValue : 0,
+                    phoneWeight = int.TryParse(GeneralInfosVM.PhoneWeight, out var phoneWeightValue) ? phoneWeightValue : 0,
                     manufacturerName = (GeneralInfosVM.ManufacturerName != "" ? GeneralInfosVM.ManufacturerName : ""),
-                    phoneReleaseDate = (GeneralInfosVM.ReleaseDate is DateOnly ? DateOnly.Parse(GeneralInfosVM.ReleaseDate) : DateOnly.MinValue),
+                    phoneReleaseDate = DateOnly.TryParse(GeneralInfosVM.ReleaseDate, out var phoneReleaseDateValue) ? phoneReleaseDateValue : DateOnly.MinValue,
                     phoneInStore = (GeneralInfosVM.PhoneInStore == true ? 1 : 0),
 
 
                     //CPU
                     cpuName = (CpuVM.CpuName != "" ? CpuVM.CpuName : ""),
-                    phoneAntutu = (CpuVM.AntutuScore is int ? int.Parse(CpuVM.AntutuScore) : 0),
-                    cpuClock = (CpuVM.ClockSpeed is int ? int.Parse(CpuVM.ClockSpeed) : 0),
-                    cpuCores = (CpuVM.CoreNumber is int ? int.Parse(CpuVM.CoreNumber) : 0),
-                    cpuTech = (CpuVM.ManufacturingTech is int ? int.Parse(CpuVM.ManufacturingTech) : 0),
+                    phoneAntutu = int.TryParse(CpuVM.AntutuScore, out var phoneAntutuValue) ? phoneAntutuValue : 0,
+                    cpuClock = int.TryParse(CpuVM.ClockSpeed, out var cpuClockValue) ? cpuClockValue : 0,
+                    cpuCores = int.TryParse(CpuVM.CoreNumber, out var cpuCoresValue) ? cpuCoresValue : 0,
+                    cpuTech = int.TryParse(CpuVM.ManufacturingTech, out var cpuTechValue) ? cpuTechValue : 0,
+
 
                     //SENSORS
                     fingerprintPlace = (SensorsVM.FinSenPlace != "" ? SensorsVM.FinSenPlace : ""),
@@ -443,32 +444,37 @@ namespace PhoneScoutAdmin
 
                     //SCREEN
                     screenType = (ScreenVM.ScreenType != "" ? ScreenVM.ScreenType : ""),
-                    phoneResolutionHeight = (ScreenVM.ScreenResH is int ? int.Parse(ScreenVM.ScreenResH) : 0),
-                    phoneResolutionWidth = (ScreenVM.ScreenResW is int ? int.Parse(ScreenVM.ScreenResW) : 0),
-                    screenSize = (ScreenVM.ScreenSize is int ? int.Parse(ScreenVM.ScreenSize) : 0),
-                    screenRefreshRate = (ScreenVM.ScreenRefreshRate is int ? int.Parse(ScreenVM.ScreenRefreshRate) : 0),
-                    screenMaxBrightness = (ScreenVM.ScreenMaxBrightness is int ? int.Parse(ScreenVM.ScreenMaxBrightness) : 0),
+                    phoneResolutionHeight = int.TryParse(ScreenVM.ScreenResH, out var phoneResolutionHeightValue) ? phoneResolutionHeightValue : 0,
+                    phoneResolutionWidth = int.TryParse(ScreenVM.ScreenResW, out var phoneResolutionWidthValue) ? phoneResolutionWidthValue : 0,
+                    screenSize = int.TryParse(ScreenVM.ScreenSize, out var screenSizeValue) ? screenSizeValue : 0,
+                    screenRefreshRate = int.TryParse(ScreenVM.ScreenRefreshRate, out var screenRefreshRateValue) ? screenRefreshRateValue : 0,
+                    screenMaxBrightness = int.TryParse(ScreenVM.ScreenMaxBrightness, out var screenMaxBrightnessValue) ? screenMaxBrightnessValue : 0,
 
                     //CONNECTIVITY
-                    connectionMaxWifi = (ConnectivityVM.Wifi is double ? double.Parse(ConnectivityVM.Wifi) : 0),
-                    connectionMaxBluetooth = (ConnectivityVM.Bluetooth is decimal ? decimal.Parse(ConnectivityVM.Bluetooth) : 0),
-                    connectionMaxMobileNetwork = (ConnectivityVM.MobileNetwork is int ? int.Parse(ConnectivityVM.MobileNetwork) : 0),
+                    connectionMaxWifi = double.TryParse(ConnectivityVM.Wifi, out var connectionMaxWifiValue) ? connectionMaxWifiValue : 0,
+                    connectionMaxBluetooth = decimal.TryParse(ConnectivityVM.Bluetooth, out var connectionMaxBluetoothValue) ? connectionMaxBluetoothValue : 0,
+                    connectionMaxMobileNetwork = int.TryParse(ConnectivityVM.MobileNetwork, out var connectionMaxMobileNetworkValue) ? connectionMaxMobileNetworkValue : 0,
                     connectionDualSim = (ConnectivityVM.DualSim == true ? 1 : 0),
                     connectionEsim = (ConnectivityVM.ESim == true ? 1 : 0),
                     connectionNfc = (ConnectivityVM.Jack == true ? 1 : 0),
                     connectionJack = (ConnectivityVM.Jack == true ? 1 : 0),
-                    connectionConnectionSpeed = (ConnectivityVM.ConnectionSpeed is decimal ? decimal.Parse(ConnectivityVM.ConnectionSpeed) : 0),
+                    connectionConnectionSpeed = decimal.TryParse(ConnectivityVM.ConnectionSpeed, out var connectionConnectionSpeedValue) ? connectionConnectionSpeedValue : 0,
 
                     //BATTERY
-                    batteryCapacity = (BatteryChargingVM.BatteryCapacity is int ? BatteryChargingVM.BatteryCapacity : 0),
+                    batteryCapacity = int.TryParse(BatteryChargingVM.BatteryCapacity, out var batteryCapacityValue) ? batteryCapacityValue : 0,
+
+                    batteryMaxChargingWired = int.TryParse(BatteryChargingVM.MaxWiredCharging, out var batteryMaxChargingWiredValue) ? batteryMaxChargingWiredValue : 0,
+
+                    batteryMaxChargingWireless = int.TryParse(BatteryChargingVM.MaxWirelessCharging, out var batteryMaxChargingWirelessValue) ? batteryMaxChargingWirelessValue : 0,
+
                     batteryType = (BatteryChargingVM.BatteryType != "" ? BatteryChargingVM.BatteryType : ""),
-                    batteryMaxChargingWired = (BatteryChargingVM.MaxWiredCharging is int ? BatteryChargingVM.MaxWiredCharging : 0),
-                    batteryMaxChargingWireless = (BatteryChargingVM.MaxWirelessCharging is int ? BatteryChargingVM.MaxWirelessCharging : 0),
+                    chargerType = (BatteryChargingVM.ChargerType != "" ? BatteryChargingVM.ChargerType : ""),
+
 
                     //BODY SPEAKER
-                    caseHeight = (BodySpeakerVM.BodyHeight is decimal ? decimal.Parse(BodySpeakerVM.BodyHeight) : 0),
-                    caseWidth = (BodySpeakerVM.BodyWidth is decimal ? decimal.Parse(BodySpeakerVM.BodyWidth) : 0),
-                    caseThickness = (BodySpeakerVM.BodyThickness is decimal ? decimal.Parse(BodySpeakerVM.BodyThickness) : 0),
+                    caseHeight = decimal.TryParse(BodySpeakerVM.BodyHeight, out var caseHeightValue) ? caseHeightValue : 0,
+                    caseWidth = decimal.TryParse(BodySpeakerVM.BodyWidth, out var caseWidthValue) ? caseWidthValue : 0,
+                    caseThickness = decimal.TryParse(BodySpeakerVM.BodyThickness, out var caseThicknessValue) ? caseThicknessValue : 0,
                     waterproofType = (BodySpeakerVM.WaterproofType != "" ? BodySpeakerVM.WaterproofType : ""),
                     backMaterial = (BodySpeakerVM.BodyBackMaterial != "" ? BodySpeakerVM.BodyBackMaterial : ""),
                     speakerType = (BodySpeakerVM.SpeakerType != "" ? BodySpeakerVM.SpeakerType : ""),
@@ -481,8 +487,8 @@ namespace PhoneScoutAdmin
 
                     ramSpeed = (RamStorageVM.RamSpeed != "" ? RamStorageVM.RamSpeed : ""),
                     storageSpeed = (RamStorageVM.StorageSpeed != "" ? RamStorageVM.StorageSpeed : ""),
-                
-            };
+
+                };
 
                 using HttpClient client = new HttpClient();
                 string url = "http://localhost:5175/api/wpfPhone/phonePost";
@@ -491,10 +497,11 @@ namespace PhoneScoutAdmin
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
                 var response = await client.PostAsync(url, content);
-
                 if (response.IsSuccessStatusCode)
                 {
-                    MessageBox.Show("Save successful");
+                    var resultJson = await response.Content.ReadAsStringAsync();
+                    var createdPhone = JsonSerializer.Deserialize<FullPhone>(resultJson);
+                    CurrentPhoneId = createdPhone?.phoneId; // <-- important
                 }
                 else
                 {
@@ -555,19 +562,20 @@ namespace PhoneScoutAdmin
                 {
                     // GENERAL
                     phoneName = (GeneralInfosVM.PhoneName != "" ? GeneralInfosVM.PhoneName : ""),
-                    phonePrice = (GeneralInfosVM.PhonePrice is int ? int.Parse(GeneralInfosVM.PhonePrice) : 0),
-                    phoneWeight = (GeneralInfosVM.PhoneWeight is int ? int.Parse(GeneralInfosVM.PhoneWeight) : 0),
+                    phonePrice = int.TryParse(GeneralInfosVM.PhonePrice, out var phonePriceValue) ? phonePriceValue : 0,
+                    phoneWeight = int.TryParse(GeneralInfosVM.PhoneWeight, out var phoneWeightValue) ? phoneWeightValue : 0,
                     manufacturerName = (GeneralInfosVM.ManufacturerName != "" ? GeneralInfosVM.ManufacturerName : ""),
-                    phoneReleaseDate = (GeneralInfosVM.ReleaseDate is DateOnly ? DateOnly.Parse(GeneralInfosVM.ReleaseDate) : DateOnly.MinValue),
+                    phoneReleaseDate = DateOnly.TryParse(GeneralInfosVM.ReleaseDate, out var phoneReleaseDateValue) ? phoneReleaseDateValue : DateOnly.MinValue,
                     phoneInStore = (GeneralInfosVM.PhoneInStore == true ? 1 : 0),
 
 
                     //CPU
                     cpuName = (CpuVM.CpuName != "" ? CpuVM.CpuName : ""),
-                    phoneAntutu = (CpuVM.AntutuScore is int ? int.Parse(CpuVM.AntutuScore) : 0),
-                    cpuClock = (CpuVM.ClockSpeed is int ? int.Parse(CpuVM.ClockSpeed) : 0),
-                    cpuCores = (CpuVM.CoreNumber is int ? int.Parse(CpuVM.CoreNumber) : 0),
-                    cpuTech = (CpuVM.ManufacturingTech is int ? int.Parse(CpuVM.ManufacturingTech) : 0),
+                    phoneAntutu = int.TryParse(CpuVM.AntutuScore, out var phoneAntutuValue) ? phoneAntutuValue : 0,
+                    cpuClock = int.TryParse(CpuVM.ClockSpeed, out var cpuClockValue) ? cpuClockValue : 0,
+                    cpuCores = int.TryParse(CpuVM.CoreNumber, out var cpuCoresValue) ? cpuCoresValue : 0,
+                    cpuTech = int.TryParse(CpuVM.ManufacturingTech, out var cpuTechValue) ? cpuTechValue : 0,
+
 
                     //SENSORS
                     fingerprintPlace = (SensorsVM.FinSenPlace != "" ? SensorsVM.FinSenPlace : ""),
@@ -576,32 +584,37 @@ namespace PhoneScoutAdmin
 
                     //SCREEN
                     screenType = (ScreenVM.ScreenType != "" ? ScreenVM.ScreenType : ""),
-                    phoneResolutionHeight = (ScreenVM.ScreenResH is int ? int.Parse(ScreenVM.ScreenResH) : 0),
-                    phoneResolutionWidth = (ScreenVM.ScreenResW is int ? int.Parse(ScreenVM.ScreenResW) : 0),
-                    screenSize = (ScreenVM.ScreenSize is int ? int.Parse(ScreenVM.ScreenSize) : 0),
-                    screenRefreshRate = (ScreenVM.ScreenRefreshRate is int ? int.Parse(ScreenVM.ScreenRefreshRate) : 0),
-                    screenMaxBrightness = (ScreenVM.ScreenMaxBrightness is int ? int.Parse(ScreenVM.ScreenMaxBrightness) : 0),
+                    phoneResolutionHeight = int.TryParse(ScreenVM.ScreenResH, out var phoneResolutionHeightValue) ? phoneResolutionHeightValue : 0,
+                    phoneResolutionWidth = int.TryParse(ScreenVM.ScreenResW, out var phoneResolutionWidthValue) ? phoneResolutionWidthValue : 0,
+                    screenSize = int.TryParse(ScreenVM.ScreenSize, out var screenSizeValue) ? screenSizeValue : 0,
+                    screenRefreshRate = int.TryParse(ScreenVM.ScreenRefreshRate, out var screenRefreshRateValue) ? screenRefreshRateValue : 0,
+                    screenMaxBrightness = int.TryParse(ScreenVM.ScreenMaxBrightness, out var screenMaxBrightnessValue) ? screenMaxBrightnessValue : 0,
 
                     //CONNECTIVITY
-                    connectionMaxWifi = (ConnectivityVM.Wifi is double ? double.Parse(ConnectivityVM.Wifi) : 0),
-                    connectionMaxBluetooth = (ConnectivityVM.Bluetooth is decimal ? decimal.Parse(ConnectivityVM.Bluetooth) : 0),
-                    connectionMaxMobileNetwork = (ConnectivityVM.MobileNetwork is int ? int.Parse(ConnectivityVM.MobileNetwork) : 0),
+                    connectionMaxWifi = double.TryParse(ConnectivityVM.Wifi, out var connectionMaxWifiValue) ? connectionMaxWifiValue : 0,
+                    connectionMaxBluetooth = decimal.TryParse(ConnectivityVM.Bluetooth, out var connectionMaxBluetoothValue) ? connectionMaxBluetoothValue : 0,
+                    connectionMaxMobileNetwork = int.TryParse(ConnectivityVM.MobileNetwork, out var connectionMaxMobileNetworkValue) ? connectionMaxMobileNetworkValue : 0,
                     connectionDualSim = (ConnectivityVM.DualSim == true ? 1 : 0),
                     connectionEsim = (ConnectivityVM.ESim == true ? 1 : 0),
                     connectionNfc = (ConnectivityVM.Jack == true ? 1 : 0),
                     connectionJack = (ConnectivityVM.Jack == true ? 1 : 0),
-                    connectionConnectionSpeed = (ConnectivityVM.ConnectionSpeed is decimal ? decimal.Parse(ConnectivityVM.ConnectionSpeed) : 0),
+                    connectionConnectionSpeed = decimal.TryParse(ConnectivityVM.ConnectionSpeed, out var connectionConnectionSpeedValue) ? connectionConnectionSpeedValue : 0,
 
                     //BATTERY
-                    batteryCapacity = (BatteryChargingVM.BatteryCapacity is int ? BatteryChargingVM.BatteryCapacity : 0),
+                    batteryCapacity = int.TryParse(BatteryChargingVM.BatteryCapacity, out var batteryCapacityValue) ? batteryCapacityValue : 0,
+
+                    batteryMaxChargingWired = int.TryParse(BatteryChargingVM.MaxWiredCharging, out var batteryMaxChargingWiredValue) ? batteryMaxChargingWiredValue : 0,
+
+                    batteryMaxChargingWireless = int.TryParse(BatteryChargingVM.MaxWirelessCharging, out var batteryMaxChargingWirelessValue) ? batteryMaxChargingWirelessValue : 0,
+
                     batteryType = (BatteryChargingVM.BatteryType != "" ? BatteryChargingVM.BatteryType : ""),
-                    batteryMaxChargingWired = (BatteryChargingVM.MaxWiredCharging is int ? BatteryChargingVM.MaxWiredCharging : 0),
-                    batteryMaxChargingWireless = (BatteryChargingVM.MaxWirelessCharging is int ? BatteryChargingVM.MaxWirelessCharging : 0),
+                    chargerType = (BatteryChargingVM.ChargerType != "" ? BatteryChargingVM.ChargerType : ""),
+
 
                     //BODY SPEAKER
-                    caseHeight = (BodySpeakerVM.BodyHeight is decimal ? decimal.Parse(BodySpeakerVM.BodyHeight) : 0),
-                    caseWidth = (BodySpeakerVM.BodyWidth is decimal ? decimal.Parse(BodySpeakerVM.BodyWidth) : 0),
-                    caseThickness = (BodySpeakerVM.BodyThickness is decimal ? decimal.Parse(BodySpeakerVM.BodyThickness) : 0),
+                    caseHeight = decimal.TryParse(BodySpeakerVM.BodyHeight, out var caseHeightValue) ? caseHeightValue : 0,
+                    caseWidth = decimal.TryParse(BodySpeakerVM.BodyWidth, out var caseWidthValue) ? caseWidthValue : 0,
+                    caseThickness = decimal.TryParse(BodySpeakerVM.BodyThickness, out var caseThicknessValue) ? caseThicknessValue : 0,
                     waterproofType = (BodySpeakerVM.WaterproofType != "" ? BodySpeakerVM.WaterproofType : ""),
                     backMaterial = (BodySpeakerVM.BodyBackMaterial != "" ? BodySpeakerVM.BodyBackMaterial : ""),
                     speakerType = (BodySpeakerVM.SpeakerType != "" ? BodySpeakerVM.SpeakerType : ""),
@@ -624,15 +637,17 @@ namespace PhoneScoutAdmin
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
                 var response = await client.PutAsync(url, content);
-
                 if (response.IsSuccessStatusCode)
                 {
-                    MessageBox.Show("Save successful");
+                    var resultJson = await response.Content.ReadAsStringAsync();
+                    MessageBox.Show("Response content:\n" + resultJson);
+                    var createdPhone = JsonSerializer.Deserialize<FullPhone>(resultJson);
+                    CurrentPhoneId = createdPhone?.phoneId; // <-- important
                 }
                 else
                 {
                     var error = await response.Content.ReadAsStringAsync();
-                    MessageBox.Show($"Save failed: {error}");
+                    MessageBox.Show($"Status: {response.StatusCode}, Error: {error}");
                 }
             }
             catch (Exception ex)
@@ -640,7 +655,48 @@ namespace PhoneScoutAdmin
                 MessageBox.Show($"Error: {ex.Message}");
             }
         }
+        
 
+
+        // Upload images after saving phone
+        private async Task UploadImages()
+        {
+            MessageBox.Show("image");
+
+            if (CurrentPhoneId == null || ImageVM.Images.Count == 0)
+                return;
+
+            using HttpClient client = new HttpClient();
+
+            foreach (var image in ImageVM.Images)
+            {
+                using var content = new MultipartFormDataContent();
+                var imageContent = new ByteArrayContent(image.ImageData);
+
+                // Detect MIME type
+                var mimeType = Path.GetExtension(image.FileName).ToLower() switch
+                {
+                    ".png" => "image/png",
+                    ".bmp" => "image/bmp",
+                    ".jpg" or ".jpeg" => "image/jpeg",
+                    _ => "application/octet-stream"
+                };
+                imageContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(mimeType);
+                content.Add(imageContent, "file", image.FileName); // must be "file" for IFormFile
+
+                // Build URL with query parameter isIndex
+                string url = $"http://localhost:5175/api/blob/PostPicture/{CurrentPhoneId}?isIndex={image.IsIndex.ToString().ToLower()}";
+
+                var response = await client.PostAsync(url, content);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    var error = await response.Content.ReadAsStringAsync();
+                    MessageBox.Show($"Image upload failed for {image.FileName}: {error}");
+                }
+            }
+
+            MessageBox.Show("Images uploaded successfully!");
+        }
     }
-
-}
+    }
