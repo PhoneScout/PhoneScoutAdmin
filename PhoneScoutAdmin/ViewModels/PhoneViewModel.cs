@@ -1,4 +1,6 @@
-﻿using System;
+﻿using PhoneScoutAdmin.Models;
+using PhoneScoutAdmin.Views;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -7,6 +9,8 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace PhoneScoutAdmin.ViewModels
@@ -73,6 +77,18 @@ namespace PhoneScoutAdmin.ViewModels
             set { _phoneAvailable = value; OnPropertyChanged(nameof(PhoneAvailable)); }
         }
 
+        private string _phoneNameFilter;
+        public string PhoneNameFilter
+        {
+            get => _phoneNameFilter;
+            set
+            {
+                _phoneNameFilter = value;
+                OnPropertyChanged(nameof(PhoneNameFilter));
+                PhonesView.Refresh();
+            }
+        }
+
         // ======================
         // COMMANDS
         // ======================
@@ -82,22 +98,29 @@ namespace PhoneScoutAdmin.ViewModels
         public ICommand DeletePhoneCommand { get; }
         public ICommand CreatePhoneCommand { get; }
         public ICommand UpdatePhoneCommand { get; }
+        public ICollectionView PhonesView { get; }
+
 
 
         public PhoneViewModel()
         {
             LoadPhonesCommand = new RelayCommand(async () => await LoadPhones());
             SavePhoneCommand = new RelayCommand(async () => await SavePhone(), () => SelectedPhone != null);
+            UpdatePhoneCommand = new RelayCommand(async () => await OpenUpdatePhoneWindow(), () => SelectedPhone != null);
             DeletePhoneCommand = new RelayCommand(async () => await DeletePhone(), () => SelectedPhone != null);
 
             CreatePhoneCommand = new RelayCommand(OpenCreatePhoneWindow);
-            UpdatePhoneCommand = new RelayCommand(OpenUpdatePhoneWindow);
+
+            PhonesView = CollectionViewSource.GetDefaultView(Phones);
+            PhonesView.Filter = FilterPhones;
+
         }
 
         private void RaiseCommandStates()
         {
             (SavePhoneCommand as RelayCommand)?.RaiseCanExecuteChanged();
             (DeletePhoneCommand as RelayCommand)?.RaiseCanExecuteChanged();
+            (UpdatePhoneCommand as RelayCommand)?.RaiseCanExecuteChanged();
         }
 
         // ======================
@@ -174,11 +197,27 @@ namespace PhoneScoutAdmin.ViewModels
             window.Show();          
         }
 
-        private void OpenUpdatePhoneWindow()
+        private async Task OpenUpdatePhoneWindow()
         {
+            if (SelectedPhone == null) return;
+
+
             var window = new PhoneDetailsView();
             window.DataContext = new PhoneDetailsViewModel(SelectedPhone.phoneID);
             window.Show();
+        }
+
+        private bool FilterPhones(object obj)
+        {
+            if (obj is not Phone phone)
+                return false;
+
+            bool matchesphoneName = string.IsNullOrWhiteSpace(PhoneNameFilter)
+                || phone.phoneName.ToString().Contains(PhoneNameFilter);
+
+
+
+            return matchesphoneName;
         }
 
     }

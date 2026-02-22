@@ -1,4 +1,5 @@
 ﻿using PhoneScoutAdmin.Models;
+using PhoneScoutAdmin.Views;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -9,6 +10,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Data;
 
 namespace PhoneScoutAdmin.ViewModels
 {
@@ -61,6 +63,30 @@ namespace PhoneScoutAdmin.ViewModels
             set { _newPart = value; OnPropertyChanged(nameof(NewPart)); }
         }
 
+        private string _repairIdFilter;
+        public string RepairIdFilter
+        {
+            get => _repairIdFilter;
+            set
+            {
+                _repairIdFilter = value;
+                OnPropertyChanged(nameof(RepairIdFilter));
+                RepairsView.Refresh();
+            }
+        }
+
+        private string _emailFilter;
+        public string EmailFilter
+        {
+            get => _emailFilter;
+            set
+            {
+                _emailFilter = value;
+                OnPropertyChanged(nameof(EmailFilter));
+                RepairsView.Refresh();
+            }
+        }
+
         // ======================
         // COMMANDS
         // ======================
@@ -70,6 +96,7 @@ namespace PhoneScoutAdmin.ViewModels
         public ICommand DeleteRepairCommand { get; }
         public ICommand AddPartCommand { get; }
         public ICommand RemovePartCommand { get; }
+        public ICollectionView RepairsView { get; }
 
         public RepairViewModel()
         {
@@ -80,6 +107,8 @@ namespace PhoneScoutAdmin.ViewModels
             LoadRepairsCommand = new RelayCommand(async () => await LoadRepairs());
             SaveRepairCommand = new RelayCommand(async () => await SaveRepair(), () => SelectedRepair != null);
             DeleteRepairCommand = new RelayCommand(async () => await DeleteRepair(), () => SelectedRepair != null);
+            RepairsView = CollectionViewSource.GetDefaultView(Repairs);
+            RepairsView.Filter = FilterRepairs;
 
             AddPartCommand = new RelayCommand(AddPart);
             RemovePartCommand = new RelayCommand<string>(RemovePart);
@@ -114,6 +143,24 @@ namespace PhoneScoutAdmin.ViewModels
                     Parts.Add(part);
             }
         }
+
+
+        private bool FilterRepairs(object obj)
+        {
+            if (obj is not Repair repair)
+                return false;
+
+            bool matchesRepairId = string.IsNullOrWhiteSpace(RepairIdFilter)
+                || repair.repairID.ToString().Contains(RepairIdFilter);
+
+            bool matchesEmail = string.IsNullOrWhiteSpace(EmailFilter)
+                || (!string.IsNullOrEmpty(repair.userEmail) &&
+                    repair.userEmail.ToLower().Contains(EmailFilter.ToLower()));
+
+            return matchesRepairId && matchesEmail;
+        }
+
+
 
         // ======================
         // API

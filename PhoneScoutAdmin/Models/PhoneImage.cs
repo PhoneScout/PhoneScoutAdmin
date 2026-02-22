@@ -14,5 +14,6 @@ namespace PhoneScoutAdmin.Models
         public byte[] ImageData { get; set; }
         public BitmapImage Preview { get; set; }
         public bool IsIndex { get; set; }
+        public bool IsNew { get; set; }
     }
 }

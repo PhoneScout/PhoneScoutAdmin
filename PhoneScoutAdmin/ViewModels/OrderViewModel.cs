@@ -1,4 +1,5 @@
 ﻿using PhoneScoutAdmin.Models;
+using PhoneScoutAdmin.Views;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -7,6 +8,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace PhoneScoutAdmin.ViewModels
@@ -38,12 +40,38 @@ namespace PhoneScoutAdmin.ViewModels
             }
         }
 
+        private string _orderIdFilter;
+        public string OrderIdFilter
+        {
+            get => _orderIdFilter;
+            set
+            {
+                _orderIdFilter = value;
+                OnPropertyChanged(nameof(OrderIdFilter));
+                OrdersView.Refresh();
+            }
+        }
+
+        private string _emailFilter;
+        public string EmailFilter
+        {
+            get => _emailFilter;
+            set
+            {
+                _emailFilter = value;
+                OnPropertyChanged(nameof(EmailFilter));
+                OrdersView.Refresh();
+            }
+        }
+
         // ======================
         // COMMANDS
         // ======================
         public ICommand LoadOrdersCommand { get; }
         public ICommand SaveOrderCommand { get; }
         public ICommand DeleteOrderCommand { get; }
+        public ICollectionView OrdersView { get; }
+
 
         public OrderViewModel()
         {
@@ -54,6 +82,9 @@ namespace PhoneScoutAdmin.ViewModels
             LoadOrdersCommand = new RelayCommand(async () => await LoadOrders());
             SaveOrderCommand = new RelayCommand(async () => await SaveOrder(), () => SelectedOrder != null);
             DeleteOrderCommand = new RelayCommand(async () => await DeleteOrder(), () => SelectedOrder != null);
+
+            OrdersView = CollectionViewSource.GetDefaultView(Orders);
+            OrdersView.Filter = FilterOrders;
         }
 
         private void RaiseCommandStates()
@@ -85,8 +116,10 @@ namespace PhoneScoutAdmin.ViewModels
         {
             if (SelectedOrder == null) return;
 
+            MessageBox.Show($"Saving order {SelectedOrder.ID} with status {SelectedOrder.status}"); // Debug message
+
             using HttpClient client = new();
-            string url = $"http://localhost:5175/api/Profile/updateOrder/{SelectedOrder.orderID}";
+            string url = $"http://localhost:5175/api/Profile/updateOrder/{SelectedOrder.ID}";
 
             // Send full updated order (change to DTO if backend expects otherwise)
             string json = JsonSerializer.Serialize(SelectedOrder);
@@ -108,6 +141,21 @@ namespace PhoneScoutAdmin.ViewModels
             await client.DeleteAsync(url);
             Orders.Remove(SelectedOrder);
             SelectedOrder = null;
+        }
+
+        private bool FilterOrders(object obj)
+        {
+            if (obj is not Order order)
+                return false;
+
+            bool matchesOrderId = string.IsNullOrWhiteSpace(OrderIdFilter)
+                || order.orderID.ToString().Contains(OrderIdFilter);
+
+            bool matchesEmail = string.IsNullOrWhiteSpace(EmailFilter)
+                || (!string.IsNullOrEmpty(order.userEmail) &&
+                    order.userEmail.ToLower().Contains(EmailFilter.ToLower()));
+
+            return matchesOrderId && matchesEmail;
         }
     }
 }

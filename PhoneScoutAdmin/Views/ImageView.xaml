@@ -76,16 +76,17 @@
 
                                 <!-- REMOVE BUTTON -->
                                 <Button Content="X"
-                                        Width="25"
-                                        Height="25"
-                                        FontWeight="Bold"
-                                        Background="Red"
-                                        Foreground="White"
-                                        HorizontalAlignment="Right"
-                                        VerticalAlignment="Top"
-                                        Margin="5"
-                                        Command="{Binding DataContext.RemoveImageCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
-                                        CommandParameter="{Binding}"/>
+        Width="25"
+        Height="25"
+        FontWeight="Bold"
+        Background="Red"
+        Foreground="White"
+        HorizontalAlignment="Right"
+        VerticalAlignment="Top"
+        Margin="5"
+         Command="{Binding DataContext.RemoveImageCommand,
+                          RelativeSource={RelativeSource AncestorType=UserControl}}"
+        CommandParameter="{Binding}"/>
 
                             </Grid>
                         </DataTemplate>

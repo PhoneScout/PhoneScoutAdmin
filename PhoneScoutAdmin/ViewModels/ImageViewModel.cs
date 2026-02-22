@@ -5,6 +5,9 @@ using System.ComponentModel;
 using System.IO;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
+using System.Net.Http;
+using System.Text.Json;
+using System.Windows;
 
 namespace PhoneScoutAdmin.ViewModels
 {
@@ -15,6 +18,8 @@ namespace PhoneScoutAdmin.ViewModels
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
         public ObservableCollection<PhoneImage> Images { get; } = new ObservableCollection<PhoneImage>();
+
+        public int? CurrentPhoneId { get; set; }
 
         public ICommand AddImageCommand { get; }
         public ICommand RemoveImageCommand { get; }
@@ -52,7 +57,8 @@ namespace PhoneScoutAdmin.ViewModels
                         FileName = Path.GetFileName(file),
                         ImageData = imageBytes,
                         Preview = bitmap,
-                        IsIndex = false// first image as default index
+                        IsIndex = false,
+                        IsNew = true   // <-- important
                     });
                 }
 
@@ -60,9 +66,77 @@ namespace PhoneScoutAdmin.ViewModels
             }
         }
 
-        private void RemoveImage(PhoneImage image)
+        public async Task LoadImages(int phoneId)
         {
-            if (image == null) return;
+            Images.Clear();
+
+            using HttpClient client = new HttpClient();
+
+            string url = $"http://localhost:5175/api/blob/GetAllPictures/{phoneId}";
+            var response = await client.GetAsync(url);
+
+            if (!response.IsSuccessStatusCode)
+                return;
+
+            var json = await response.Content.ReadAsStringAsync();
+
+            var pictures = JsonSerializer.Deserialize<List<PhoneImage>>(json,
+                new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
+
+            if (pictures == null)
+                return;
+
+            foreach (var pic in pictures)
+            {
+                // download actual image
+                var imageBytes = await client.GetByteArrayAsync(
+                    $"http://localhost:5175/api/blob/GetPictureById/{pic.Id}");
+
+                var bitmap = new BitmapImage();
+                bitmap.BeginInit();
+                bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                bitmap.StreamSource = new MemoryStream(imageBytes);
+                bitmap.EndInit();
+                bitmap.Freeze();
+
+                Images.Add(new PhoneImage
+                {
+                    Id = pic.Id,               // <-- important
+                    FileName = $"image_{pic.Id}",
+                    ImageData = imageBytes,
+                    Preview = bitmap,
+                    IsIndex = false,
+                    IsNew = false
+                });
+            }
+
+            OnPropertyChanged(nameof(Progress));
+        }
+
+        private async void RemoveImage(PhoneImage image)
+        {
+            MessageBox.Show("remove");
+
+            if (image == null)
+                return;
+
+            if (!image.IsNew && image.Id != null)
+            {
+                using HttpClient client = new HttpClient();
+                string url = $"http://localhost:5175/api/blob/DeletePicture/{image.Id}";
+
+                var response = await client.DeleteAsync(url);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    System.Windows.MessageBox.Show("Failed to delete image from database.");
+                    return;
+                }
+            }
+
             Images.Remove(image);
             OnPropertyChanged(nameof(Progress));
         }

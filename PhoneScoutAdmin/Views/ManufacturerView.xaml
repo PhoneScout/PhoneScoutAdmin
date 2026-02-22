@@ -5,6 +5,7 @@
 
     <Grid Margin="10">
         <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
@@ -14,13 +15,28 @@
             <ColumnDefinition Width="4*" />
         </Grid.ColumnDefinitions>
 
+        <WrapPanel Grid.Row="0" Orientation="Horizontal" 
+Grid.ColumnSpan="2">
+
+            <TextBlock Text="Manufacturer Name:" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5,0,10,0" FontWeight="Bold"/>
+
+            <TextBox Width="150"
+ Height="20"
+ Margin="5"
+ Background="White"
+ Text="{Binding ManufacturerNameFilter, UpdateSourceTrigger=PropertyChanged}" />
+
+
+
+        </WrapPanel>
+
         <!-- ===================== -->
         <!-- MANUFACTURER LIST -->
         <!-- ===================== -->
 
-        <DataGrid Grid.Row="0"
+        <DataGrid Grid.Row="1"
                   Grid.Column="0"
-                  ItemsSource="{Binding Manufacturers}"
+                  ItemsSource="{Binding ManufacturersView}"
                   SelectedItem="{Binding SelectedManufacturer}"
                   AutoGenerateColumns="True"
                   CanUserAddRows="False"
@@ -30,7 +46,7 @@
         <!-- EDIT PANEL -->
         <!-- ===================== -->
 
-        <GroupBox Grid.Row="0"
+        <GroupBox Grid.Row="1"
                   Grid.Column="1"
                   Margin="5"
                   Padding="25"
@@ -120,7 +136,7 @@ Foreground="#2300B3"
                          Grid.Column="1"
                          Width="180"
                          Margin="5"
-                         Text="{Binding ManufacturerUrl, UpdateSourceTrigger=PropertyChanged}" />
+                         Text="{Binding ManufacturerURL, UpdateSourceTrigger=PropertyChanged}" />
 
                 <!-- Email -->
                 <StackPanel Grid.Row="2"
@@ -174,7 +190,7 @@ Foreground="#2300B3"
         <!-- DELETE -->
         <!-- ===================== -->
 
-        <StackPanel Grid.Row="1"
+        <StackPanel Grid.Row="2"
                     Grid.Column="0"
                     Grid.ColumnSpan="2"
                     Orientation="Horizontal"

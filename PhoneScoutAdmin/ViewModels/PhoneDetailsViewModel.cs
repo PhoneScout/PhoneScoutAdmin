@@ -1,5 +1,6 @@
 ﻿using PhoneScoutAdmin.Models;
 using PhoneScoutAdmin.ViewModels;
+using System;
 using System.ComponentModel;
 using System.IO;
 using System.Net.Http;
@@ -70,6 +71,7 @@ namespace PhoneScoutAdmin
         public ICommand ShowRamStorageCommand { get; }
         public ICommand ShowImagesCommand { get; }
         public ICommand SavePhoneCommand { get; }
+
         public ICommand LoadPhoneCommand { get; }
 
 
@@ -90,7 +92,7 @@ namespace PhoneScoutAdmin
             ShowBodySpeakerCommand = new RelayCommand(() => CurrentViewModel = BodySpeakerVM);
             ShowCameraCommand = new RelayCommand(() => CurrentViewModel = CameraSectionVM);
             ShowColorCommand = new RelayCommand(() => CurrentViewModel = ColorSectionVM);
-            ShowRamStorageCommand = new RelayCommand(() => CurrentViewModel = RamStorageSectionVM);
+            ShowRamStorageCommand = new RelayCommand(() => CurrentViewModel = RamStorageSectionVM);            
             ShowImagesCommand = new RelayCommand(() => CurrentViewModel = ImageVM);
 
 
@@ -270,6 +272,8 @@ namespace PhoneScoutAdmin
                 return;
 
             MapPhoneToViewModels(phone);
+            await ImageVM.LoadImages(phoneId);
+            ImageVM.CurrentPhoneId = phoneId;
         }
 
         private void MapPhoneToViewModels(FullPhone phone)
@@ -666,7 +670,7 @@ namespace PhoneScoutAdmin
 
             using HttpClient client = new HttpClient();
 
-            foreach (var image in ImageVM.Images)
+            foreach (var image in ImageVM.Images.Where(i => i.IsNew))
             {
                 using var content = new MultipartFormDataContent();
                 var imageContent = new ByteArrayContent(image.ImageData);
@@ -687,6 +691,10 @@ namespace PhoneScoutAdmin
 
                 var response = await client.PostAsync(url, content);
 
+                if (response.IsSuccessStatusCode)
+                {
+                    image.IsNew = false;  // <-- prevent re-upload next time
+                }
                 if (!response.IsSuccessStatusCode)
                 {
                     var error = await response.Content.ReadAsStringAsync();
@@ -696,5 +704,7 @@ namespace PhoneScoutAdmin
 
             MessageBox.Show("Images uploaded successfully!");
         }
+
+        
     }
     }

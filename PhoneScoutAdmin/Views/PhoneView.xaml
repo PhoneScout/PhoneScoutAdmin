@@ -5,6 +5,7 @@
 
     <Grid Margin="10">
         <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
@@ -14,13 +15,30 @@
             <ColumnDefinition Width="4*" />
         </Grid.ColumnDefinitions>
 
+
+        <WrapPanel Grid.Row="0" Orientation="Horizontal" 
+Grid.ColumnSpan="2">
+
+            <TextBlock Text="PhoneName:" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5,0,10,0" FontWeight="Bold"/>
+
+            <TextBox Width="150"
+ Height="20"
+ Margin="5"
+ Background="White"
+ Text="{Binding PhoneNameFilter, UpdateSourceTrigger=PropertyChanged}" />
+
+            
+
+        </WrapPanel>
+
+
         <!-- ===================== -->
         <!-- PHONE LIST -->
         <!-- ===================== -->
 
-        <DataGrid Grid.Row="0"
+        <DataGrid Grid.Row="1"
                   Grid.Column="0"
-                  ItemsSource="{Binding Phones}"
+                  ItemsSource="{Binding PhonesView}"
                   SelectedItem="{Binding SelectedPhone}"
                   AutoGenerateColumns="True"
                   Margin="5"
@@ -30,7 +48,7 @@
         <!-- EDIT PANEL -->
         <!-- ===================== -->
 
-        <GroupBox Grid.Row="0"
+        <GroupBox Grid.Row="1"
                   Grid.Column="1"
                   Margin="5"
                   Padding="20"
@@ -202,7 +220,7 @@ Foreground="#2300B3"
         <!-- BOTTOM ACTIONS -->
         <!-- ===================== -->
 
-        <StackPanel Grid.Row="1"
+        <StackPanel Grid.Row="2"
                     Grid.Column="0"
                     Grid.ColumnSpan="2"
                     Orientation="Horizontal"

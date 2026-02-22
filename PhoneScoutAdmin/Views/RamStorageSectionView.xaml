@@ -74,7 +74,7 @@ Foreground="#2300B3"
 
                             <TextBox Grid.Row="0"
 Grid.Column="1"
-Width="180"
+Width="130"
 Margin="5"
 Text="{Binding RamSpeed, UpdateSourceTrigger=PropertyChanged}" />
 
@@ -107,7 +107,7 @@ Foreground="#2300B3"
 
                             <TextBox Grid.Row="1"
                 Grid.Column="1"
-                Width="180"
+                Width="130"
                 Margin="5"
                 Text="{Binding StorageSpeed, UpdateSourceTrigger=PropertyChanged}" />
 
@@ -127,9 +127,16 @@ Foreground="#2300B3"
 
 
                     <ListBox ItemsSource="{Binding RamStorages}"
-SelectedItem="{Binding SelectedRamStorage}"
-DisplayMemberPath="Name"
-Margin="10"/>
+         SelectedItem="{Binding SelectedRamStorage}"
+         Margin="10">
+
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding RamStorageDisplay}" />
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+
+                    </ListBox>
 
                     <Button Grid.Row="2" Content="Remove ram / storage" Margin="0,10,0,10" FontSize="16" Width="180" Padding="5" Background="White" Foreground="Red" BorderBrush="#80A4CB" BorderThickness="3" VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding RemoveRamStorageCommand}"/>
 

@@ -1,12 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using PhoneScoutAdmin.Models;
+using PhoneScoutAdmin.Views;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Windows.Data;
 using System.Windows.Input;
-using PhoneScoutAdmin.Models;
 
 namespace PhoneScoutAdmin.ViewModels
 {
@@ -80,6 +82,17 @@ namespace PhoneScoutAdmin.ViewModels
             set { _isActive = value; OnPropertyChanged(nameof(IsActive)); }
         }
 
+        private string _userEmailFilter;
+        public string UserEmailFilter
+        {
+            get => _userEmailFilter;
+            set
+            {
+                _userEmailFilter = value;
+                OnPropertyChanged(nameof(UserEmailFilter));
+                UsersView.Refresh();
+            }
+        }
         // ======================
         // COMMANDS
         // ======================
@@ -87,12 +100,17 @@ namespace PhoneScoutAdmin.ViewModels
         public ICommand LoadUsersCommand { get; }
         public ICommand SaveUserCommand { get; }
         public ICommand DeleteUserCommand { get; }
+        public ICollectionView UsersView { get; }
+
 
         public UserViewModel()
         {
             LoadUsersCommand = new RelayCommand(async () => await LoadUsers());
             SaveUserCommand = new RelayCommand(async () => await SaveUser(), () => SelectedUser != null);
             DeleteUserCommand = new RelayCommand(async () => await DeleteUser(), () => SelectedUser != null);
+
+            UsersView = CollectionViewSource.GetDefaultView(Users);
+            UsersView.Filter = FilterUsers;
         }
 
         private void RaiseCommandStates()
@@ -169,6 +187,19 @@ namespace PhoneScoutAdmin.ViewModels
             await client.DeleteAsync(url);
             Users.Remove(SelectedUser);
             SelectedUser = null;
+        }
+
+        private bool FilterUsers(object obj)
+        {
+            if (obj is not User user)
+                return false;
+
+            bool matchesUserEmail = string.IsNullOrWhiteSpace(UserEmailFilter)
+                || user.email.ToString().Contains(UserEmailFilter);
+
+
+
+            return matchesUserEmail;
         }
     }
 }

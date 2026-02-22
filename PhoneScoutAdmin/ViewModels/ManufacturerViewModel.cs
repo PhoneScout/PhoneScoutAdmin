@@ -1,4 +1,5 @@
 ﻿using PhoneScoutAdmin.Models;
+using PhoneScoutAdmin.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -9,6 +10,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace PhoneScoutAdmin.ViewModels
@@ -61,6 +63,17 @@ namespace PhoneScoutAdmin.ViewModels
             set { _manufacturerURL = value; OnPropertyChanged(nameof(_manufacturerURL)); }
         }
 
+        private string _manufacturerNameFilter;
+        public string ManufacturerNameFilter
+        {
+            get => _manufacturerNameFilter;
+            set
+            {
+                _manufacturerNameFilter = value;
+                OnPropertyChanged(nameof(ManufacturerNameFilter));
+                ManufacturersView.Refresh();
+            }
+        }
 
 
         //  COMMANDS
@@ -68,6 +81,8 @@ namespace PhoneScoutAdmin.ViewModels
         public ICommand LoadManufacturersCommand { get; }
         public ICommand SaveManufacturerCommand { get; }
         public ICommand DeleteManufacturerCommand { get; }
+        public ICollectionView ManufacturersView { get; }
+
 
 
         public ManufacturerViewModel()
@@ -75,6 +90,9 @@ namespace PhoneScoutAdmin.ViewModels
             LoadManufacturersCommand = new RelayCommand(async () => await LoadManufacturers());
             SaveManufacturerCommand = new RelayCommand(async () => await SaveManufacturer(), () => SelectedManufacturer != null);
             DeleteManufacturerCommand = new RelayCommand(async () => await DeleteManufacturer(), () => SelectedManufacturer != null);
+
+            ManufacturersView = CollectionViewSource.GetDefaultView(Manufacturers);
+            ManufacturersView.Filter = FilterManufacturers;
         }
 
         private void RaiseCommandStates()
@@ -155,5 +173,19 @@ namespace PhoneScoutAdmin.ViewModels
             SelectedManufacturer = null;
 
         }
+
+        private bool FilterManufacturers(object obj)
+        {
+            if (obj is not Manufacturer manufacturer)
+                return false;
+
+            bool matchesManufacturerName = string.IsNullOrWhiteSpace(ManufacturerNameFilter)
+                || manufacturer.manufacturerName.ToString().Contains(ManufacturerNameFilter);
+
+
+
+            return matchesManufacturerName;
+        }
+
     }
 }

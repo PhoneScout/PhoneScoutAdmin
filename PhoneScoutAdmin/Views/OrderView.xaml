@@ -5,6 +5,7 @@
 
     <Grid Margin="10">
         <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
@@ -14,18 +15,42 @@
             <ColumnDefinition Width="4*" />
         </Grid.ColumnDefinitions>
 
+
+        <WrapPanel Grid.Row="0" Orientation="Horizontal" 
+Grid.ColumnSpan="2">
+
+            <TextBlock Text="Order ID:" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5,0,10,0" FontWeight="Bold"/>
+
+            <TextBox Width="150"
+ Height="20"
+ Margin="5"
+ Background="White"
+ Text="{Binding OrderIdFilter, UpdateSourceTrigger=PropertyChanged}" />
+
+            <TextBlock Text="Email:" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5,0,10,0" FontWeight="Bold"/>
+
+            <TextBox Width="150"
+ Height="20"
+ Margin="5"
+ Background="White"
+ Text="{Binding EmailFilter, UpdateSourceTrigger=PropertyChanged}" />
+
+        </WrapPanel>
+
+
         <!-- ===================== -->
         <!-- ORDERS DATA GRID -->
         <!-- ===================== -->
-        <DataGrid Grid.Row="0"
+        <DataGrid Grid.Row="1"
                   Grid.Column="0"
-                  ItemsSource="{Binding Orders}"
+                  ItemsSource="{Binding OrdersView}"
                   SelectedItem="{Binding SelectedOrder}"
                   AutoGenerateColumns="False"
                   CanUserAddRows="False"
                   ColumnWidth="*"
                   Margin="5">
             <DataGrid.Columns>
+                <DataGridTextColumn Header="Order ID" Binding="{Binding orderID}" />
                 <DataGridTextColumn Header="E-mail address" Binding="{Binding userEmail}" />
                 <DataGridTextColumn Header="Phone name" Binding="{Binding phoneName}" />
                 <DataGridTextColumn Header="Price" Binding="{Binding price}" />
@@ -37,7 +62,7 @@
         <!-- ===================== -->
         <!-- RIGHT PANEL -->
         <!-- ===================== -->
-        <StackPanel Grid.Row="0"
+        <StackPanel Grid.Row="1"
                     Grid.Column="1"
                     VerticalAlignment="Top"
                     Margin="5">
@@ -214,7 +239,7 @@ Foreground="#2300B3"
         <!-- ===================== -->
         <!-- DELETE ORDER BUTTON -->
         <!-- ===================== -->
-        <StackPanel Grid.Row="1"
+        <StackPanel Grid.Row="2"
                     Grid.Column="0"
                     Grid.ColumnSpan="2"
                     Orientation="Horizontal"

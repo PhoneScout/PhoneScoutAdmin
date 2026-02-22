@@ -14,7 +14,7 @@
 
         <GroupBox Margin="20"
                   Padding="25"
-                  Header="Modify the manufacturer details"
+                  Header="Modify the details"
                   BorderBrush="#2300B3"
                   BorderThickness="2"
                   VerticalAlignment="Center"

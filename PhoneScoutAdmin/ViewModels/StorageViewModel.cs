@@ -1,4 +1,5 @@
 ﻿using PhoneScoutAdmin.Models;
+using PhoneScoutAdmin.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,6 +9,7 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace PhoneScoutAdmin.ViewModels
@@ -19,7 +21,7 @@ namespace PhoneScoutAdmin.ViewModels
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
 
-        public ObservableCollection<Part> parts { get; set; } = new ObservableCollection<Part>();
+        public ObservableCollection<Part> Parts { get; set; } = new ObservableCollection<Part>();
 
 
 
@@ -67,11 +69,23 @@ namespace PhoneScoutAdmin.ViewModels
             set { _newPartAmount = value; OnPropertyChanged(nameof(NewPartAmount)); }
         }
 
+        private string _partNameFilter;
+        public string PartNameFilter
+        {
+            get => _partNameFilter;
+            set
+            {
+                _partNameFilter = value;
+                OnPropertyChanged(nameof(PartNameFilter));
+                PartsView.Refresh();
+            }
+        }
 
         public ICommand LoadPartsCommand { get; }
         public ICommand SavePartCommand { get; }
         public ICommand CreatePartCommand { get; }
         public ICommand DeletePartCommand { get; }
+        public ICollectionView PartsView { get; }
 
         public StorageViewModel()
         {
@@ -79,6 +93,9 @@ namespace PhoneScoutAdmin.ViewModels
             SavePartCommand = new RelayCommand(async () => await SavePart(), () => SelectedPart != null);
             CreatePartCommand = new RelayCommand(async () => await CreatePart());
             DeletePartCommand = new RelayCommand(async () => await DeletePart(), () => SelectedPart != null);
+
+            PartsView = CollectionViewSource.GetDefaultView(Parts);
+            PartsView.Filter = FilterParts;
         }
 
         private void RaiseCommandStates()
@@ -114,9 +131,9 @@ namespace PhoneScoutAdmin.ViewModels
             string json = await response.Content.ReadAsStringAsync();
             var partList = JsonSerializer.Deserialize<List<Part>>(json);
 
-            parts.Clear();
+            Parts.Clear();
             foreach (var phone in partList)
-                parts.Add(phone);
+                Parts.Add(phone);
         }
 
         private async Task SavePart()
@@ -173,8 +190,21 @@ namespace PhoneScoutAdmin.ViewModels
             string url = $"http://localhost:5175/api/wpfStorage/{SelectedPart.partID}";
 
             await client.DeleteAsync(url);
-            parts.Remove(SelectedPart);
+            Parts.Remove(SelectedPart);
             SelectedPart = null;
+        }
+
+        private bool FilterParts(object obj)
+        {
+            if (obj is not Part part)
+                return false;
+
+            bool matchesPartName = string.IsNullOrWhiteSpace(PartNameFilter)
+                || part.partName.ToString().Contains(PartNameFilter);
+
+
+
+            return matchesPartName;
         }
     }
 }

@@ -58,6 +58,7 @@ namespace PhoneScoutAdmin.ViewModels
             }
         }
 
+        public string RamStorageDisplay => $"{RamAmount}/{StorageAmount}";
 
     }
 }
