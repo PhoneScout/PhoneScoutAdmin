@@ -4,6 +4,6 @@
              xmlns:local="clr-namespace:PhoneScoutAdmin"
              xmlns:vm="clr-namespace:PhoneScoutAdmin.ViewModels"
              xmlns:views="clr-namespace:PhoneScoutAdmin.Views"
-             StartupUri="Views/Home.xaml">
+             StartupUri="Views/LoginView.xaml">
     
 </Application>
