@@ -90,24 +90,38 @@ public class FirstLoginPasswordChangeViewModel : INotifyPropertyChanged
             string currentDbSalt = (await saltResponse.Content.ReadAsStringAsync()).Trim('"');
 
             // 4️⃣ Hash the old password with the DB salt
+            // Hash old password like React does
             string oldHashed = ComputeSHA256(CurrentPassword + currentDbSalt);
 
-            // 5️⃣ Generate new salt and hash new password
+            // Generate new salt
             string newSalt = Guid.NewGuid().ToString();
+
+            // Hash new password
             string newHashed = ComputeSHA256(NewPassword + newSalt);
 
-            // 6️⃣ Send PUT request to backend
             var dto = new
             {
                 Email = _email.Trim().ToLower(),
-                OldPassword = CurrentPassword,        // send exactly what user typed
-                NewPassword = ComputeSHA256(NewPassword + newSalt),
+                OldPassword = oldHashed,   // ✅ HASHED
+                NewPassword = newHashed,   // ✅ HASHED
                 Salt = newSalt
             };
 
             var content = new StringContent(JsonSerializer.Serialize(dto), Encoding.UTF8, "application/json");
             var response = await _httpClient.PutAsync("http://localhost:5175/api/Registration/ChangePassword", content);
 
+
+            if (response.IsSuccessStatusCode)
+            {
+                await _httpClient.PutAsync(
+                    $"http://localhost:5175/api/Registration/ActivateAccountWPF?email={Uri.EscapeDataString(_email)}",
+                    null
+                );
+               
+                StatusMessage = "Sikeres jelszó módosítás!";
+
+
+            }
             if (!response.IsSuccessStatusCode)
             {
                 string errorMsg = await response.Content.ReadAsStringAsync();

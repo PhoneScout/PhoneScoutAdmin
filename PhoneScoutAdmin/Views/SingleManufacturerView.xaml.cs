@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PhoneScoutAdmin.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,7 @@ namespace PhoneScoutAdmin.Views
         public SingleManufacturerView()
         {
             InitializeComponent();
+            DataContext = new SingleManufacturerViewModel();
         }
     }
 }
