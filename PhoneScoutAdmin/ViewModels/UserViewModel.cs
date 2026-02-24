@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 
@@ -174,7 +175,17 @@ namespace PhoneScoutAdmin.ViewModels
             string json = JsonSerializer.Serialize(SelectedUser);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            await client.PutAsync(url, content);
+            var response = await client.PutAsync(url, content);
+            if (!response.IsSuccessStatusCode)
+            {
+                MessageBox.Show("An error occurred while saving the user!", "Error", MessageBoxButton.OK);
+                return;
+            }
+            else
+            {
+                MessageBox.Show("Successfully updated.", "Update", MessageBoxButton.OK);
+                UsersView.Refresh();
+            }
         }
 
         private async Task DeleteUser()
@@ -184,9 +195,20 @@ namespace PhoneScoutAdmin.ViewModels
             using HttpClient client = new HttpClient();
             string url = $"http://localhost:5175/api/wpfUsers/{SelectedUser.userID}";
 
-            await client.DeleteAsync(url);
-            Users.Remove(SelectedUser);
-            SelectedUser = null;
+            var response = await client.DeleteAsync(url);           
+
+            if (!response.IsSuccessStatusCode)
+            {
+                MessageBox.Show("An error occurred while deleting the user!", "Error", MessageBoxButton.OK);
+                return;
+            }
+            else
+            {
+                MessageBox.Show("Successfully deleted.", "Update", MessageBoxButton.OK);
+                UsersView.Refresh();
+                Users.Remove(SelectedUser);
+                SelectedUser = null;
+            }
         }
 
         private bool FilterUsers(object obj)

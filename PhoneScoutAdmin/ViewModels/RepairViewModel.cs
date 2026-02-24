@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Data;
+using System.Windows.Controls;
 
 namespace PhoneScoutAdmin.ViewModels
 {
@@ -214,7 +215,15 @@ namespace PhoneScoutAdmin.ViewModels
             var response = await client.PutAsync(url, content);
 
             if (!response.IsSuccessStatusCode)
-                MessageBox.Show(await response.Content.ReadAsStringAsync());
+            {
+                MessageBox.Show("An error occurred while saving the repair!", "Error", MessageBoxButton.OK);
+                return;
+            }
+            else
+            {
+                MessageBox.Show("Successfully updated.", "Update", MessageBoxButton.OK);
+                RepairsView.Refresh();
+            }
         }
 
         private async Task DeleteRepair()

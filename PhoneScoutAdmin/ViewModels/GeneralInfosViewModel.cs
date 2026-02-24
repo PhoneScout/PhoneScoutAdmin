@@ -25,17 +25,7 @@ namespace PhoneScoutAdmin.ViewModels
             }
         }
 
-        private string _phonePrice;
-        public string PhonePrice
-        {
-            get => _phonePrice;
-            set
-            {
-                _phonePrice = value;
-                OnPropertyChanged(nameof(PhonePrice));
-                OnPropertyChanged(nameof(Progress));
-            }
-        }
+        
 
         private string _manufacturerName;
         public string ManufacturerName
@@ -73,17 +63,7 @@ namespace PhoneScoutAdmin.ViewModels
             }
         }
 
-        private bool _phoneInStore;
-        public bool PhoneInStore
-        {
-            get => _phoneInStore;
-            set
-            {
-                _phoneInStore = value;
-                OnPropertyChanged(nameof(PhoneInStore));
-                OnPropertyChanged(nameof(Progress));
-            }
-        }
+        
 
         public double Progress
         {
@@ -91,8 +71,7 @@ namespace PhoneScoutAdmin.ViewModels
             {
                 int filled = 0;
 
-                if (!string.IsNullOrWhiteSpace(PhoneName)) filled++;
-                if (!string.IsNullOrWhiteSpace(PhonePrice)) filled++;
+                if (!string.IsNullOrWhiteSpace(PhoneName)) filled++;                
                 if (!string.IsNullOrWhiteSpace(ManufacturerName)) filled++;
                 if (!string.IsNullOrWhiteSpace(ReleaseDate)) filled++;
                 if (!string.IsNullOrWhiteSpace(PhoneWeight)) filled++;

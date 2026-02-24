@@ -116,8 +116,6 @@ namespace PhoneScoutAdmin.ViewModels
         {
             if (SelectedOrder == null) return;
 
-            MessageBox.Show($"Saving order {SelectedOrder.ID} with status {SelectedOrder.status}"); // Debug message
-
             using HttpClient client = new();
             string url = $"http://localhost:5175/api/Profile/updateOrder/{SelectedOrder.ID}";
 
@@ -125,10 +123,18 @@ namespace PhoneScoutAdmin.ViewModels
             string json = JsonSerializer.Serialize(SelectedOrder);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await client.PutAsync(url, content);
+            var response = await client.PutAsync(url, content);            
 
             if (!response.IsSuccessStatusCode)
-                MessageBox.Show("Failed to save order.");
+            {
+                MessageBox.Show("An error occurred while saving the order!", "Error", MessageBoxButton.OK);
+                return;
+            }
+            else
+            {
+                MessageBox.Show("Successfully updated.", "Update", MessageBoxButton.OK);
+                OrdersView.Refresh();
+            }
         }
 
         private async Task DeleteOrder()
@@ -136,11 +142,23 @@ namespace PhoneScoutAdmin.ViewModels
             if (SelectedOrder == null) return;
 
             using HttpClient client = new();
-            string url = $"http://localhost:5175/api/Profile/deleteOrder/{SelectedOrder.orderID}";
+            string url = $"http://localhost:5175/api/Profile/deleteOrder/{SelectedOrder.ID}";
 
-            await client.DeleteAsync(url);
-            Orders.Remove(SelectedOrder);
-            SelectedOrder = null;
+            var response = await client.DeleteAsync(url);
+            
+            if (!response.IsSuccessStatusCode)
+            {
+                MessageBox.Show("An error occurred while deleting the order!", "Error", MessageBoxButton.OK);
+                return;
+            }
+            else
+            {
+                MessageBox.Show("Successfully deleted.", "Update", MessageBoxButton.OK);
+                Orders.Remove(SelectedOrder);
+                SelectedOrder = null;
+                OrdersView.Refresh();
+            }
+
         }
 
         private bool FilterOrders(object obj)

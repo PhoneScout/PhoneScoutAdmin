@@ -19,7 +19,6 @@ namespace PhoneScoutAdmin.Models
         public int? screenRefreshRate { get; set; }
         public int? screenMaxBrightness { get; set; }
         public int? screenSharpness { get; set; }
-
         public double? connectionMaxWifi { get; set; }
         public decimal? connectionMaxBluetooth { get; set; }
         public int? connectionMaxMobileNetwork { get; set; }
@@ -43,6 +42,8 @@ namespace PhoneScoutAdmin.Models
         public int? phonePrice { get; set; }
         public int? phoneInStore { get; set; }
         public int? phoneInStoreAmount { get; set; }
+        public int? phoneAvailable { get; set; }
+        
 
         // Related entities
         public string? backMaterial { get; set; }

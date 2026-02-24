@@ -1,5 +1,6 @@
 ﻿using PhoneScoutAdmin.Models;
 using PhoneScoutAdmin.ViewModels;
+using PhoneScoutAdmin.Views;
 using System;
 using System.ComponentModel;
 using System.IO;
@@ -280,11 +281,10 @@ namespace PhoneScoutAdmin
         {
             // GENERAL
             GeneralInfosVM.PhoneName = phone.phoneName;
-            GeneralInfosVM.PhonePrice = phone.phonePrice.ToString();
             GeneralInfosVM.PhoneWeight = phone.phoneWeight.ToString();
             GeneralInfosVM.ManufacturerName = phone.manufacturerName;
             GeneralInfosVM.ReleaseDate = phone.phoneReleaseDate.ToString();
-            GeneralInfosVM.PhoneInStore = phone.phoneInStore == 1 ? true : false;
+            
 
             //CPU
             CpuVM.CpuName = phone.cpuName;
@@ -303,6 +303,7 @@ namespace PhoneScoutAdmin
             ScreenVM.ScreenResH = phone.phoneResolutionHeight.ToString();
             ScreenVM.ScreenResW = phone.phoneResolutionWidth.ToString();
             ScreenVM.ScreenSize = phone.screenSize.ToString();
+            ScreenVM.ScreenSharpness = phone.screenSharpness.ToString();
             ScreenVM.ScreenRefreshRate = phone.screenRefreshRate.ToString();
             ScreenVM.ScreenMaxBrightness = phone.screenMaxBrightness.ToString();
 
@@ -426,11 +427,12 @@ namespace PhoneScoutAdmin
                 {
                     // GENERAL
                     phoneName = (GeneralInfosVM.PhoneName != "" ? GeneralInfosVM.PhoneName : ""),
-                    phonePrice = int.TryParse(GeneralInfosVM.PhonePrice, out var phonePriceValue) ? phonePriceValue : 0,
+                    phonePrice = 0,
                     phoneWeight = int.TryParse(GeneralInfosVM.PhoneWeight, out var phoneWeightValue) ? phoneWeightValue : 0,
                     manufacturerName = (GeneralInfosVM.ManufacturerName != "" ? GeneralInfosVM.ManufacturerName : ""),
                     phoneReleaseDate = DateOnly.TryParse(GeneralInfosVM.ReleaseDate, out var phoneReleaseDateValue) ? phoneReleaseDateValue : DateOnly.MinValue,
-                    phoneInStore = (GeneralInfosVM.PhoneInStore == true ? 1 : 0),
+                    phoneInStore = 0,
+                    phoneAvailable = 0,
 
 
                     //CPU
@@ -565,12 +567,11 @@ namespace PhoneScoutAdmin
                 var newPhone = new FullPhone
                 {
                     // GENERAL
-                    phoneName = (GeneralInfosVM.PhoneName != "" ? GeneralInfosVM.PhoneName : ""),
-                    phonePrice = int.TryParse(GeneralInfosVM.PhonePrice, out var phonePriceValue) ? phonePriceValue : 0,
+                    phoneName = (GeneralInfosVM.PhoneName != "" ? GeneralInfosVM.PhoneName : ""),                    
                     phoneWeight = int.TryParse(GeneralInfosVM.PhoneWeight, out var phoneWeightValue) ? phoneWeightValue : 0,
                     manufacturerName = (GeneralInfosVM.ManufacturerName != "" ? GeneralInfosVM.ManufacturerName : ""),
                     phoneReleaseDate = DateOnly.TryParse(GeneralInfosVM.ReleaseDate, out var phoneReleaseDateValue) ? phoneReleaseDateValue : DateOnly.MinValue,
-                    phoneInStore = (GeneralInfosVM.PhoneInStore == true ? 1 : 0),
+                    
 
 
                     //CPU

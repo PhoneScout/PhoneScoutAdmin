@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Net.Http;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace PhoneScoutAdmin.ViewModels
 {
@@ -95,7 +97,6 @@ namespace PhoneScoutAdmin.ViewModels
 
         public ICommand LoadPhonesCommand { get; }
         public ICommand SavePhoneCommand { get; }
-        public ICommand DeletePhoneCommand { get; }
         public ICommand CreatePhoneCommand { get; }
         public ICommand UpdatePhoneCommand { get; }
         public ICollectionView PhonesView { get; }
@@ -107,7 +108,6 @@ namespace PhoneScoutAdmin.ViewModels
             LoadPhonesCommand = new RelayCommand(async () => await LoadPhones());
             SavePhoneCommand = new RelayCommand(async () => await SavePhone(), () => SelectedPhone != null);
             UpdatePhoneCommand = new RelayCommand(async () => await OpenUpdatePhoneWindow(), () => SelectedPhone != null);
-            DeletePhoneCommand = new RelayCommand(async () => await DeletePhone(), () => SelectedPhone != null);
 
             CreatePhoneCommand = new RelayCommand(OpenCreatePhoneWindow);
 
@@ -119,7 +119,6 @@ namespace PhoneScoutAdmin.ViewModels
         private void RaiseCommandStates()
         {
             (SavePhoneCommand as RelayCommand)?.RaiseCanExecuteChanged();
-            (DeletePhoneCommand as RelayCommand)?.RaiseCanExecuteChanged();
             (UpdatePhoneCommand as RelayCommand)?.RaiseCanExecuteChanged();
         }
 
@@ -175,26 +174,25 @@ namespace PhoneScoutAdmin.ViewModels
             string json = JsonSerializer.Serialize(SelectedPhone);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            await client.PutAsync(url, content);
-        }
-
-        private async Task DeletePhone()
-        {
-            if (SelectedPhone == null) return;
-
-            using HttpClient client = new HttpClient();
-            string url = $"http://localhost:5175/api/wpfPhone/{SelectedPhone.phoneID}";
-
-            await client.DeleteAsync(url);
-            Phones.Remove(SelectedPhone);
-            SelectedPhone = null;
+            var response = await client.PutAsync(url, content);
+            if (!response.IsSuccessStatusCode)
+            {
+                MessageBox.Show("An error occurred while saving the phone!", "Error", MessageBoxButton.OK);
+                return;
+            }
+            else
+            {
+                MessageBox.Show("Successfully updated.", "Update", MessageBoxButton.OK);
+                PhonesView.Refresh();
+                return;
+            }
         }
 
         private void OpenCreatePhoneWindow()
         {
             var window = new PhoneDetailsView();
             window.DataContext = new PhoneDetailsViewModel();
-            window.Show();          
+            window.Show();
         }
 
         private async Task OpenUpdatePhoneWindow()

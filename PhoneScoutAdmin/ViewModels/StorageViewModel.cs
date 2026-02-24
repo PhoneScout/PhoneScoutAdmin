@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 
@@ -150,7 +151,17 @@ namespace PhoneScoutAdmin.ViewModels
             string json = JsonSerializer.Serialize(SelectedPart);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            await client.PutAsync(url, content);
+            var response = await client.PutAsync(url, content);
+            if (!response.IsSuccessStatusCode)
+            {
+                MessageBox.Show("An error occurred while saving the part!", "Error", MessageBoxButton.OK);
+                return;
+            }
+            else
+            {
+                MessageBox.Show("Successfully updated.", "Update", MessageBoxButton.OK);
+                PartsView.Refresh();
+            }
         }
 
         private async Task CreatePart()
@@ -172,11 +183,18 @@ namespace PhoneScoutAdmin.ViewModels
             // 3. POST to the collection URL
             var response = await client.PostAsync(url, content);
 
-            if (response.IsSuccessStatusCode)
+            
+            if (!response.IsSuccessStatusCode)
             {
-                // Optional: Clear fields after successful upload
+                MessageBox.Show("An error occurred while adding the part!", "Error", MessageBoxButton.OK);
+                return;
+            }
+            else
+            {
+                MessageBox.Show("Successfully added.", "Update", MessageBoxButton.OK);
                 NewPartName = string.Empty;
                 NewPartAmount = 0;
+                PartsView.Refresh();
             }
         }
 
@@ -189,9 +207,20 @@ namespace PhoneScoutAdmin.ViewModels
             using HttpClient client = new HttpClient();
             string url = $"http://localhost:5175/api/wpfStorage/{SelectedPart.partID}";
 
-            await client.DeleteAsync(url);
-            Parts.Remove(SelectedPart);
-            SelectedPart = null;
+            var response = await client.DeleteAsync(url);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                MessageBox.Show("An error occurred while deleting the part!", "Error", MessageBoxButton.OK);
+                return;
+            }
+            else
+            {
+                MessageBox.Show("Successfully deleted.", "Update", MessageBoxButton.OK);
+                Parts.Remove(SelectedPart);
+                SelectedPart = null;
+                PartsView.Refresh();
+            }            
         }
 
         private bool FilterParts(object obj)

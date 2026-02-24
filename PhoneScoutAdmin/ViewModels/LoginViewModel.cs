@@ -127,13 +127,11 @@ public class LoginViewModel : INotifyPropertyChanged
 
             Application.Current.Dispatcher.Invoke(() =>
             {
-                if (result.Privilege == 1) // Admin
+                if (result.Privilege == 7) // Admin
                 {
                     MessageBox.Show("adminlogin");
 
-                    var adminWindow = new Home();
-                    adminWindow.DataContext = new Home();
-                    adminWindow.Show();
+                    OpenAdminHome();
                     CloseLoginWindow();
                 }
                 else if (result.Privilege == 6) // Manufacturer
@@ -181,6 +179,22 @@ public class LoginViewModel : INotifyPropertyChanged
             Content = new SingleManufacturerPhonesView
             {
                 DataContext = new ManufacturerHomeViewModel()
+            }
+        };
+
+        window.Show();
+    }
+
+    private void OpenAdminHome()
+    {
+        var window = new Window
+        {
+            Title = "Manufacturer Interface",
+            Width = 1200,
+            Height = 700,
+            Content = new PhoneDetailsView
+            {
+                DataContext = new PhoneDetailsView()
             }
         };
 

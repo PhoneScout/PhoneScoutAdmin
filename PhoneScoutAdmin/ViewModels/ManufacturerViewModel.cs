@@ -80,7 +80,6 @@ namespace PhoneScoutAdmin.ViewModels
 
         public ICommand LoadManufacturersCommand { get; }
         public ICommand SaveManufacturerCommand { get; }
-        public ICommand DeleteManufacturerCommand { get; }
         public ICollectionView ManufacturersView { get; }
 
 
@@ -89,7 +88,6 @@ namespace PhoneScoutAdmin.ViewModels
         {
             LoadManufacturersCommand = new RelayCommand(async () => await LoadManufacturers());
             SaveManufacturerCommand = new RelayCommand(async () => await SaveManufacturer(), () => SelectedManufacturer != null);
-            DeleteManufacturerCommand = new RelayCommand(async () => await DeleteManufacturer(), () => SelectedManufacturer != null);
 
             ManufacturersView = CollectionViewSource.GetDefaultView(Manufacturers);
             ManufacturersView.Filter = FilterManufacturers;
@@ -98,7 +96,6 @@ namespace PhoneScoutAdmin.ViewModels
         private void RaiseCommandStates()
         {
             (SaveManufacturerCommand as RelayCommand)?.RaiseCanExecuteChanged();
-            (DeleteManufacturerCommand as RelayCommand)?.RaiseCanExecuteChanged();
         }
 
 
@@ -158,20 +155,16 @@ namespace PhoneScoutAdmin.ViewModels
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
             var response = await client.PutAsync(url, content);
-        }
-
-
-        private async Task DeleteManufacturer()
-        {
-            if (SelectedManufacturer == null) return;
-            using HttpClient client = new HttpClient();
-
-            string url = $"http://localhost:5175/api/wpfManufacturer/" + SelectedManufacturer.manufacturerId;
-
-            var response = await client.DeleteAsync(url);
-            Manufacturers.Remove(SelectedManufacturer);
-            SelectedManufacturer = null;
-
+            if (!response.IsSuccessStatusCode)
+            {
+                MessageBox.Show("An error occurred while saving the manufacturer!", "Error", MessageBoxButton.OK);
+                return;
+            }
+            else
+            {
+                MessageBox.Show("Successfully updated.", "Update", MessageBoxButton.OK);
+                ManufacturersView.Refresh();
+            }
         }
 
         private bool FilterManufacturers(object obj)

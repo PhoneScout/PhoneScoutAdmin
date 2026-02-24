@@ -61,6 +61,18 @@ namespace PhoneScoutAdmin.ViewModels
             }
         }
 
+        private string _screenSharpness;
+        public string ScreenSharpness
+        {
+            get => _screenSharpness;
+            set
+            {
+                _screenSharpness = value;
+                OnPropertyChanged(nameof(ScreenSharpness));
+                OnPropertyChanged(nameof(Progress));
+            }
+        }
+
         private string _screenRefreshRate;
         public string ScreenRefreshRate
         {
