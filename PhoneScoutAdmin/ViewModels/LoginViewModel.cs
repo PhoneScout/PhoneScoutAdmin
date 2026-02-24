@@ -117,31 +117,33 @@ public class LoginViewModel : INotifyPropertyChanged
                 Message = await response.Content.ReadAsStringAsync();
                 return;
             }
+            
 
             var resultJson = await response.Content.ReadAsStringAsync();
             var result = JsonSerializer.Deserialize<LoginResponse>(resultJson);
+
+            
 
             Application.Current.Properties["Token"] = result.Token;
             Application.Current.Properties["FullName"] = result.FullName;
             Application.Current.Properties["Email"] = result.Email;
 
-            Application.Current.Dispatcher.Invoke(() =>
+
+            if (userInfo.privilege == 7) // Admin
             {
-                if (result.Privilege == 7) // Admin
-                {
-                    MessageBox.Show("adminlogin");
+                MessageBox.Show("adminlogin");
 
-                    OpenAdminHome();
-                    CloseLoginWindow();
-                }
-                else if (result.Privilege == 6) // Manufacturer
-                {
-                    MessageBox.Show("manulogin");
+                OpenAdminWindow();
+                CloseLoginWindow();
+            }
+            else if (userInfo.privilege == 6) // Manufacturer
+            {
+                MessageBox.Show("manulogin");
 
-                    OpenManufacturerHome();
-                    CloseLoginWindow();
-                }
-            });
+                OpenManufacturerHome();
+                CloseLoginWindow();
+            }
+
         }
         catch (Exception ex)
         {
@@ -173,10 +175,7 @@ public class LoginViewModel : INotifyPropertyChanged
     {
         var window = new Window
         {
-            Title = "Manufacturer Interface",
-            Width = 1200,
-            Height = 700,
-            Content = new SingleManufacturerPhonesView
+            Content = new SingleManufacturerView
             {
                 DataContext = new ManufacturerHomeViewModel()
             }
@@ -185,19 +184,10 @@ public class LoginViewModel : INotifyPropertyChanged
         window.Show();
     }
 
-    private void OpenAdminHome()
+    private void OpenAdminWindow()
     {
-        var window = new Window
-        {
-            Title = "Manufacturer Interface",
-            Width = 1200,
-            Height = 700,
-            Content = new PhoneDetailsView
-            {
-                DataContext = new PhoneDetailsView()
-            }
-        };
-
+        var window = new Home();
+        window.DataContext = new Home();
         window.Show();
     }
 
@@ -205,9 +195,6 @@ public class LoginViewModel : INotifyPropertyChanged
     {
         var window = new Window
         {
-            Title = "First Login - Change Password",
-            Width = 500,
-            Height = 350,
             Content = new FirstLoginPasswordChangeView
             {
                 DataContext = new FirstLoginPasswordChangeViewModel(email)
