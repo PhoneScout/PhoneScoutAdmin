@@ -23,11 +23,24 @@ namespace PhoneScoutAdmin.ViewModels
 
         public ICommand AddImageCommand { get; }
         public ICommand RemoveImageCommand { get; }
+        public ICommand SetIndexCommand { get; }
 
         public ImageViewModel()
         {
             AddImageCommand = new RelayCommand(AddImage);
             RemoveImageCommand = new RelayCommand<PhoneImage>(RemoveImage);
+            SetIndexCommand = new RelayCommand<PhoneImage>(SetAsIndex);
+        }
+
+        private void SetAsIndex(PhoneImage selectedImage)
+        {
+            if (selectedImage == null)
+                return;
+
+            foreach (var img in Images)
+                img.IsIndex = false;
+
+            selectedImage.IsIndex = true;
         }
 
         private void AddImage()
@@ -48,7 +61,7 @@ namespace PhoneScoutAdmin.ViewModels
                     bitmap.BeginInit();
                     bitmap.CacheOption = BitmapCacheOption.OnLoad;
                     bitmap.StreamSource = new MemoryStream(imageBytes);
-                    bitmap.DecodePixelWidth = 300; // prevent memory issues
+                    bitmap.DecodePixelWidth = 300;
                     bitmap.EndInit();
                     bitmap.Freeze();
 
@@ -58,7 +71,7 @@ namespace PhoneScoutAdmin.ViewModels
                         ImageData = imageBytes,
                         Preview = bitmap,
                         IsIndex = false,
-                        IsNew = true   // <-- important
+                        IsNew = true
                     });
                 }
 
@@ -80,7 +93,7 @@ namespace PhoneScoutAdmin.ViewModels
 
             var json = await response.Content.ReadAsStringAsync();
 
-            var pictures = JsonSerializer.Deserialize<List<PhoneImage>>(json,
+            var pictures = JsonSerializer.Deserialize<List<BackendPictureDto>>(json,
                 new JsonSerializerOptions
                 {
                     PropertyNameCaseInsensitive = true
@@ -91,7 +104,6 @@ namespace PhoneScoutAdmin.ViewModels
 
             foreach (var pic in pictures)
             {
-                // download actual image
                 var imageBytes = await client.GetByteArrayAsync(
                     $"http://localhost:5175/api/blob/GetPictureById/{pic.Id}");
 
@@ -104,11 +116,11 @@ namespace PhoneScoutAdmin.ViewModels
 
                 Images.Add(new PhoneImage
                 {
-                    Id = pic.Id,               // <-- important
+                    Id = pic.Id,
                     FileName = $"image_{pic.Id}",
                     ImageData = imageBytes,
                     Preview = bitmap,
-                    IsIndex = false,
+                    IsIndex = pic.IsIndex == 1,
                     IsNew = false
                 });
             }
@@ -118,8 +130,6 @@ namespace PhoneScoutAdmin.ViewModels
 
         private async void RemoveImage(PhoneImage image)
         {
-            MessageBox.Show("remove");
-
             if (image == null)
                 return;
 
@@ -132,7 +142,7 @@ namespace PhoneScoutAdmin.ViewModels
 
                 if (!response.IsSuccessStatusCode)
                 {
-                    System.Windows.MessageBox.Show("Failed to delete image from database.");
+                    MessageBox.Show("Failed to delete image from database.");
                     return;
                 }
             }
@@ -142,5 +152,12 @@ namespace PhoneScoutAdmin.ViewModels
         }
 
         public double Progress => Images.Count > 0 ? 1 : 0;
+    }
+
+    // DTO for backend response
+    public class BackendPictureDto
+    {
+        public int Id { get; set; }
+        public int IsIndex { get; set; }
     }
 }

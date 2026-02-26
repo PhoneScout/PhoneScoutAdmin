@@ -36,9 +36,11 @@
         <views:OrderView/>
     </DataTemplate>
 
+        <DataTemplate DataType="{x:Type vm:EventViewModel}">
+            <views:EventView/>
+        </DataTemplate>
 
-
-    <DataTemplate DataType="{x:Type vm:SingleManufacturerViewModel}">
+        <DataTemplate DataType="{x:Type vm:SingleManufacturerViewModel}">
         <ContentControl>
             <ContentControl.Style>
                 <Style TargetType="ContentControl">
@@ -122,6 +124,7 @@
                 <Button Content="Manage storage" Margin="15,25,15,10" FontSize="16" Width="180" Padding="5" Background="#80A4CB" Foreground="White" BorderBrush="White" BorderThickness="3" Command="{Binding ShowStorageCommand}"/>
                 <Button Content="Manage repairs" Margin="15,25,15,10" FontSize="16" Width="180" Padding="5" Background="#80A4CB" Foreground="White" BorderBrush="White" BorderThickness="3" Command="{Binding ShowRepairsCommand}"/>
                 <Button Content="Manage orders" Margin="15,25,15,10" FontSize="16" Width="180" Padding="5" Background="#80A4CB" Foreground="White" BorderBrush="White" BorderThickness="3" Command="{Binding ShowOrdersCommand}"/>
+                <Button Content="Manage events" Margin="15,25,15,10" FontSize="16" Width="180" Padding="5" Background="#80A4CB" Foreground="White" BorderBrush="White" BorderThickness="3" Command="{Binding ShowEventsCommand}"/>
             </StackPanel>
 
             <!-- MAIN CONTENT AREA -->

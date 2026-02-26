@@ -19,6 +19,7 @@ namespace PhoneScoutAdmin.ViewModels
         public StorageViewModel StorageVM { get; }
         public RepairViewModel RepairVM { get; }
         public OrderViewModel OrderVM { get; }
+        public EventViewModel EventVM { get; }
 
         // ======================
         // CURRENT VIEW
@@ -43,6 +44,7 @@ namespace PhoneScoutAdmin.ViewModels
         public ICommand ShowStorageCommand { get; }
         public ICommand ShowRepairsCommand { get; }
         public ICommand ShowOrdersCommand { get; }
+        public ICommand ShowEventsCommand { get; }
 
         // ======================
         // CONSTRUCTOR
@@ -56,6 +58,7 @@ namespace PhoneScoutAdmin.ViewModels
             StorageVM = new StorageViewModel();
             RepairVM = new RepairViewModel();
             OrderVM = new OrderViewModel();
+            EventVM = new EventViewModel();
 
             // Commands to switch views
             ShowPhonesCommand = new RelayCommand(() =>
@@ -92,6 +95,12 @@ namespace PhoneScoutAdmin.ViewModels
             {
                 CurrentViewModel = OrderVM;
                 OrderVM.LoadOrdersCommand?.Execute(null);
+            });
+
+            ShowEventsCommand = new RelayCommand(() =>
+            {
+                CurrentViewModel = EventVM;
+                EventVM.LoadEventsCommand?.Execute(null);
             });
 
             // Default view

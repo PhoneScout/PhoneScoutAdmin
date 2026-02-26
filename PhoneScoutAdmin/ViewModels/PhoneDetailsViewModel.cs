@@ -658,54 +658,86 @@ namespace PhoneScoutAdmin
                 MessageBox.Show($"Error: {ex.Message}");
             }
         }
-        
+
 
 
         // Upload images after saving phone
         private async Task UploadImages()
         {
-            MessageBox.Show("image");
-
-            if (CurrentPhoneId == null || ImageVM.Images.Count == 0)
+            if (CurrentPhoneId == null)
                 return;
 
             using HttpClient client = new HttpClient();
 
+            bool uploadedNewImage = false;
+
+            // ======================
+            // 1️⃣ Upload new images
+            // ======================
             foreach (var image in ImageVM.Images.Where(i => i.IsNew))
             {
                 using var content = new MultipartFormDataContent();
                 var imageContent = new ByteArrayContent(image.ImageData);
 
-                // Detect MIME type
                 var mimeType = Path.GetExtension(image.FileName).ToLower() switch
                 {
                     ".png" => "image/png",
                     ".bmp" => "image/bmp",
                     ".jpg" or ".jpeg" => "image/jpeg",
-                    _ => "application/octet-stream"
+                    _ => "image/jpeg"
                 };
-                imageContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(mimeType);
-                content.Add(imageContent, "file", image.FileName); // must be "file" for IFormFile
 
-                // Build URL with query parameter isIndex
-                string url = $"http://localhost:5175/api/blob/PostPicture/{CurrentPhoneId}?isIndex={image.IsIndex.ToString().ToLower()}";
+                imageContent.Headers.ContentType =
+                    new System.Net.Http.Headers.MediaTypeHeaderValue(mimeType);
+
+                content.Add(imageContent, "file", image.FileName);
+
+                string url =
+                    $"http://localhost:5175/api/blob/PostPicture/{CurrentPhoneId}/{image.IsIndex.ToString().ToLower()}";
 
                 var response = await client.PostAsync(url, content);
 
                 if (response.IsSuccessStatusCode)
                 {
-                    image.IsNew = false;  // <-- prevent re-upload next time
+                    uploadedNewImage = true;
                 }
-                if (!response.IsSuccessStatusCode)
+                else
                 {
-                    var error = await response.Content.ReadAsStringAsync();
-                    MessageBox.Show($"Image upload failed for {image.FileName}: {error}");
+                    MessageBox.Show(await response.Content.ReadAsStringAsync());
                 }
             }
 
-            MessageBox.Show("Images uploaded successfully!");
+            // 🔥 IMPORTANT: Reload images after upload to get real IDs
+            if (uploadedNewImage)
+            {
+                await ImageVM.LoadImages(CurrentPhoneId.Value);
+            }
+            // ======================
+            // 2️⃣ Update index
+            // ======================
+
+            var selectedIndex = ImageVM.Images
+                .FirstOrDefault(i => i.IsIndex && i.Id.HasValue);
+
+            if (selectedIndex == null)
+            {
+                MessageBox.Show("No valid index image selected.");
+                return;
+            }
+
+            string url1 =
+                $"http://localhost:5175/api/blob/SetIndex/{CurrentPhoneId}/{selectedIndex.Id.Value}";
+
+            MessageBox.Show(url1);
+
+            var response1 = await client.PutAsync(url1, null);
+
+            if (!response1.IsSuccessStatusCode)
+            {
+                var error = await response1.Content.ReadAsStringAsync();
+                MessageBox.Show($"Index update failed: {response1.StatusCode} {error}");
+            }
         }
 
-        
     }
     }

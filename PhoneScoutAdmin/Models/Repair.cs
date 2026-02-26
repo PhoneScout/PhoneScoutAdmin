@@ -15,20 +15,35 @@ namespace PhoneScoutAdmin.Models
         [JsonPropertyName("userID")]
         public int userID { get; set; }
 
-        [JsonPropertyName("name")]
+        [JsonPropertyName("userEmail")]
         public string userEmail { get; set; }
 
-        [JsonPropertyName("postalCode")]
-        public int postalCode { get; set; }
+        [JsonPropertyName("userName")]
+        public string userName { get; set; }
 
-        [JsonPropertyName("city")]
-        public string city { get; set; }
+        [JsonPropertyName("billingPostalCode")]
+        public int billingPostalCode { get; set; }
 
-        [JsonPropertyName("address")]
-        public string address { get; set; }
+        [JsonPropertyName("billingCity")]
+        public string billingCity { get; set; }
 
-        [JsonPropertyName("phoneNumber")]
-        public long phoneNumber { get; set; }
+        [JsonPropertyName("billingAddress")]
+        public string billingAddress { get; set; }
+
+        [JsonPropertyName("billingPhoneNumber")]
+        public long billingPhoneNumber { get; set; }
+
+        [JsonPropertyName("deliveryPostalCode")]
+        public int deliveryPostalCode { get; set; }
+
+        [JsonPropertyName("deliveryCity")]
+        public string deliveryCity { get; set; }
+
+        [JsonPropertyName("deliveryAddress")]
+        public string deliveryAddress { get; set; }
+
+        [JsonPropertyName("deliveryPhoneNumber")]
+        public long deliveryPhoneNumber { get; set; }
 
         [JsonPropertyName("phoneName")]
         public string phoneName { get; set; }

@@ -1,4 +1,5 @@
-﻿using PhoneScoutAdmin.Models;
+﻿using PhoneScoutAdmin.Commands;
+using PhoneScoutAdmin.Models;
 using PhoneScoutAdmin.Views;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -118,21 +119,69 @@ namespace PhoneScoutAdmin.ViewModels
 
             using HttpClient client = new();
             string url = $"http://localhost:5175/api/Profile/updateOrder/{SelectedOrder.ID}";
+            MessageBox.Show(url);
 
             // Send full updated order (change to DTO if backend expects otherwise)
             string json = JsonSerializer.Serialize(SelectedOrder);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await client.PutAsync(url, content);            
+            var response = await client.PutAsync(url, content);     
+            
+            
 
             if (!response.IsSuccessStatusCode)
             {
-                MessageBox.Show("An error occurred while saving the order!", "Error", MessageBoxButton.OK);
+                MessageBox.Show("An error occurred while saving the order!"+response.Content, "Error", MessageBoxButton.OK);
                 return;
             }
             else
             {
                 MessageBox.Show("Successfully updated.", "Update", MessageBoxButton.OK);
+
+                string emailTargy = "Rendelésének állapota megváltozott!";
+                string emailTorzs = $@"
+                    <div style=""background: linear-gradient(135deg, #2300B3 0%, #68F145 100%); margin: 0; padding: 0; min-height: 100vh;"">
+                        <!-- Külső táblázat a teljes magasság és a vertikális középre igazítás miatt -->
+                        <table width=""100%"" height=""100%"" cellpadding=""0"" cellspacing=""0"" border=""0"" style=""min-height: 100vh; width: 100%;"">
+                            <tr>
+                                <td align=""center"" valign=""middle"" style=""padding: 20px;"">
+                                    
+                                    <!-- Fehér kártya (formContainer stílus) -->
+                                    <div style=""max-width: 600px; width: 100%; background-color: #ffffff; border-radius: 12px; box-shadow: 0 0 20px rgba(0, 0, 0, 0.25); overflow: hidden; display: inline-block; text-align: left;"">
+                                        <div style=""padding: 40px 30px; text-align: center;"">
+                                            
+                                            <h2 style=""color: #333333; font-size: 28px; margin-bottom: 30px; margin-top: 0; font-family: Arial, sans-serif;"">Rendelésének státusza megváltozott.</h2>
+                                            
+                                            <h3 style=""color: #333333; font-size: 18px; margin-bottom: 20px; font-family: Arial, sans-serif;"">Kedves {SelectedOrder.userName}!</h3>
+                                            
+                                            <p style=""color: #555555; font-size: 16px; line-height: 1.5; margin-bottom: 35px; font-family: Arial, sans-serif;"">
+Tájékoztatjuk, hogy a <i>{SelectedOrder.orderID}</i> azonosítójú rendelésének státusza a következőre változott: <strong>{Statuses[SelectedOrder.status].statusName}</strong>.<br><br>
+                                                Rendelését továbbra is nyomon követheti a fiókjában.: <br><br>
+                                            </p>
+
+                                           
+
+                                            <!-- Lábjegyzet -->
+                                            <div style=""margin-top: 45px; border-top: 1px solid #eeeeee; padding-top: 20px; text-align: left;"">
+                                                <p style=""color: #333333; font-size: 14px; margin: 0; font-family: Arial, sans-serif;"">Üdvözlettel,<br><strong>PhoneScout Team</strong></p>
+                                                <p style=""font-size: 12px; color: #777777; margin-top: 15px; line-height: 1.4; font-family: Arial, sans-serif;"">Ez egy automatikusan generált üzenet, kérjük ne válaszoljon rá.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </td>
+                            </tr>
+                        </table>
+                    </div>";
+
+
+
+                // Email küldése (Program.cs-ben lévő metódussal)
+                await EmailSending.SendEmail(SelectedOrder.userEmail, emailTargy, emailTorzs);
+
+
+
+
                 OrdersView.Refresh();
             }
         }
