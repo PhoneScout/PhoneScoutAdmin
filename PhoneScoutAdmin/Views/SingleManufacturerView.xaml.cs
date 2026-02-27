@@ -24,7 +24,7 @@ namespace PhoneScoutAdmin.Views
         public SingleManufacturerView()
         {
             InitializeComponent();
-            DataContext = new SingleManufacturerViewModel();
+            DataContext = new SingleManufacturerViewModel("");
         }
     }
 }

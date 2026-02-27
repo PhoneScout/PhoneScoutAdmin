@@ -1,22 +1,22 @@
 ﻿using PhoneScoutAdmin.Models;
-using System.Collections.Generic;
+using PhoneScoutAdmin.Views;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Net.Http;
-using System.Text;
 using System.Text.Json;
+using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace PhoneScoutAdmin.ViewModels
 {
-    class SingleManufacturerViewModel : INotifyPropertyChanged
+    public class SingleManufacturerViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged(string name)
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
-        private const string ActiveManufacturerName = "Xiaomi";
 
         // =========================
         // VIEW MODE
@@ -35,6 +35,13 @@ namespace PhoneScoutAdmin.ViewModels
         }
 
         public bool IsManufacturerView => !IsPhoneView;
+
+        private UserControl _currentView;
+        public UserControl CurrentView
+        {
+            get => _currentView;
+            set { _currentView = value; OnPropertyChanged(nameof(CurrentView)); }
+        }
 
         // =========================
         // DATA
@@ -119,35 +126,45 @@ namespace PhoneScoutAdmin.ViewModels
         // COMMANDS
         // =========================
 
+        public RelayCommand ShowPhonesCommand { get; }
+        public RelayCommand ShowManufacturerCommand { get; }
         public RelayCommand SavePhoneCommand { get; }
         public RelayCommand DeletePhoneCommand { get; }
         public ICommand SaveManufacturerCommand { get; }
 
         // =========================
-        // CONSTRUCTORS
+        // CONSTRUCTOR
         // =========================
 
-        public SingleManufacturerViewModel(bool showPhones)
+        public string ActiveManufacturerName = "";
+
+        public SingleManufacturerViewModel(string loggedInManufacturer)
         {
-            IsPhoneView = showPhones;
 
-            SavePhoneCommand = new RelayCommand(
-                async () => await SavePhone(),
-                () => SelectedPhone != null);
+            ActiveManufacturerName = loggedInManufacturer;
+        // Initialize view
+            IsPhoneView = true;
+            CurrentView = new SingleManufacturerPhonesView { DataContext = this };
 
-            DeletePhoneCommand = new RelayCommand(
-                async () => await DeletePhone(),
-                () => SelectedPhone != null);
+            ShowPhonesCommand = new RelayCommand(() =>
+            {
+                IsPhoneView = true;
+                CurrentView = new SingleManufacturerPhonesView { DataContext = this };
+            });
 
+            ShowManufacturerCommand = new RelayCommand(() =>
+            {
+                IsPhoneView = false;
+                CurrentView = new SingleManufacturerView { DataContext = this };
+            });
+
+            SavePhoneCommand = new RelayCommand(async () => await SavePhone(), () => SelectedPhone != null);
+            DeletePhoneCommand = new RelayCommand(async () => await DeletePhone(), () => SelectedPhone != null);
             SaveManufacturerCommand = new RelayCommand(async () => await SaveManufacturer());
 
-            if (showPhones)
-                _ = LoadPhones();
-            else
-                _ = LoadManufacturer();
+            _ = LoadPhones();
+            _ = LoadManufacturer();
         }
-
-        public SingleManufacturerViewModel() : this(true) { }
 
         // =========================
         // LOGIC
@@ -157,7 +174,7 @@ namespace PhoneScoutAdmin.ViewModels
         {
             using HttpClient client = new();
             var json = await client.GetStringAsync("http://localhost:5175/api/wpfPhone");
-            var list = JsonSerializer.Deserialize<List<Phone>>(json);
+            var list = JsonSerializer.Deserialize<ObservableCollection<Phone>>(json);
 
             Phones.Clear();
             foreach (var phone in list)
@@ -174,11 +191,9 @@ namespace PhoneScoutAdmin.ViewModels
         {
             using HttpClient client = new();
             var json = await client.GetStringAsync("http://localhost:5175/api/wpfManufacturer");
-            var list = JsonSerializer.Deserialize<List<Manufacturer>>(json);
+            var list = JsonSerializer.Deserialize<ObservableCollection<Manufacturer>>(json);
 
-            var manufacturer = list
-                .Find(m => m.manufacturerName == ActiveManufacturerName);
-
+            var manufacturer = list?.FirstOrDefault(m => m.manufacturerName == ActiveManufacturerName);
             if (manufacturer == null) return;
 
             ActiveManufacturer.manufacturerId = manufacturer.manufacturerId;
@@ -190,7 +205,6 @@ namespace PhoneScoutAdmin.ViewModels
         private void LoadPhoneToEditor()
         {
             if (SelectedPhone == null) return;
-
             PhoneName = SelectedPhone.phoneName;
             PhonePrice = SelectedPhone.phonePrice;
             IsInStorage = SelectedPhone.phoneInStore == 1;
@@ -207,22 +221,14 @@ namespace PhoneScoutAdmin.ViewModels
             using HttpClient client = new();
             var json = JsonSerializer.Serialize(SelectedPhone);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            await client.PutAsync(
-                $"http://localhost:5175/api/wpfPhone/{SelectedPhone.phoneID}",
-                content);
+            await client.PutAsync($"http://localhost:5175/api/wpfPhone/{SelectedPhone.phoneID}", content);
         }
 
         private async Task DeletePhone()
         {
             using HttpClient client = new();
-            await client.PutAsync(
-                $"http://localhost:5175/api/wpfPhone/{SelectedPhone.phoneID}",
-                new StringContent(
-                    JsonSerializer.Serialize(new { phoneAvailable = 1 }),
-                    Encoding.UTF8,
-                    "application/json"));
-
+            await client.PutAsync($"http://localhost:5175/api/wpfPhone/{SelectedPhone.phoneID}",
+                new StringContent(JsonSerializer.Serialize(new { phoneAvailable = 1 }), Encoding.UTF8, "application/json"));
             Phones.Remove(SelectedPhone);
             SelectedPhone = null;
         }
@@ -236,10 +242,7 @@ namespace PhoneScoutAdmin.ViewModels
             using HttpClient client = new();
             var json = JsonSerializer.Serialize(ActiveManufacturer);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            await client.PutAsync(
-                $"http://localhost:5175/api/wpfManufacturer/{ActiveManufacturer.manufacturerId}",
-                content);
+            await client.PutAsync($"http://localhost:5175/api/wpfManufacturer/{ActiveManufacturer.manufacturerId}", content);
         }
     }
 }

@@ -77,7 +77,7 @@ public class LoginViewModel : INotifyPropertyChanged
             var userInfoJson = await userInfoResponse.Content.ReadAsStringAsync();
             var userInfo = JsonSerializer.Deserialize<UserInfo>(userInfoJson);
 
-            MessageBox.Show($"Privilege={userInfo.privilege}, Active={userInfo.active}");
+            MessageBox.Show($"NAme={userInfo.name}, Privilege={userInfo.privilege}, Active={userInfo.active}");
 
             if (userInfo == null)
             {
@@ -138,9 +138,11 @@ public class LoginViewModel : INotifyPropertyChanged
             }
             else if (userInfo.privilege == 6) // Manufacturer
             {
-                MessageBox.Show("manulogin");
+                MessageBox.Show("manulogin"+userInfo.name);
 
-                OpenManufacturerHome();
+
+
+                OpenManufacturerHome(userInfo.name);
                 CloseLoginWindow();
             }
 
@@ -171,13 +173,13 @@ public class LoginViewModel : INotifyPropertyChanged
         }
     }
 
-    private void OpenManufacturerHome()
+    private void OpenManufacturerHome(string loggedInManufacturer)
     {
         var window = new Window
         {
-            Content = new SingleManufacturerView
+            Content = new ManufacturerHome
             {
-                DataContext = new ManufacturerHomeViewModel()
+                DataContext = new SingleManufacturerViewModel(loggedInManufacturer)
             }
         };
 
@@ -187,7 +189,7 @@ public class LoginViewModel : INotifyPropertyChanged
     private void OpenAdminWindow()
     {
         var window = new Home();
-        window.DataContext = new Home();
+        window.DataContext = new MainViewModel();
         window.Show();
     }
 
@@ -195,11 +197,15 @@ public class LoginViewModel : INotifyPropertyChanged
     {
         var window = new Window
         {
-            Content = new FirstLoginPasswordChangeView
-            {
-                DataContext = new FirstLoginPasswordChangeViewModel(email)
-            }
+            Width = 275,
+            Height = 580,
+            WindowStartupLocation = WindowStartupLocation.CenterScreen,
+            ResizeMode = ResizeMode.NoResize,
+            Content = new FirstLoginPasswordChangeView()
         };
+
+        // Set DataContext of the hosting window
+        window.DataContext = new FirstLoginPasswordChangeViewModel(email);
 
         window.Show();
     }

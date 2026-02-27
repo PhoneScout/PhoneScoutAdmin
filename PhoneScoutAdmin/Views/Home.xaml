@@ -40,37 +40,7 @@
             <views:EventView/>
         </DataTemplate>
 
-        <DataTemplate DataType="{x:Type vm:SingleManufacturerViewModel}">
-        <ContentControl>
-            <ContentControl.Style>
-                <Style TargetType="ContentControl">
-                    <Setter Property="Content"
-                Value="{Binding}" />
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding IsPhoneView}" Value="True">
-                            <Setter Property="ContentTemplate">
-                                <Setter.Value>
-                                    <DataTemplate>
-                                        <views:PhoneView/>
-                                    </DataTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </DataTrigger>
-
-                        <DataTrigger Binding="{Binding IsManufacturerView}" Value="True">
-                            <Setter Property="ContentTemplate">
-                                <Setter.Value>
-                                    <DataTemplate>
-                                        <views:ManufacturerView/>
-                                    </DataTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </ContentControl.Style>
-        </ContentControl>
-    </DataTemplate>
+        
     </Window.Resources>
     <DockPanel>
 

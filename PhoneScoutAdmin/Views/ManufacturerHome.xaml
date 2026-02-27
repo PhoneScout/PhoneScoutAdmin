@@ -1,0 +1,33 @@
+﻿<UserControl x:Class="PhoneScoutAdmin.Views.ManufacturerHome"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PhoneScoutAdmin.ViewModels"
+             xmlns:views="clr-namespace:PhoneScoutAdmin.Views"
+             Height="Auto" Width="Auto">
+
+    <DockPanel>
+
+        <!-- SIDE MENU -->
+        <StackPanel DockPanel.Dock="Left"
+                    Width="200"
+                    Background="#80A4CB"
+                    VerticalAlignment="Stretch"
+                    Margin="0">
+
+            <Button Content="Manage my phones"
+                    Margin="10"
+                    Padding="5"
+                    Command="{Binding ShowPhonesCommand}" />
+
+            <Button Content="Manage my datas"
+                    Margin="10"
+                    Padding="5"
+                    Command="{Binding ShowManufacturerCommand}" />
+        </StackPanel>
+
+        <!-- MAIN CONTENT -->
+        <Grid Background="#F5F5F5">
+            <ContentControl Content="{Binding CurrentView}" />
+        </Grid>
+    </DockPanel>
+</UserControl>

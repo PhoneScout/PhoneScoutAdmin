@@ -8,6 +8,7 @@ namespace PhoneScoutAdmin.Models
 {
     public class UserInfo
     {
+        public string name { get; set; }
         public string email { get; set; }
         public int privilege { get; set; }
         public int active { get; set; }

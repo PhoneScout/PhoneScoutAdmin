@@ -1,4 +1,5 @@
 ﻿using PhoneScoutAdmin;
+using PhoneScoutAdmin.Views;
 using System;
 using System.ComponentModel;
 using System.Net.Http;
@@ -7,6 +8,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 public class FirstLoginPasswordChangeViewModel : INotifyPropertyChanged
@@ -62,6 +64,10 @@ public class FirstLoginPasswordChangeViewModel : INotifyPropertyChanged
 
     private async Task ChangePassword()
     {
+        MessageBox.Show(CurrentPassword);
+        MessageBox.Show(NewPassword);
+        MessageBox.Show(ConfirmPassword);
+
         StatusMessage = "";
         IsError = false;
 
@@ -120,6 +126,29 @@ public class FirstLoginPasswordChangeViewModel : INotifyPropertyChanged
                
                 StatusMessage = "Sikeres jelszó módosítás!";
 
+                // Open LoginView (Window) with fixed size
+                var loginWindow = new LoginView
+                {
+                    Width = 275,
+                    Height = 580,
+                    WindowStartupLocation = WindowStartupLocation.CenterScreen,
+                    ResizeMode = ResizeMode.NoResize
+                };
+
+                loginWindow.Show();
+
+                // Close the window hosting this UserControl
+                foreach (Window window in Application.Current.Windows)
+                {
+                    // Check if the window's DataContext is THIS ViewModel
+                    if (window.DataContext == this)
+                    {
+                        window.Close(); // ✅ closes the window hosting this UserControl
+                        break;
+                    }
+                }
+
+               
 
             }
             if (!response.IsSuccessStatusCode)

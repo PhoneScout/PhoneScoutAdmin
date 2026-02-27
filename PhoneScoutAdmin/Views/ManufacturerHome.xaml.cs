@@ -20,17 +20,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace PhoneScoutAdmin
+namespace PhoneScoutAdmin.Views
 {
     /// <summary>
     /// Interaction logic for ManufacturerHome.xaml
     /// </summary>
-    public partial class ManufacturerHome : Window
+    public partial class ManufacturerHome : UserControl
     {
         public ManufacturerHome()
         {
             InitializeComponent();
-            DataContext = new ManufacturerHomeViewModel();
+            DataContext = new SingleManufacturerViewModel("");
 
         }
 

@@ -246,7 +246,7 @@ namespace PhoneScoutAdmin.ViewModels
                                             <h3 style=""color: #333333; font-size: 18px; margin-bottom: 20px; font-family: Arial, sans-serif;"">Kedves {SelectedRepair.userName}!</h3>
                                             
                                             <p style=""color: #555555; font-size: 16px; line-height: 1.5; margin-bottom: 35px; font-family: Arial, sans-serif;"">
-Tájékoztatjuk, hogy a <i>{SelectedRepair.repairID}</i> azonosítójú rendelésének állapota megváltozott. Kérjük, tegye meg a szükséges beavatkozásokat a profiljában.<br><br>
+Tájékoztatjuk, hogy a <i>{SelectedRepair.repairID}</i> azonosítójú rendelésének állapota megváltozott. Kérjük, tegye meg a szükséges intézkedéseket a profiljában.<br><br>
                                                 Rendelését továbbra is nyomon követheti a fiókjában.: <br><br>
                                             </p>
 
