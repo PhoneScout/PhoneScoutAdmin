@@ -36,7 +36,7 @@
 
             <TextBox Width="200"
                  Margin="0,5"
-                 Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}" BorderBrush="Red"/>
+                 Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}" BorderBrush="#2300B3"/>
 
             <Label Content="Password:" 
                Margin="0,5,0,0"
@@ -45,7 +45,7 @@
 
             <PasswordBox x:Name="PasswordBox"
                      Width="200"
-                     Margin="0,0,0,20"/>
+                     Margin="0,0,0,20" BorderBrush="#68F145"/>
         </StackPanel>
 
         <Button Grid.Row="3"

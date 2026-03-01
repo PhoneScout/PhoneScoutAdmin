@@ -52,7 +52,7 @@
                 <DataGridTextColumn Header="Email" Binding="{Binding userEmail}" />
                 <DataGridTextColumn Header="Manufacturer" Binding="{Binding manufacturerName}" />
                 <DataGridTextColumn Header="Phone" Binding="{Binding phoneName}" />
-                <DataGridTextColumn Header="Price" Binding="{Binding price}" />
+                <DataGridTextColumn Header="Repair price" Binding="{Binding repairPrice}" />
                 <DataGridTextColumn Header="Status" Binding="{Binding status}" />
             </DataGrid.Columns>
         </DataGrid>
@@ -65,11 +65,51 @@
             <!-- NON-EDITABLE BASIC INFO -->
             <GroupBox Margin="5"
                       Padding="10"
-                      Header="Basic informations (not editable)"
+                      Header="Basic informations"
                       BorderBrush="#68F145"
                       BorderThickness="2">
                 <Grid>
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    
+                    <TextBlock Grid.Row="0" Text="Base price:" FontSize="14"/>
+                    <TextBlock Grid.Row="0" Grid.Column="1"
+                               Text="{Binding SelectedRepair.basePrice}"
+                               FontSize="14" Margin="5,0,0,0"/>
+                    
+                    <TextBlock Grid.Row="1" Text="Accepted:" FontSize="14"/>
+                    <TextBlock Grid.Row="1"
+           Grid.Column="1"
+           Text="{Binding IsPriceAcceptedDisplay}"
+           Foreground="{Binding IsPriceAcceptedBrush}"
+           FontSize="14" Margin="5,0,0,0"/>
+
+                    <TextBlock Grid.Row="2" Text="Phone inspection:" FontSize="14"/>
+                    <TextBlock Grid.Row="2" Grid.Column="1"
+           Text="{Binding PhoneInspectionDisplay}"
+            Foreground="{Binding PhoneInspectionBrush}"
+           FontSize="14" Margin="5,0,0,0"/>
+
+                </Grid>
+            </GroupBox>
+
+            <GroupBox Margin="5"
+          Padding="10"
+          Header="Address infromations"
+          BorderBrush="#68F145"
+          BorderThickness="2">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -82,38 +122,39 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock Grid.Row="0" Text="Manufacturer:" FontSize="16"/>
-                    <TextBlock Grid.Row="0" Grid.Column="1"
-                               Text="{Binding SelectedRepair.manufacturerName}"
-                               FontSize="16"/>
+                    
 
-                    <TextBlock Grid.Row="1" Text="Phone name:" FontSize="16"/>
+
+                    <TextBlock Grid.Row="1" Text="Billing address:" FontSize="14"/>
                     <TextBlock Grid.Row="1" Grid.Column="1"
-                               Text="{Binding SelectedRepair.phoneName}"
-                               FontSize="16"/>
+                   Text="{Binding SelectedRepair.billingAddress}"
+                   FontSize="12"
+                   TextWrapping="Wrap"/>
 
-                    <TextBlock Grid.Row="2" Text="Address:" FontSize="16"/>
-                    <TextBlock Grid.Row="2" Grid.Column="1"
-                               Text="{Binding SelectedRepair.address}"
-                               FontSize="16"
-                               TextWrapping="Wrap"/>
-
-                    <TextBlock Grid.Row="3" Text="Phone number:" FontSize="16"/>
+                    <TextBlock Grid.Row="3" Text="Billing phone number:" FontSize="14"/>
                     <TextBlock Grid.Row="3" Grid.Column="1"
-                               Text="{Binding SelectedRepair.phoneNumber}"
-                               FontSize="16"/>
+                   Text="{Binding SelectedRepair.billingPhoneNumber}"
+                   FontSize="12"/>
 
-                    <TextBlock Grid.Row="4" Text="Phone inspection:" FontSize="16"/>
+                    <TextBlock Grid.Row="4" Text="Delivery address:" FontSize="14"/>
                     <TextBlock Grid.Row="4" Grid.Column="1"
-                               Text="{Binding SelectedRepair.phoneInspection}"
-                               FontSize="16"/>
+Text="{Binding SelectedRepair.deliveryAddress}"
+FontSize="12"
+TextWrapping="Wrap"/>
+
+                    <TextBlock Grid.Row="6" Text="Delivery phone number:" FontSize="14"/>
+                    <TextBlock Grid.Row="6" Grid.Column="1"
+Text="{Binding SelectedRepair.deliveryPhoneNumber}"
+FontSize="12"/>
+
+
                 </Grid>
             </GroupBox>
 
             <!-- EDITABLE -->
             <GroupBox Margin="5"
                       Padding="10"
-                      Header="Highlighted informations (editable)"
+                      Header="Repair details"
                       BorderBrush="#2300B3"
                       BorderThickness="2">
 

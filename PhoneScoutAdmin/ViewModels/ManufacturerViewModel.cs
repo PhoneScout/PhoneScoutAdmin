@@ -82,6 +82,8 @@ namespace PhoneScoutAdmin.ViewModels
         public ICommand SaveManufacturerCommand { get; }
         public ICollectionView ManufacturersView { get; }
 
+        
+
 
 
         public ManufacturerViewModel()
@@ -91,6 +93,8 @@ namespace PhoneScoutAdmin.ViewModels
 
             ManufacturersView = CollectionViewSource.GetDefaultView(Manufacturers);
             ManufacturersView.Filter = FilterManufacturers;
+
+            
         }
 
         private void RaiseCommandStates()

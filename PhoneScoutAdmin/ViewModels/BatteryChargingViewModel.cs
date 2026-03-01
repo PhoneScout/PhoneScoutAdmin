@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace PhoneScoutAdmin.ViewModels
 {
@@ -22,6 +23,8 @@ namespace PhoneScoutAdmin.ViewModels
                 _batteryCapacity = value;
                 OnPropertyChanged(nameof(BatteryCapacity));
                 OnPropertyChanged(nameof(Progress));
+                OnPropertyChanged(nameof(ProgressBorder));
+
             }
         }
 
@@ -34,6 +37,8 @@ namespace PhoneScoutAdmin.ViewModels
                 _batteryType = value;
                 OnPropertyChanged(nameof(BatteryType));
                 OnPropertyChanged(nameof(Progress));
+                OnPropertyChanged(nameof(ProgressBorder));
+
             }
         }
 
@@ -46,6 +51,8 @@ namespace PhoneScoutAdmin.ViewModels
                 _maxWiredCharging = value;
                 OnPropertyChanged(nameof(MaxWiredCharging));
                 OnPropertyChanged(nameof(Progress));
+                OnPropertyChanged(nameof(ProgressBorder));
+
             }
         }
 
@@ -58,6 +65,8 @@ namespace PhoneScoutAdmin.ViewModels
                 _maxWirelessCharging = value;
                 OnPropertyChanged(nameof(MaxWirelessCharging));
                 OnPropertyChanged(nameof(Progress));
+                OnPropertyChanged(nameof(ProgressBorder));
+
             }
         }
 
@@ -70,6 +79,28 @@ namespace PhoneScoutAdmin.ViewModels
                 _chargerType = value;
                 OnPropertyChanged(nameof(ChargerType));
                 OnPropertyChanged(nameof(Progress));
+                OnPropertyChanged(nameof(ProgressBorder));
+
+            }
+        }
+
+        public Brush ProgressBorder
+        {
+            get
+            {
+                if (Progress == 1)
+                    return Brushes.Green;
+
+                if (Progress >= 0.7)
+                    return Brushes.Yellow;
+
+                if (Progress >= 0.5)
+                    return Brushes.Orange;
+
+                if (Progress >= 0.2)
+                    return Brushes.DarkOrange;
+
+                return Brushes.DarkGray;
             }
         }
 
@@ -79,13 +110,13 @@ namespace PhoneScoutAdmin.ViewModels
             {
                 int filled = 0;
 
-                //if (!string.IsNullOrWhiteSpace(BatteryCapacity)) filled++;
+                if (!string.IsNullOrWhiteSpace(BatteryCapacity)) filled++;
                 if (!string.IsNullOrWhiteSpace(BatteryType)) filled++;
-                //if (!string.IsNullOrWhiteSpace(MaxWiredCharging)) filled++;
-                //if (!string.IsNullOrWhiteSpace(MaxWirelessCharging)) filled++;
+                if (!string.IsNullOrWhiteSpace(MaxWiredCharging)) filled++;
+                if (!string.IsNullOrWhiteSpace(MaxWirelessCharging)) filled++;
                 if (!string.IsNullOrWhiteSpace(ChargerType)) filled++;
 
-                return filled / 8.0;
+                return filled / 5.0;
             }
         }
     }

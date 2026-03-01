@@ -64,17 +64,14 @@ public class FirstLoginPasswordChangeViewModel : INotifyPropertyChanged
 
     private async Task ChangePassword()
     {
-        MessageBox.Show(CurrentPassword);
-        MessageBox.Show(NewPassword);
-        MessageBox.Show(ConfirmPassword);
-
         StatusMessage = "";
         IsError = false;
 
         // 1️⃣ Validate new password confirmation
         if (NewPassword != ConfirmPassword)
         {
-            StatusMessage = "Az új jelszó és a megerősítés nem egyezik!";
+            MessageBox.Show("The new password and the confirmation is not matching!", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+
             IsError = true;
             return;
         }
@@ -82,6 +79,8 @@ public class FirstLoginPasswordChangeViewModel : INotifyPropertyChanged
         // 2️⃣ Validate password strength
         if (!IsStrongPassword(NewPassword))
         {
+            MessageBox.Show("The new password is not strong enough!", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+
             StatusMessage = "A jelszó nem elég erős! Használjon kisbetűt, nagybetűt, számot és speciális karaktert!";
             IsError = true;
             return;
@@ -91,7 +90,9 @@ public class FirstLoginPasswordChangeViewModel : INotifyPropertyChanged
         {
             // 3️⃣ Get the current salt from the backend
             var saltResponse = await _httpClient.GetAsync($"http://localhost:5175/api/Login/GetSalt/{Uri.EscapeDataString(_email.Trim())}");
-            if (!saltResponse.IsSuccessStatusCode) throw new Exception("Nem sikerült lekérni a saltot.");
+            if (!saltResponse.IsSuccessStatusCode)
+                MessageBox.Show("An error occurred during login!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
 
             string currentDbSalt = (await saltResponse.Content.ReadAsStringAsync()).Trim('"');
 
@@ -123,8 +124,9 @@ public class FirstLoginPasswordChangeViewModel : INotifyPropertyChanged
                     $"http://localhost:5175/api/Registration/ActivateAccountWPF?email={Uri.EscapeDataString(_email)}",
                     null
                 );
-               
-                StatusMessage = "Sikeres jelszó módosítás!";
+
+                MessageBox.Show("Password changed successfully! Now you can login.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+
 
                 // Open LoginView (Window) with fixed size
                 var loginWindow = new LoginView
@@ -154,22 +156,15 @@ public class FirstLoginPasswordChangeViewModel : INotifyPropertyChanged
             if (!response.IsSuccessStatusCode)
             {
                 string errorMsg = await response.Content.ReadAsStringAsync();
-                StatusMessage = "Hiba: " + errorMsg;
+                MessageBox.Show("An error occurred during login!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 IsError = true;
                 return;
             }
-
-            // ✅ Clear fields and notify success
-            StatusMessage = "Sikeres jelszó módosítás!";
-            IsError = false;
-
-            CurrentPassword = "";
-            NewPassword = "";
-            ConfirmPassword = "";
+            
         }
         catch (Exception ex)
         {
-            StatusMessage = "Hiba: " + ex.Message;
+            MessageBox.Show("An error occurred during login!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             IsError = true;
         }
     }

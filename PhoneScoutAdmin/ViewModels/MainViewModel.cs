@@ -1,5 +1,7 @@
-﻿using System.ComponentModel;
+﻿using PhoneScoutAdmin.Views;
+using System.ComponentModel;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace PhoneScoutAdmin.ViewModels
@@ -45,6 +47,10 @@ namespace PhoneScoutAdmin.ViewModels
         public ICommand ShowRepairsCommand { get; }
         public ICommand ShowOrdersCommand { get; }
         public ICommand ShowEventsCommand { get; }
+
+        public ICommand SignOut { get; }
+        public ICommand ExitApp { get; }
+
 
         // ======================
         // CONSTRUCTOR
@@ -101,6 +107,54 @@ namespace PhoneScoutAdmin.ViewModels
             {
                 CurrentViewModel = EventVM;
                 EventVM.LoadEventsCommand?.Execute(null);
+            });
+
+            SignOut = new RelayCommand(() =>
+            {
+                var result = MessageBox.Show(
+                "Are you sure you want to sign out?",
+                "Confirm Sign Out",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    var loginWindow = new LoginView
+                    {
+                        Width = 275,
+                        Height = 580,
+                        WindowStartupLocation = WindowStartupLocation.CenterScreen,
+                        ResizeMode = ResizeMode.NoResize
+                    };
+
+                    loginWindow.Show();
+
+                    // Close the window hosting this UserControl
+                    foreach (Window window in Application.Current.Windows)
+                    {
+                        // Check if the window's DataContext is THIS ViewModel
+                        if (window.DataContext == this)
+                        {
+                            window.Close(); // ✅ closes the window hosting this UserControl
+                            break;
+                        }
+                    }
+                }
+                
+            });
+
+            ExitApp = new RelayCommand(() =>
+            {
+                var result = MessageBox.Show(
+                "Are you sure you want to exit the application?",
+                "Exit Application",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Warning);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    Application.Current.Shutdown();
+                }
             });
 
             // Default view

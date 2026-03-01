@@ -101,6 +101,8 @@ namespace PhoneScoutAdmin.ViewModels
         public ICommand UpdatePhoneCommand { get; }
         public ICollectionView PhonesView { get; }
 
+        public ICommand SignOut { get; }
+        public ICommand ExitApp { get; }
 
 
         public PhoneViewModel()
@@ -113,6 +115,8 @@ namespace PhoneScoutAdmin.ViewModels
 
             PhonesView = CollectionViewSource.GetDefaultView(Phones);
             PhonesView.Filter = FilterPhones;
+
+            
 
         }
 

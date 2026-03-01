@@ -13,6 +13,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace PhoneScoutAdmin.ViewModels
 {
@@ -48,14 +49,71 @@ namespace PhoneScoutAdmin.ViewModels
         }
 
         // ======================
+        // ORIGINAL VALUES (Change Tracking)
+        // ======================
+
+        private int _originalPrice;
+        private int _originalStatus;
+        private List<string> _originalParts = new();
+
+        // ======================
+        // NOT EDITABLE FIELDS DESIGN FOR DISPLAY
+        // ======================
+
+        private int _isPriceAccepted;
+        public int IsPriceAccepted
+        {
+            get => _isPriceAccepted;
+            set
+            {
+                _isPriceAccepted = value;
+                OnPropertyChanged(nameof(IsPriceAccepted));
+                OnPropertyChanged(nameof(IsPriceAcceptedDisplay));
+                OnPropertyChanged(nameof(IsPriceAcceptedBrush));
+            }
+        }
+
+        public string IsPriceAcceptedDisplay
+        {
+            get => IsPriceAccepted==0 ? "Waiting for user." : _isPriceAccepted == 1?"Price accepted.":"Price not accepted.";
+        }
+
+        public Brush IsPriceAcceptedBrush =>
+    IsPriceAccepted == 0 ? Brushes.Gray :
+    IsPriceAccepted == 1 ? Brushes.Green :
+    Brushes.Red;
+
+        private int _phoneInspection;
+        public int PhoneInspection
+        {
+            get => _phoneInspection;
+            set
+            {
+                _phoneInspection = value;
+                OnPropertyChanged(nameof(PhoneInspection));
+                OnPropertyChanged(nameof(PhoneInspectionDisplay));
+                OnPropertyChanged(nameof(PhoneInspectionBrush));
+            }
+        }
+
+        public string PhoneInspectionDisplay
+        {
+            get => PhoneInspection == 1 ? "Phone inspection is required by user" : "Phone inspection is not required by user";
+        }
+
+        public Brush PhoneInspectionBrush =>
+    PhoneInspection == 0 ? Brushes.Red :
+    Brushes.Green;
+
+        // ======================
         // EDIT FIELDS
         // ======================
 
-        private int _price;
-        public int Price
+        private int _repairPrice;
+        public int RepairPrice
         {
-            get => _price;
-            set { _price = value; OnPropertyChanged(nameof(Price)); }
+            get => _repairPrice;
+            set { _repairPrice = value; OnPropertyChanged(nameof(RepairPrice)); }
         }
 
         private string _newPart;
@@ -129,23 +187,53 @@ namespace PhoneScoutAdmin.ViewModels
 
         private void LoadSelectedRepairIntoFields()
         {
+            
+
             Parts.Clear();
 
             if (SelectedRepair == null)
             {
-                Price = 0;
+                RepairPrice = 0;
                 return;
             }
 
-            Price = SelectedRepair.price;
+            // Set editable fields
+            RepairPrice = SelectedRepair.repairPrice;
+
+            IsPriceAccepted = SelectedRepair.isPriceAccepted;
+            PhoneInspection = SelectedRepair.phoneInspection;
 
             if (SelectedRepair.parts != null)
             {
                 foreach (var part in SelectedRepair.parts)
                     Parts.Add(part);
             }
+
+            // ===== STORE ORIGINAL VALUES =====
+            _originalPrice = SelectedRepair.repairPrice;
+            _originalStatus = SelectedRepair.status;
+            _originalParts = SelectedRepair.parts != null
+                ? new List<string>(SelectedRepair.parts)
+                : new List<string>();
         }
 
+
+        private bool IsPriceChanged()
+        {
+            return RepairPrice != _originalPrice;
+        }
+
+        private bool IsStatusChanged()
+        {
+            return SelectedRepair != null &&
+                   SelectedRepair.status != _originalStatus;
+        }
+
+        private bool ArePartsChanged()
+        {
+            return !_originalParts.OrderBy(x => x)
+                      .SequenceEqual(Parts.OrderBy(x => x));
+        }
 
         private bool FilterRepairs(object obj)
         {
@@ -203,7 +291,9 @@ namespace PhoneScoutAdmin.ViewModels
                 deliveryAddress = SelectedRepair.deliveryAddress,
                 deliveryPhoneNumber = SelectedRepair.deliveryPhoneNumber,
                 phoneName = SelectedRepair.phoneName,
-                price = Price,
+                basePrice = SelectedRepair.basePrice,
+                repairPrice = RepairPrice,
+                isPriceAccepted = (IsPriceChanged()?0:SelectedRepair.isPriceAccepted),
                 status = SelectedRepair.status,
                 manufacturerName = SelectedRepair.manufacturerName,
                 phoneInspection = (sbyte)SelectedRepair.phoneInspection,
@@ -226,8 +316,55 @@ namespace PhoneScoutAdmin.ViewModels
             }
             else
             {
+                bool priceChanged = IsPriceChanged();
+                bool statusChanged = IsStatusChanged();
+                bool partsChanged = ArePartsChanged();
+
+                if (!priceChanged && !statusChanged && !partsChanged)
+                {
+                    MessageBox.Show("No changes detected.","Warning",MessageBoxButton.OK,MessageBoxImage.Warning);
+                    return;
+                }
+
                 MessageBox.Show("Successfully updated.", "Update", MessageBoxButton.OK);
 
+                string emailText = "";
+
+                var changes = new List<string>();
+
+                if (priceChanged)
+                    changes.Add("ára");
+
+                if (statusChanged)
+                    changes.Add("státusza");
+
+                if (partsChanged)
+                    changes.Add("a javításhoz használt alkatrészlista");
+
+                if (changes.Any())
+                {
+                    string changeText;
+
+                    if (changes.Count == 1)
+                    {
+                        changeText = changes[0];
+                    }
+                    else
+                    {
+                        changeText = string.Join(", ", changes.Take(changes.Count - 1))
+                                     + " és " + changes.Last();
+                    }
+
+                    emailText += $@"
+        Tájékoztatjuk, hogy a 
+        <i>{SelectedRepair.repairID}</i> azonosítójú javításának 
+        {changeText} megváltozott!<br><br>";
+
+                    if (statusChanged)
+                    {
+                        emailText += $"Új státusz: <b>{Statuses[SelectedRepair.status].statusName}</b><br><br>";
+                    }
+                }
 
                 string emailTargy = "Javitásának állapota megváltozott!";
                 string emailTorzs = $@"
@@ -246,8 +383,7 @@ namespace PhoneScoutAdmin.ViewModels
                                             <h3 style=""color: #333333; font-size: 18px; margin-bottom: 20px; font-family: Arial, sans-serif;"">Kedves {SelectedRepair.userName}!</h3>
                                             
                                             <p style=""color: #555555; font-size: 16px; line-height: 1.5; margin-bottom: 35px; font-family: Arial, sans-serif;"">
-Tájékoztatjuk, hogy a <i>{SelectedRepair.repairID}</i> azonosítójú rendelésének állapota megváltozott. Kérjük, tegye meg a szükséges intézkedéseket a profiljában.<br><br>
-                                                Rendelését továbbra is nyomon követheti a fiókjában.: <br><br>
+{emailText}
                                             </p>
 
                                            
@@ -279,12 +415,23 @@ Tájékoztatjuk, hogy a <i>{SelectedRepair.repairID}</i> azonosítójú rendelé
         {
             if (SelectedRepair == null) return;
 
-            using HttpClient client = new();
-            string url = $"http://localhost:5175/api/Profile/deleteRepair/{SelectedRepair.repairID}";
+            var result = MessageBox.Show(
+                $"Are you sure you want to delete the selected repair: {SelectedRepair.repairID}?",
+                "Delete repair",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Warning);
 
-            await client.DeleteAsync(url);
-            Repairs.Remove(SelectedRepair);
-            SelectedRepair = null;
+            if (result == MessageBoxResult.Yes)
+            {
+                using HttpClient client = new();
+                string url = $"http://localhost:5175/api/Profile/deleteRepair/{SelectedRepair.repairID}";
+
+                await client.DeleteAsync(url);
+                Repairs.Remove(SelectedRepair);
+                SelectedRepair = null;
+            }
+
+            
         }
 
         // ======================

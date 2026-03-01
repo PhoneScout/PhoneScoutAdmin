@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace PhoneScoutAdmin.ViewModels
 {
@@ -22,6 +23,8 @@ namespace PhoneScoutAdmin.ViewModels
                 _wifi = value;
                 OnPropertyChanged(nameof(Wifi));
                 OnPropertyChanged(nameof(Progress));
+                OnPropertyChanged(nameof(ProgressBorder));
+
             }
         }
 
@@ -34,6 +37,8 @@ namespace PhoneScoutAdmin.ViewModels
                 _bluetooth = value;
                 OnPropertyChanged(nameof(Bluetooth));
                 OnPropertyChanged(nameof(Progress));
+                OnPropertyChanged(nameof(ProgressBorder));
+
             }
         }
 
@@ -46,6 +51,8 @@ namespace PhoneScoutAdmin.ViewModels
                 _mobileNetwork = value;
                 OnPropertyChanged(nameof(MobileNetwork));
                 OnPropertyChanged(nameof(Progress));
+                OnPropertyChanged(nameof(ProgressBorder));
+
             }
         }
 
@@ -94,6 +101,7 @@ namespace PhoneScoutAdmin.ViewModels
                 _jack = value;
                 OnPropertyChanged(nameof(Jack));
                 OnPropertyChanged(nameof(Progress));
+
             }
         }
 
@@ -106,8 +114,30 @@ namespace PhoneScoutAdmin.ViewModels
                 _connectionSpeed = value;
                 OnPropertyChanged(nameof(ConnectionSpeed));
                 OnPropertyChanged(nameof(Progress));
+                OnPropertyChanged(nameof(ProgressBorder));
+
             }
-        }        
+        }
+
+        public Brush ProgressBorder
+        {
+            get
+            {
+                if (Progress == 1)
+                    return Brushes.Green;
+
+                if (Progress >= 0.7)
+                    return Brushes.Yellow;
+
+                if (Progress >= 0.5)
+                    return Brushes.Orange;
+
+                if (Progress >= 0.2)
+                    return Brushes.DarkOrange;
+
+                return Brushes.DarkGray;
+            }
+        }
 
         public double Progress
         {
@@ -120,7 +150,7 @@ namespace PhoneScoutAdmin.ViewModels
                 if (!string.IsNullOrWhiteSpace(MobileNetwork)) filled++;
                 if (!string.IsNullOrWhiteSpace(ConnectionSpeed)) filled++;                
 
-                return filled / 8.0;
+                return filled / 4.0;
             }
         }
     }

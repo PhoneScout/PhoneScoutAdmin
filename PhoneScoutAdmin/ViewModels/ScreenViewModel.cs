@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace PhoneScoutAdmin.ViewModels
 {
@@ -22,6 +23,8 @@ namespace PhoneScoutAdmin.ViewModels
                 _screenType = value;
                 OnPropertyChanged(nameof(ScreenType));
                 OnPropertyChanged(nameof(Progress));
+                OnPropertyChanged(nameof(ProgressBorder));
+
             }
         }
 
@@ -34,6 +37,8 @@ namespace PhoneScoutAdmin.ViewModels
                 _screenResH = value;
                 OnPropertyChanged(nameof(ScreenResH));
                 OnPropertyChanged(nameof(Progress));
+                OnPropertyChanged(nameof(ProgressBorder));
+
             }
         }
 
@@ -46,6 +51,8 @@ namespace PhoneScoutAdmin.ViewModels
                 _screenResW = value;
                 OnPropertyChanged(nameof(ScreenResW));
                 OnPropertyChanged(nameof(Progress));
+                OnPropertyChanged(nameof(ProgressBorder));
+
             }
         }
 
@@ -58,6 +65,8 @@ namespace PhoneScoutAdmin.ViewModels
                 _screenSize = value;
                 OnPropertyChanged(nameof(ScreenSize));
                 OnPropertyChanged(nameof(Progress));
+                OnPropertyChanged(nameof(ProgressBorder));
+
             }
         }
 
@@ -70,6 +79,8 @@ namespace PhoneScoutAdmin.ViewModels
                 _screenSharpness = value;
                 OnPropertyChanged(nameof(ScreenSharpness));
                 OnPropertyChanged(nameof(Progress));
+                OnPropertyChanged(nameof(ProgressBorder));
+
             }
         }
 
@@ -82,6 +93,8 @@ namespace PhoneScoutAdmin.ViewModels
                 _screenRefreshRate = value;
                 OnPropertyChanged(nameof(ScreenRefreshRate));
                 OnPropertyChanged(nameof(Progress));
+                OnPropertyChanged(nameof(ProgressBorder));
+
             }
         }
 
@@ -94,10 +107,30 @@ namespace PhoneScoutAdmin.ViewModels
                 _screenMaxBrightness = value;
                 OnPropertyChanged(nameof(ScreenMaxBrightness));
                 OnPropertyChanged(nameof(Progress));
+                OnPropertyChanged(nameof(ProgressBorder));
+
+            }
+        }
+        public Brush ProgressBorder
+        {
+            get
+            {
+                if (Progress == 1)
+                    return Brushes.Green;
+
+                if (Progress >= 0.7)
+                    return Brushes.Yellow;
+
+                if (Progress >= 0.5)
+                    return Brushes.Orange;
+
+                if (Progress >= 0.2)
+                    return Brushes.DarkOrange;
+
+                return Brushes.DarkGray;
             }
         }
 
-       
 
         public double Progress
         {
@@ -108,11 +141,12 @@ namespace PhoneScoutAdmin.ViewModels
                 if (!string.IsNullOrWhiteSpace(ScreenType)) filled++;
                 if (!string.IsNullOrWhiteSpace(ScreenResH)) filled++;
                 if (!string.IsNullOrWhiteSpace(ScreenResW)) filled++;
+                if (!string.IsNullOrWhiteSpace(ScreenSharpness)) filled++;
                 if (!string.IsNullOrWhiteSpace(ScreenSize)) filled++;
                 if (!string.IsNullOrWhiteSpace(ScreenRefreshRate)) filled++;
                 if (!string.IsNullOrWhiteSpace(ScreenMaxBrightness)) filled++;
 
-                return filled / 8.0;
+                return filled / 7.0;
             }
         }
     }

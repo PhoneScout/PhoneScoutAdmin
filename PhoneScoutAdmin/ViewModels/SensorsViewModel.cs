@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace PhoneScoutAdmin.ViewModels
 {
@@ -22,6 +23,8 @@ namespace PhoneScoutAdmin.ViewModels
                 _finSenPlace = value;
                 OnPropertyChanged(nameof(FinSenPlace));
                 OnPropertyChanged(nameof(Progress));
+                OnPropertyChanged(nameof(ProgressBorder));
+
             }
         }
 
@@ -34,6 +37,8 @@ namespace PhoneScoutAdmin.ViewModels
                 _finSenType = value;
                 OnPropertyChanged(nameof(FinSenType));
                 OnPropertyChanged(nameof(Progress));
+                OnPropertyChanged(nameof(ProgressBorder));
+
             }
         }
 
@@ -49,7 +54,25 @@ namespace PhoneScoutAdmin.ViewModels
             }
         }
 
-       
+        public Brush ProgressBorder
+        {
+            get
+            {
+                if (Progress == 1)
+                    return Brushes.Green;
+
+                if (Progress >= 0.7)
+                    return Brushes.Yellow;
+
+                if (Progress >= 0.5)
+                    return Brushes.Orange;
+
+                if (Progress >= 0.2)
+                    return Brushes.DarkOrange;
+
+                return Brushes.DarkGray;
+            }
+        }
 
         public double Progress
         {
@@ -59,9 +82,9 @@ namespace PhoneScoutAdmin.ViewModels
 
                 if (!string.IsNullOrWhiteSpace(FinSenPlace)) filled++;
                 if (!string.IsNullOrWhiteSpace(FinSenType)) filled++;
-                //if (!string.IsNullOrWhiteSpace(Infrared)) filled++;
 
-                return filled / 8.0;
+
+                return filled / 2.0;
             }
         }
     }

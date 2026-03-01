@@ -46,8 +46,10 @@
 
         <!-- MENU -->
         <Menu DockPanel.Dock="Top">
-            <MenuItem Header="File"/>
-            <MenuItem Header="Edit"/>
+            <MenuItem Header="Activities">
+                <MenuItem Header="Sign out" Command="{Binding SignOut}"/>
+                <MenuItem Header="Exit application" Command="{Binding ExitApp}"/>
+            </MenuItem>
         </Menu>
 
         <!-- MAIN CONTENT GRID -->
@@ -59,7 +61,7 @@
                 <!-- Content -->
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="1*"/>
+                <RowDefinition Height="70"/>
                 <!-- Header -->
                 <RowDefinition Height="8*"/>
                 <!-- Main content -->
@@ -75,15 +77,25 @@
             </WrapPanel>
 
             <!-- HEADER -->
-            <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,5">
-                <TextBlock Text="Admin Interface /" FontSize="28" FontWeight="Bold"/>
+            <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,20,5">
                 <TextBlock Text=" Home" FontSize="28" FontWeight="Bold" Foreground="#68F145"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,15,5">
+                <TextBlock Text="Welcome" FontSize="22" FontStyle="Italic"/>
+                <TextBlock Text=" Admin " FontSize="22" FontWeight="Bold"/>
+                <TextBlock Text="!" FontSize="22"/>
             </StackPanel>
 
             <!-- FOOTER -->
             <WrapPanel Grid.Row="2" Grid.Column="0" Orientation="Vertical" HorizontalAlignment="Left" Margin="5">
                 <Label Content="©2026 PhoneScout."/>
                 <Label Content="All rights reserved."/>
+            </WrapPanel>
+
+            <WrapPanel Grid.Row="2" Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Left" Margin="5">
+                <Label Content="EST. 2025"/>
+                <Label Content="phonescoutofficial@gmail.com"/>
             </WrapPanel>
 
             <!-- SIDE MENU -->

@@ -163,14 +163,14 @@ Foreground="#2300B3"
                VerticalAlignment="Center"/>
                 </StackPanel>
 
-                <TextBox Grid.Row="4"
+                <DatePicker Grid.Row="4"
      Grid.Column="1"
      Width="180"
      Margin="5"
-     Text="{Binding ReleaseDate, UpdateSourceTrigger=PropertyChanged}" />
+     SelectedDate="{Binding ReleaseDateForBinding, UpdateSourceTrigger=PropertyChanged}"/>
 
-                
-                
+
+
             </Grid>
         </GroupBox>
 

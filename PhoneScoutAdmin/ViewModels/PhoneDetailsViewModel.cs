@@ -75,10 +75,22 @@ namespace PhoneScoutAdmin
 
         public ICommand LoadPhoneCommand { get; }
 
+        public ICommand SignOut { get; }
+        public ICommand ExitApp { get; }
 
 
+        public double TotalProgress =>
+    Math.Round(
+        GeneralInfosVM.Progress +
+        CpuVM.Progress +
+        SensorsVM.Progress +
+        ConnectivityVM.Progress +
+        ScreenVM.Progress +
+        BatteryChargingVM.Progress +
+        BodySpeakerVM.Progress,
+        1);
 
-        public double TotalProgress => CpuVM.Progress + SensorsVM.Progress + ConnectivityVM.Progress + ScreenVM.Progress; // expand later
+        // expand later
 
         public PhoneDetailsViewModel(int phoneID)
         {
@@ -149,12 +161,21 @@ namespace PhoneScoutAdmin
                 if (e.PropertyName == nameof(BodySpeakerVM.Progress))
                     OnPropertyChanged(nameof(TotalProgress));
             };
-            ImageVM.PropertyChanged += (s, e) =>
-            {
-                if (e.PropertyName == nameof(ImageVM.Progress))
-                    OnPropertyChanged(nameof(TotalProgress));
-            };
+            
 
+            ExitApp = new RelayCommand(() =>
+            {
+                var result = MessageBox.Show(
+                "Are you sure you want to exit the application?",
+                "Exit Application",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Warning);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    Application.Current.Shutdown();
+                }
+            });
 
             // Default view
             CurrentViewModel = GeneralInfosVM;
@@ -175,16 +196,7 @@ namespace PhoneScoutAdmin
             ShowRamStorageCommand = new RelayCommand(() => CurrentViewModel = RamStorageSectionVM);
             ShowImagesCommand = new RelayCommand(() => CurrentViewModel = ImageVM);
             SavePhoneCommand = new RelayCommand(async () => await SavePhoneWithImages());
-            LoadPhoneCommand = new RelayCommand<object>(async (param) =>
-            {
-                if (param == null) return;
-
-                if (int.TryParse(param.ToString(), out int id))
-                {
-                    await LoadPhone(id);
-                    MessageBox.Show("gomb");
-                }
-            });
+            
 
 
 
@@ -223,11 +235,6 @@ namespace PhoneScoutAdmin
             BodySpeakerVM.PropertyChanged += (s, e) =>
             {
                 if (e.PropertyName == nameof(BodySpeakerVM.Progress))
-                    OnPropertyChanged(nameof(TotalProgress));
-            };
-            ImageVM.PropertyChanged += (s, e) =>
-            {
-                if (e.PropertyName == nameof(ImageVM.Progress))
                     OnPropertyChanged(nameof(TotalProgress));
             };
 
@@ -283,7 +290,7 @@ namespace PhoneScoutAdmin
             GeneralInfosVM.PhoneName = phone.phoneName;
             GeneralInfosVM.PhoneWeight = phone.phoneWeight.ToString();
             GeneralInfosVM.ManufacturerName = phone.manufacturerName;
-            GeneralInfosVM.ReleaseDate = phone.phoneReleaseDate.ToString();
+            GeneralInfosVM.ReleaseDate = (DateOnly)phone.phoneReleaseDate;
             
 
             //CPU
@@ -430,7 +437,7 @@ namespace PhoneScoutAdmin
                     phonePrice = 0,
                     phoneWeight = int.TryParse(GeneralInfosVM.PhoneWeight, out var phoneWeightValue) ? phoneWeightValue : 0,
                     manufacturerName = (GeneralInfosVM.ManufacturerName != "" ? GeneralInfosVM.ManufacturerName : ""),
-                    phoneReleaseDate = DateOnly.TryParse(GeneralInfosVM.ReleaseDate, out var phoneReleaseDateValue) ? phoneReleaseDateValue : DateOnly.MinValue,
+                    phoneReleaseDate = GeneralInfosVM.ReleaseDate,
                     phoneInStore = 0,
                     phoneAvailable = 0,
 
@@ -570,7 +577,7 @@ namespace PhoneScoutAdmin
                     phoneName = (GeneralInfosVM.PhoneName != "" ? GeneralInfosVM.PhoneName : ""),                    
                     phoneWeight = int.TryParse(GeneralInfosVM.PhoneWeight, out var phoneWeightValue) ? phoneWeightValue : 0,
                     manufacturerName = (GeneralInfosVM.ManufacturerName != "" ? GeneralInfosVM.ManufacturerName : ""),
-                    phoneReleaseDate = DateOnly.TryParse(GeneralInfosVM.ReleaseDate, out var phoneReleaseDateValue) ? phoneReleaseDateValue : DateOnly.MinValue,
+                    phoneReleaseDate = GeneralInfosVM.ReleaseDate,
                     
 
 

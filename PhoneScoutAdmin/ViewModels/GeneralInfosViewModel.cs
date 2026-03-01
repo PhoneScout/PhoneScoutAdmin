@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace PhoneScoutAdmin.ViewModels
 {
@@ -22,6 +23,8 @@ namespace PhoneScoutAdmin.ViewModels
                 _phoneName = value;
                 OnPropertyChanged(nameof(PhoneName));
                 OnPropertyChanged(nameof(Progress));
+                OnPropertyChanged(nameof(ProgressBorder));
+
             }
         }
 
@@ -36,18 +39,33 @@ namespace PhoneScoutAdmin.ViewModels
                 _manufacturerName = value;
                 OnPropertyChanged(nameof(ManufacturerName));
                 OnPropertyChanged(nameof(Progress));
+                OnPropertyChanged(nameof(ProgressBorder));
+
             }
         }
 
-        private string _releaseDate;
-        public string ReleaseDate
+        private DateOnly _releaseDate;
+        public DateOnly ReleaseDate
         {
             get => _releaseDate;
             set
             {
                 _releaseDate = value;
                 OnPropertyChanged(nameof(ReleaseDate));
+                OnPropertyChanged(nameof(ReleaseDateForBinding));
                 OnPropertyChanged(nameof(Progress));
+                OnPropertyChanged(nameof(ProgressBorder));
+
+            }
+        }
+
+        public DateTime? ReleaseDateForBinding
+        {
+            get => _releaseDate.ToDateTime(TimeOnly.MinValue);
+            set
+            {
+                if (value.HasValue)
+                    ReleaseDate = DateOnly.FromDateTime(value.Value);
             }
         }
 
@@ -60,10 +78,30 @@ namespace PhoneScoutAdmin.ViewModels
                 _phoneWeight = value;
                 OnPropertyChanged(nameof(PhoneWeight));
                 OnPropertyChanged(nameof(Progress));
+                OnPropertyChanged(nameof(ProgressBorder));
+
             }
         }
 
-        
+        public Brush ProgressBorder
+        {
+            get
+            {
+                if (Progress == 1)
+                    return Brushes.Green;
+
+                if (Progress >= 0.7)
+                    return Brushes.Yellow;
+
+                if (Progress >= 0.5)
+                    return Brushes.Orange;
+
+                if (Progress >= 0.2)
+                    return Brushes.DarkOrange;
+
+                return Brushes.DarkGray;
+            }
+        }
 
         public double Progress
         {
@@ -73,11 +111,10 @@ namespace PhoneScoutAdmin.ViewModels
 
                 if (!string.IsNullOrWhiteSpace(PhoneName)) filled++;                
                 if (!string.IsNullOrWhiteSpace(ManufacturerName)) filled++;
-                if (!string.IsNullOrWhiteSpace(ReleaseDate)) filled++;
                 if (!string.IsNullOrWhiteSpace(PhoneWeight)) filled++;
-                //if (!string.IsNullOrWhiteSpace(PhoneInStore)) filled++;
 
-                return filled / 8.0;
+
+                return filled / 3.0;
             }
         }
     }

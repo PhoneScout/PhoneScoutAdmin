@@ -190,23 +190,34 @@ Tájékoztatjuk, hogy a <i>{SelectedOrder.orderID}</i> azonosítójú rendelés�
         {
             if (SelectedOrder == null) return;
 
-            using HttpClient client = new();
-            string url = $"http://localhost:5175/api/Profile/deleteOrder/{SelectedOrder.ID}";
+            var result = MessageBox.Show(
+                $"Are you sure you want to delete the selected order: {SelectedOrder.orderID}?",
+                "Delete order",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Warning);
 
-            var response = await client.DeleteAsync(url);
+            if (result == MessageBoxResult.Yes)
+            {
+                using HttpClient client = new();
+                string url = $"http://localhost:5175/api/Profile/deleteOrder/{SelectedOrder.ID}";
+
+                var response = await client.DeleteAsync(url);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    MessageBox.Show("An error occurred while deleting the order!", "Error", MessageBoxButton.OK);
+                    return;
+                }
+                else
+                {
+                    MessageBox.Show("Successfully deleted.", "Update", MessageBoxButton.OK);
+                    Orders.Remove(SelectedOrder);
+                    SelectedOrder = null;
+                    OrdersView.Refresh();
+                }
+            }
+
             
-            if (!response.IsSuccessStatusCode)
-            {
-                MessageBox.Show("An error occurred while deleting the order!", "Error", MessageBoxButton.OK);
-                return;
-            }
-            else
-            {
-                MessageBox.Show("Successfully deleted.", "Update", MessageBoxButton.OK);
-                Orders.Remove(SelectedOrder);
-                SelectedOrder = null;
-                OrdersView.Refresh();
-            }
 
         }
 

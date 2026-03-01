@@ -48,8 +48,14 @@ namespace PhoneScoutAdmin.Models
         [JsonPropertyName("phoneName")]
         public string phoneName { get; set; }
 
-        [JsonPropertyName("price")]
-        public int price { get; set; }
+        [JsonPropertyName("basePrice")]
+        public int basePrice { get; set; }
+
+        [JsonPropertyName("repairPrice")]
+        public int repairPrice { get; set; }
+
+        [JsonPropertyName("isPriceAccepted")]
+        public int isPriceAccepted { get; set; }
 
         [JsonPropertyName("status")]
         public int status { get; set; }

@@ -194,6 +194,7 @@ namespace PhoneScoutAdmin.ViewModels
                 MessageBox.Show("Successfully added.", "Update", MessageBoxButton.OK);
                 NewPartName = string.Empty;
                 NewPartAmount = 0;
+                Parts.Add(newPart);
                 PartsView.Refresh();
             }
         }
@@ -204,23 +205,34 @@ namespace PhoneScoutAdmin.ViewModels
         {
             if (SelectedPart == null) return;
 
-            using HttpClient client = new HttpClient();
-            string url = $"http://localhost:5175/api/wpfStorage/{SelectedPart.partID}";
+            var result = MessageBox.Show(
+                $"Are you sure you want to delete the selected part: {SelectedPart.partName}?",
+                "Delete event",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Warning);
 
-            var response = await client.DeleteAsync(url);
-
-            if (!response.IsSuccessStatusCode)
+            if (result == MessageBoxResult.Yes)
             {
-                MessageBox.Show("An error occurred while deleting the part!", "Error", MessageBoxButton.OK);
-                return;
+                using HttpClient client = new HttpClient();
+                string url = $"http://localhost:5175/api/wpfStorage/{SelectedPart.partID}";
+
+                var response = await client.DeleteAsync(url);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    MessageBox.Show("An error occurred while deleting the part!", "Error", MessageBoxButton.OK);
+                    return;
+                }
+                else
+                {
+                    MessageBox.Show("Successfully deleted.", "Update", MessageBoxButton.OK);
+                    Parts.Remove(SelectedPart);
+                    SelectedPart = null;
+                    PartsView.Refresh();
+                }
             }
-            else
-            {
-                MessageBox.Show("Successfully deleted.", "Update", MessageBoxButton.OK);
-                Parts.Remove(SelectedPart);
-                SelectedPart = null;
-                PartsView.Refresh();
-            }            
+
+             
         }
 
         private bool FilterParts(object obj)

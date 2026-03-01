@@ -192,23 +192,33 @@ namespace PhoneScoutAdmin.ViewModels
         {
             if (SelectedUser == null) return;
 
-            using HttpClient client = new HttpClient();
-            string url = $"http://localhost:5175/api/wpfUsers/{SelectedUser.userID}";
-
-            var response = await client.DeleteAsync(url);           
-
-            if (!response.IsSuccessStatusCode)
+            var result = MessageBox.Show(
+                $"Are you sure you want to delete the selected user: {SelectedUser.email}?",
+                "Delete user",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Warning);
+            
             {
-                MessageBox.Show("An error occurred while deleting the user!", "Error", MessageBoxButton.OK);
-                return;
+                using HttpClient client = new HttpClient();
+                string url = $"http://localhost:5175/api/wpfUsers/{SelectedUser.userID}";
+
+                var response = await client.DeleteAsync(url);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    MessageBox.Show("An error occurred while deleting the user!", "Error", MessageBoxButton.OK);
+                    return;
+                }
+                else
+                {
+                    MessageBox.Show("Successfully deleted.", "Update", MessageBoxButton.OK);
+                    UsersView.Refresh();
+                    Users.Remove(SelectedUser);
+                    SelectedUser = null;
+                }
             }
-            else
-            {
-                MessageBox.Show("Successfully deleted.", "Update", MessageBoxButton.OK);
-                UsersView.Refresh();
-                Users.Remove(SelectedUser);
-                SelectedUser = null;
-            }
+
+           
         }
 
         private bool FilterUsers(object obj)

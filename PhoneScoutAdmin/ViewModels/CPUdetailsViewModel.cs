@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Windows.Media;
 
 namespace PhoneScoutAdmin.ViewModels
 {
@@ -17,6 +18,8 @@ namespace PhoneScoutAdmin.ViewModels
                 _cpuName = value;
                 OnPropertyChanged(nameof(CpuName));
                 OnPropertyChanged(nameof(Progress));
+                OnPropertyChanged(nameof(ProgressBorder));
+
             }
         }
 
@@ -29,6 +32,8 @@ namespace PhoneScoutAdmin.ViewModels
                 _antutuScore = value;
                 OnPropertyChanged(nameof(AntutuScore));
                 OnPropertyChanged(nameof(Progress));
+                OnPropertyChanged(nameof(ProgressBorder));
+
             }
         }
 
@@ -41,6 +46,8 @@ namespace PhoneScoutAdmin.ViewModels
                 _clockSpeed = value;
                 OnPropertyChanged(nameof(ClockSpeed));
                 OnPropertyChanged(nameof(Progress));
+                OnPropertyChanged(nameof(ProgressBorder));
+
             }
         }
 
@@ -53,6 +60,8 @@ namespace PhoneScoutAdmin.ViewModels
                 _coreNumber = value;
                 OnPropertyChanged(nameof(CoreNumber));
                 OnPropertyChanged(nameof(Progress));
+                OnPropertyChanged(nameof(ProgressBorder));
+
             }
         }
 
@@ -65,6 +74,28 @@ namespace PhoneScoutAdmin.ViewModels
                 _manufacturingTech = value;
                 OnPropertyChanged(nameof(ManufacturingTech));
                 OnPropertyChanged(nameof(Progress));
+                OnPropertyChanged(nameof(ProgressBorder));
+
+            }
+        }
+
+        public Brush ProgressBorder
+        {
+            get
+            {
+                if (Progress == 1)
+                    return Brushes.Green;
+
+                if (Progress >= 0.7)
+                    return Brushes.Yellow;
+
+                if (Progress >= 0.5)
+                    return Brushes.Orange;
+
+                if (Progress >= 0.2)
+                    return Brushes.DarkOrange;
+
+                return Brushes.DarkGray;
             }
         }
 
@@ -80,7 +111,7 @@ namespace PhoneScoutAdmin.ViewModels
                 if (!string.IsNullOrWhiteSpace(CoreNumber)) filled++;
                 if (!string.IsNullOrWhiteSpace(ManufacturingTech)) filled++;
 
-                return filled / 8.0;
+                return filled / 5.0;
             }
         }
     }

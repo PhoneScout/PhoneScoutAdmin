@@ -75,7 +75,6 @@ namespace PhoneScoutAdmin.ViewModels
                     });
                 }
 
-                OnPropertyChanged(nameof(Progress));
             }
         }
 
@@ -125,7 +124,7 @@ namespace PhoneScoutAdmin.ViewModels
                 });
             }
 
-            OnPropertyChanged(nameof(Progress));
+
         }
 
         private async void RemoveImage(PhoneImage image)
@@ -135,23 +134,35 @@ namespace PhoneScoutAdmin.ViewModels
 
             if (!image.IsNew && image.Id != null)
             {
-                using HttpClient client = new HttpClient();
-                string url = $"http://localhost:5175/api/blob/DeletePicture/{image.Id}";
+                var result = MessageBox.Show(
+                $"Are you sure you want to delete the selected image?",
+                "Delete image",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Warning);
 
-                var response = await client.DeleteAsync(url);
-
-                if (!response.IsSuccessStatusCode)
+                if (result == MessageBoxResult.Yes)
                 {
-                    MessageBox.Show("Failed to delete image from database.");
-                    return;
+                    using HttpClient client = new HttpClient();
+                    string url = $"http://localhost:5175/api/blob/DeletePicture/{image.Id}";
+
+                    var response = await client.DeleteAsync(url);
+
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        MessageBox.Show("Failed to delete image from database.");
+                        return;
+                    }
                 }
+
+
+                
             }
 
             Images.Remove(image);
-            OnPropertyChanged(nameof(Progress));
+
         }
 
-        public double Progress => Images.Count > 0 ? 1 : 0;
+
     }
 
     // DTO for backend response

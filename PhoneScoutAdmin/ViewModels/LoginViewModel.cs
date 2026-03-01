@@ -49,15 +49,13 @@ public class LoginViewModel : INotifyPropertyChanged
 
     private async Task Login(object param)
     {
-        MessageBox.Show("login");
 
         var passwordBox = param as PasswordBox;
         string password = passwordBox?.Password;
 
         if (string.IsNullOrWhiteSpace(Email) || string.IsNullOrWhiteSpace(password))
         {
-            MessageColor = Brushes.Red;
-            Message = "Hiba: Minden mezőt töltsön ki!";
+            MessageBox.Show("Please fill every field!", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
             return;
         }
 
@@ -69,27 +67,27 @@ public class LoginViewModel : INotifyPropertyChanged
 
             if (!userInfoResponse.IsSuccessStatusCode)
             {
-                MessageColor = Brushes.Red;
-                Message = await userInfoResponse.Content.ReadAsStringAsync();
+                MessageBox.Show("User not found!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
                 return;
             }
 
             var userInfoJson = await userInfoResponse.Content.ReadAsStringAsync();
             var userInfo = JsonSerializer.Deserialize<UserInfo>(userInfoJson);
 
-            MessageBox.Show($"NAme={userInfo.name}, Privilege={userInfo.privilege}, Active={userInfo.active}");
 
             if (userInfo == null)
             {
-                MessageColor = Brushes.Red;
-                Message = "Hiba: Nem sikerült lekérni a felhasználót!";
+                MessageBox.Show("User not found!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
                 return;
             }
 
             // Manufacturer first login -> force password change
             if (userInfo.privilege == 6 && userInfo.active == 0)
             {
-                MessageBox.Show("firstlogin");
+                MessageBox.Show("As a new user, you will need to change your password!", "Password change", MessageBoxButton.OK, MessageBoxImage.Information);
+
                 OpenFirstPasswordChange(userInfo.email);
                 CloseLoginWindow();
                 return;
@@ -100,7 +98,8 @@ public class LoginViewModel : INotifyPropertyChanged
                 $"http://localhost:5175/api/Login/GetSalt/{Uri.EscapeDataString(Email)}");
 
             if (!saltResponse.IsSuccessStatusCode)
-                throw new Exception("A felhasználó nem található.");
+                MessageBox.Show("User not found!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
 
             var salt = (await saltResponse.Content.ReadAsStringAsync()).Trim('"');
             string combined = password + salt;
@@ -113,8 +112,8 @@ public class LoginViewModel : INotifyPropertyChanged
 
             if (!response.IsSuccessStatusCode)
             {
-                MessageColor = Brushes.Red;
-                Message = await response.Content.ReadAsStringAsync();
+                MessageBox.Show("Wrong email or password!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
                 return;
             }
             
@@ -131,16 +130,14 @@ public class LoginViewModel : INotifyPropertyChanged
 
             if (userInfo.privilege == 7) // Admin
             {
-                MessageBox.Show("adminlogin");
+                MessageBox.Show("Successful login!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 OpenAdminWindow();
                 CloseLoginWindow();
             }
             else if (userInfo.privilege == 6) // Manufacturer
             {
-                MessageBox.Show("manulogin"+userInfo.name);
-
-
+                MessageBox.Show("Successful login!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 OpenManufacturerHome(userInfo.name);
                 CloseLoginWindow();
@@ -149,8 +146,8 @@ public class LoginViewModel : INotifyPropertyChanged
         }
         catch (Exception ex)
         {
-            MessageColor = Brushes.Red;
-            Message = "Hiba: " + ex.Message;
+            MessageBox.Show("An error occurred during login!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
         }
     }
 
@@ -175,14 +172,8 @@ public class LoginViewModel : INotifyPropertyChanged
 
     private void OpenManufacturerHome(string loggedInManufacturer)
     {
-        var window = new Window
-        {
-            Content = new ManufacturerHome
-            {
-                DataContext = new SingleManufacturerViewModel(loggedInManufacturer)
-            }
-        };
-
+        var window = new ManufacturerHome();
+        window.DataContext = new SingleManufacturerViewModel(loggedInManufacturer);
         window.Show();
     }
 
