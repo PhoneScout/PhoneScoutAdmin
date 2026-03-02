@@ -222,16 +222,37 @@ namespace PhoneScoutAdmin.ViewModels
             using HttpClient client = new();
             var json = JsonSerializer.Serialize(SelectedPhone);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-            await client.PutAsync($"http://localhost:5175/api/wpfPhone/{SelectedPhone.phoneID}", content);
+
+
+            var response = await client.PutAsync($"http://localhost:5175/api/wpfPhone/{SelectedPhone.phoneID}", content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                MessageBox.Show("Phone saved successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+            {
+                MessageBox.Show("An error occured while saving the phone!", "Success", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
 
         private async Task DeletePhone()
         {
             using HttpClient client = new();
-            await client.PutAsync($"http://localhost:5175/api/wpfPhone/{SelectedPhone.phoneID}",
+            var response = await client.PutAsync($"http://localhost:5175/api/wpfPhone/{SelectedPhone.phoneID}",
                 new StringContent(JsonSerializer.Serialize(new { phoneAvailable = 1 }), Encoding.UTF8, "application/json"));
-            Phones.Remove(SelectedPhone);
-            SelectedPhone = null;
+
+            if (response.IsSuccessStatusCode)
+            {
+                MessageBox.Show("Phone deleted successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                Phones.Remove(SelectedPhone);
+                SelectedPhone = null;
+            }
+            else
+            {
+                MessageBox.Show("An error occured while deleting the phone!", "Success", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+            
         }
 
         private async Task SaveManufacturer()
@@ -243,7 +264,15 @@ namespace PhoneScoutAdmin.ViewModels
             using HttpClient client = new();
             var json = JsonSerializer.Serialize(ActiveManufacturer);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-            await client.PutAsync($"http://localhost:5175/api/wpfManufacturer/{ActiveManufacturer.manufacturerId}", content);
+            var response = await client.PutAsync($"http://localhost:5175/api/wpfManufacturer/{ActiveManufacturer.manufacturerId}", content);
+            if (response.IsSuccessStatusCode)
+            {
+                MessageBox.Show("Datas saved successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+            {
+                MessageBox.Show("An error occured while saving the datas!", "Success", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
 
         private void SignOutLogic()
