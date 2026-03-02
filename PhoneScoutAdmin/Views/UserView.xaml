@@ -41,7 +41,10 @@ Grid.ColumnSpan="2">
                   SelectedItem="{Binding SelectedUser}"
                   AutoGenerateColumns="True"
                   CanUserAddRows="False"
-                  Margin="5"/>
+                  Margin="5">
+            
+
+        </DataGrid>
 
         <!-- ===================== -->
         <!-- EDIT PANEL -->

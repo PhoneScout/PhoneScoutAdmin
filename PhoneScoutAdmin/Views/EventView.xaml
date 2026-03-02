@@ -53,9 +53,16 @@ Grid.ColumnSpan="2">
                   Grid.Column="0"
                   ItemsSource="{Binding EventsView}"
                   SelectedItem="{Binding SelectedEvent}"
-                  AutoGenerateColumns="True"
+                  AutoGenerateColumns="False"
+                  ColumnWidth="*"
                   Margin="5"
-                  CanUserAddRows="False" />
+                  CanUserAddRows="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Event name" Binding="{Binding eventName}" />
+                <DataGridTextColumn Header="Event host" Binding="{Binding eventHostName}" />
+                <DataGridTextColumn Header="Event date" Binding="{Binding eventDate}" />
+            </DataGrid.Columns>
+        </DataGrid>
 
         <!-- ===================== -->
         <!-- EDIT PANEL -->
@@ -233,10 +240,18 @@ Foreground="#2300B3"
                     <Image Width="150" Height="150"
            Margin="5"
            Source="{Binding EventImage}" />
-                    <Button Content="Select Image"
-            Margin="5"
-            Padding="6"
-            Command="{Binding SelectFileCommand}" />
+                    <Button Grid.Row="5"
+        Grid.ColumnSpan="2"
+        Margin="10"
+        Padding="5,0,5,0"
+        FontSize="16"
+        Content="Select image"
+                            Height="50"  
+        BorderBrush="#80A4CB"
+        BorderThickness="3"
+        Background="WhiteSmoke"
+        Command="{Binding SelectFileCommand}" />
+                    
                 </StackPanel>
 
 

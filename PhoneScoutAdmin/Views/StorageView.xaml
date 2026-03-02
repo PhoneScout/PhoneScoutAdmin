@@ -40,7 +40,10 @@ Grid.ColumnSpan="2">
                   SelectedItem="{Binding SelectedPart}"
                   AutoGenerateColumns="True"
                   CanUserAddRows="False"
-                  Margin="5"/>
+                  Margin="5">
+            
+
+        </DataGrid>
 
         <!-- ===================== -->
         <!-- RIGHT SIDE PANELS -->

@@ -37,12 +37,21 @@ Grid.ColumnSpan="2">
         <!-- ===================== -->
 
         <DataGrid Grid.Row="1"
-                  Grid.Column="0"
-                  ItemsSource="{Binding PhonesView}"
-                  SelectedItem="{Binding SelectedPhone}"
-                  AutoGenerateColumns="True"
-                  Margin="5"
-                  CanUserAddRows="False" />
+          Grid.Column="0"
+          ItemsSource="{Binding PhonesView}"
+          SelectedItem="{Binding SelectedPhone}"
+          AutoGenerateColumns="False"
+          Margin="5"
+          CanUserAddRows="False">
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Phone name" Binding="{Binding phoneName}" />
+                <DataGridTextColumn Header="Phone price" Binding="{Binding phonePrice}" />
+                <DataGridTextColumn Header="In store" Binding="{Binding phoneInStore}" />
+                <DataGridTextColumn Header="Available" Binding="{Binding phoneAvailable}" />
+            </DataGrid.Columns>
+
+        </DataGrid>
 
         <!-- ===================== -->
         <!-- EDIT PANEL -->

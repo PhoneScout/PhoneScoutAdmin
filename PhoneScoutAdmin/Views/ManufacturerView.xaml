@@ -38,9 +38,15 @@ Grid.ColumnSpan="2">
                   Grid.Column="0"
                   ItemsSource="{Binding ManufacturersView}"
                   SelectedItem="{Binding SelectedManufacturer}"
-                  AutoGenerateColumns="True"
+                  AutoGenerateColumns="False"
                   CanUserAddRows="False"
-                  Margin="5" />
+                  Margin="5" >
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Manufacturer Name" Binding="{Binding manufacturerName}" />
+                <DataGridTextColumn Header="Manufacturer Email" Binding="{Binding manufacturerEmail}" />
+                <DataGridTextColumn Header="Manufacturer URL" Binding="{Binding manufacturerUrl}" />
+            </DataGrid.Columns>
+        </DataGrid>
 
         <!-- ===================== -->
         <!-- EDIT PANEL -->

@@ -72,7 +72,7 @@ namespace PhoneScoutAdmin.ViewModels
         // =========================
 
         public ObservableCollection<Phone> Phones { get; } = new();
-        public EventViewModel EventsVM { get; } = new EventViewModel();
+        public EventViewModel EventsVM { get; }
         public Manufacturer ActiveManufacturer { get; } = new();
 
         private Phone _selectedPhone;
@@ -157,6 +157,9 @@ namespace PhoneScoutAdmin.ViewModels
 
             // Initialize view
             CurrentSubView = ManufacturerSubView.Phones;
+
+            EventsVM = new EventViewModel(false, ActiveManufacturerName);
+            _ = EventsVM.LoadEvents();
 
             ShowPhonesCommand = new RelayCommand(() => CurrentSubView = ManufacturerSubView.Phones);
             ShowManufacturerCommand = new RelayCommand(() => CurrentSubView = ManufacturerSubView.ManufacturerDetails);

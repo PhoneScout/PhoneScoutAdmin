@@ -22,190 +22,18 @@ namespace PhoneScoutAdmin.ViewModels
         private void OnPropertyChanged(string name)
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
-        public ObservableCollection<Event> Events { get; } = new ObservableCollection<Event>();
-        public ICollectionView EventsView { get; }
+        // ===============================
+        // ROLE CONTEXT
+        // ===============================
 
-        #region Selected Event
+        private readonly bool _isAdmin;
+        private readonly string? _manufacturerName;
 
-        private Event _selectedEvent;
-        public Event SelectedEvent
+        public EventViewModel(bool isAdmin, string? manufacturerName = null)
         {
-            get => _selectedEvent;
-            set
-            {
-                _selectedEvent = value;
-                OnPropertyChanged(nameof(SelectedEvent));
+            _isAdmin = isAdmin;
+            _manufacturerName = manufacturerName;
 
-                if (_selectedEvent != null)
-                {
-                    EventName = _selectedEvent.eventName;
-                    EventHostName = _selectedEvent.eventHostName;
-                    EventHostURL = _selectedEvent.eventHostURL;
-                    EventURL = _selectedEvent.eventURL;
-
-                    EventDate = _selectedEvent.eventDate.Date;
-                    EventTime = _selectedEvent.eventDate.ToString("HH:mm:ss");
-
-                    if (!string.IsNullOrEmpty(_selectedEvent.imageBase64))
-                        EventImage = Base64ToBitmap(_selectedEvent.imageBase64);
-                    else
-                        EventImage = null;
-
-                    IsCreate = false;
-                }
-
-                RaiseCommandStates();
-            }
-        }
-
-        #endregion
-
-        #region Form Fields
-
-        private string _eventName;
-        public string EventName
-        {
-            get => _eventName;
-            set { _eventName = value; OnPropertyChanged(nameof(EventName)); }
-        }
-
-        private string _eventHostName;
-        public string EventHostName
-        {
-            get => _eventHostName;
-            set { _eventHostName = value; OnPropertyChanged(nameof(EventHostName)); }
-        }
-
-        private string _eventHostURL;
-        public string EventHostURL
-        {
-            get => _eventHostURL;
-            set { _eventHostURL = value; OnPropertyChanged(nameof(EventHostURL)); }
-        }
-
-        private DateTime _eventDate = DateTime.Now;
-        public DateTime EventDate
-        {
-            get => _eventDate;
-            set { _eventDate = value; OnPropertyChanged(nameof(EventDate)); }
-        }
-
-        private string _eventTime = DateTime.Now.ToString("HH:mm:ss");
-        public string EventTime
-        {
-            get => _eventTime;
-            set { _eventTime = value; OnPropertyChanged(nameof(EventTime)); }
-        }
-
-        private string _eventURL;
-        public string EventURL
-        {
-            get => _eventURL;
-            set { _eventURL = value; OnPropertyChanged(nameof(EventURL)); }
-        }
-
-        #endregion
-
-        #region Image Handling (UI uses BitmapImage)
-
-        private BitmapImage _eventImage;
-        public BitmapImage EventImage
-        {
-            get => _eventImage;
-            set
-            {
-                _eventImage = value;
-                OnPropertyChanged(nameof(EventImage));
-            }
-        }
-
-        private BitmapImage Base64ToBitmap(string base64)
-        {
-            byte[] bytes = Convert.FromBase64String(base64);
-
-            using (var ms = new MemoryStream(bytes))
-            {
-                BitmapImage image = new BitmapImage();
-                image.BeginInit();
-                image.CacheOption = BitmapCacheOption.OnLoad;
-                image.StreamSource = ms;
-                image.EndInit();
-                image.Freeze();
-                return image;
-            }
-        }
-
-        private string BitmapToBase64(BitmapImage bitmap)
-        {
-            if (bitmap == null) return null;
-
-            PngBitmapEncoder encoder = new PngBitmapEncoder();
-            encoder.Frames.Add(BitmapFrame.Create(bitmap));
-
-            using (MemoryStream ms = new MemoryStream())
-            {
-                encoder.Save(ms);
-                return Convert.ToBase64String(ms.ToArray());
-            }
-        }
-
-        #endregion
-
-        #region Mode Handling
-
-        private bool _isCreate;
-        public bool IsCreate
-        {
-            get => _isCreate;
-            set
-            {
-                _isCreate = value;
-                OnPropertyChanged(nameof(IsCreate));
-                OnPropertyChanged(nameof(ButtonTextDisplay));
-                RaiseCommandStates();
-            }
-        }
-
-        public string ButtonTextDisplay =>
-            IsCreate ? "Create Event" : "Save Changes";
-
-        #endregion
-
-        #region Filtering
-
-        private string _eventHostNameFilter;
-        public string EventHostNameFilter
-        {
-            get => _eventHostNameFilter;
-            set
-            {
-                _eventHostNameFilter = value;
-                OnPropertyChanged(nameof(EventHostNameFilter));
-                EventsView.Refresh();
-            }
-        }
-
-        private bool FilterEvents(object obj)
-        {
-            if (obj is not Event ev) return false;
-
-            return string.IsNullOrWhiteSpace(EventHostNameFilter) ||
-                   ev.eventHostName.Contains(EventHostNameFilter,
-                       StringComparison.OrdinalIgnoreCase);
-        }
-
-        #endregion
-
-        #region Commands
-
-        public ICommand LoadEventsCommand { get; }
-        public ICommand SaveEventCommand { get; }
-        public ICommand DeleteEventCommand { get; }
-        public ICommand CreateEventCommand { get; }
-        public ICommand SelectFileCommand { get; }
-
-        public EventViewModel()
-        {
             LoadEventsCommand = new RelayCommand(async () => await LoadEvents());
 
             SaveEventCommand = new RelayCommand(
@@ -224,35 +52,152 @@ namespace PhoneScoutAdmin.ViewModels
             EventsView.Filter = FilterEvents;
         }
 
+        // ===============================
+        // DATA
+        // ===============================
+
+        public ObservableCollection<Event> Events { get; } = new();
+        public ICollectionView EventsView { get; }
+
+        // ===============================
+        // FILTERING (ROLE + SEARCH)
+        // ===============================
+
+        private string _eventHostNameFilter;
+        public string EventHostNameFilter
+        {
+            get => _eventHostNameFilter;
+            set
+            {
+                _eventHostNameFilter = value;
+                OnPropertyChanged(nameof(EventHostNameFilter));
+                EventsView.Refresh();
+            }
+        }
+
+        private bool FilterEvents(object obj)
+        {
+            if (obj is not Event ev) return false;
+
+            // Manufacturer restriction
+            if (!_isAdmin && ev.eventHostName != _manufacturerName)
+                return false;
+
+            // Search filter
+            return string.IsNullOrWhiteSpace(EventHostNameFilter) ||
+                   ev.eventHostName.Contains(EventHostNameFilter,
+                       StringComparison.OrdinalIgnoreCase);
+        }
+
+        // ===============================
+        // SELECTED EVENT
+        // ===============================
+
+        private Event _selectedEvent;
+        public Event SelectedEvent
+        {
+            get => _selectedEvent;
+            set
+            {
+                _selectedEvent = value;
+                OnPropertyChanged(nameof(SelectedEvent));
+
+                if (_selectedEvent != null)
+                {
+                    EventName = _selectedEvent.eventName;
+                    EventHostName = _selectedEvent.eventHostName;
+                    EventURL = _selectedEvent.eventURL;
+
+                    EventDate = _selectedEvent.eventDate.Date;
+                    EventTime = _selectedEvent.eventDate.ToString("HH:mm:ss");
+
+                    if (!string.IsNullOrEmpty(_selectedEvent.imageBase64))
+                        EventImage = Base64ToBitmap(_selectedEvent.imageBase64);
+                    else
+                        EventImage = null;
+
+                    IsCreate = false;
+                }
+
+                RaiseCommandStates();
+            }
+        }
+
+        // ===============================
+        // FORM FIELDS
+        // ===============================
+
+        public string EventName { get; set; }
+        public string EventHostName { get; set; }
+        public DateTime EventDate { get; set; } = DateTime.Now;
+        public string EventTime { get; set; } = DateTime.Now.ToString("HH:mm:ss");
+        public string EventURL { get; set; }
+        public BitmapImage EventImage { get; set; }
+
+        // ===============================
+        // MODE
+        // ===============================
+
+        private bool _isCreate;
+        public bool IsCreate
+        {
+            get => _isCreate;
+            set
+            {
+                _isCreate = value;
+                OnPropertyChanged(nameof(IsCreate));
+                OnPropertyChanged(nameof(ButtonTextDisplay));
+                RaiseCommandStates();
+            }
+        }
+
+        public string ButtonTextDisplay =>
+            IsCreate ? "Create Event" : "Save Changes";
+
+        // ===============================
+        // COMMANDS
+        // ===============================
+
+        public ICommand LoadEventsCommand { get; }
+        public ICommand SaveEventCommand { get; }
+        public ICommand DeleteEventCommand { get; }
+        public ICommand CreateEventCommand { get; }
+        public ICommand SelectFileCommand { get; }
+
         private void RaiseCommandStates()
         {
             (SaveEventCommand as RelayCommand)?.RaiseCanExecuteChanged();
             (DeleteEventCommand as RelayCommand)?.RaiseCanExecuteChanged();
         }
 
-        #endregion
-
-        #region CRUD
+        // ===============================
+        // LOAD EVENTS
+        // ===============================
 
         public async Task LoadEvents()
         {
-            using HttpClient client = new HttpClient();
-            string url = "http://localhost:5175/api/event";
+            using HttpClient client = new();
+            var response = await client.GetAsync("http://localhost:5175/api/event");
 
-            var response = await client.GetAsync(url);
             if (!response.IsSuccessStatusCode) return;
 
-            string json = await response.Content.ReadAsStringAsync();
-            var eventsList = JsonSerializer.Deserialize<List<Event>>(json);
+            var json = await response.Content.ReadAsStringAsync();
+            var list = JsonSerializer.Deserialize<List<Event>>(json);
 
             Events.Clear();
-            foreach (var ev in eventsList)
+            foreach (var ev in list)
                 Events.Add(ev);
+
+            EventsView.Refresh();
         }
+
+        // ===============================
+        // SAVE / DELETE
+        // ===============================
 
         private async Task SaveEvent()
         {
-            using HttpClient client = new HttpClient();
+            using HttpClient client = new();
 
             if (!TimeSpan.TryParse(EventTime, out TimeSpan time))
             {
@@ -263,17 +208,16 @@ namespace PhoneScoutAdmin.ViewModels
             DateTime combined = EventDate.Date + time;
             DateTime utcDate = combined.ToUniversalTime();
 
-            MultipartFormDataContent form = new MultipartFormDataContent();
+            MultipartFormDataContent form = new();
             form.Add(new StringContent(EventName), "eventName");
             form.Add(new StringContent(EventHostName), "eventHostName");
             form.Add(new StringContent(utcDate.ToString("o")), "eventDate");
             form.Add(new StringContent(EventURL ?? ""), "eventURL");
 
-            string imageBase64 = BitmapToBase64(EventImage);
-
-            if (!string.IsNullOrEmpty(imageBase64))
+            if (EventImage != null)
             {
-                byte[] fileBytes = Convert.FromBase64String(imageBase64);
+                var base64 = BitmapToBase64(EventImage);
+                byte[] fileBytes = Convert.FromBase64String(base64);
                 var fileContent = new ByteArrayContent(fileBytes);
                 fileContent.Headers.ContentType =
                     new MediaTypeHeaderValue("image/png");
@@ -284,35 +228,18 @@ namespace PhoneScoutAdmin.ViewModels
             HttpResponseMessage response;
 
             if (IsCreate)
-            {
-                response = await client.PostAsync(
-                    "http://localhost:5175/api/event", form);
-
-
-            }
+                response = await client.PostAsync("http://localhost:5175/api/event", form);
             else
-            {
-                string url =
-                    $"http://localhost:5175/api/event/{SelectedEvent.eventID}";
-
-                response = await client.PutAsync(url, form);
-            }
+                response = await client.PutAsync(
+                    $"http://localhost:5175/api/event/{SelectedEvent.eventID}", form);
 
             if (!response.IsSuccessStatusCode)
             {
-                string errorContent = await response.Content.ReadAsStringAsync();
-
-                MessageBox.Show(
-                    $"Status: {response.StatusCode}\n\n" +
-                    $"Reason: {response.ReasonPhrase}\n\n" +
-                    $"Server Response:\n{errorContent}"
-                );
-
+                MessageBox.Show(await response.Content.ReadAsStringAsync());
                 return;
             }
-            MessageBox.Show(IsCreate
-                ? "Event created."
-                : "Event updated.");
+
+            MessageBox.Show(IsCreate ? "Event created." : "Event updated.");
 
             IsCreate = false;
             await LoadEvents();
@@ -323,10 +250,9 @@ namespace PhoneScoutAdmin.ViewModels
             if (SelectedEvent == null) return;
 
             using HttpClient client = new();
-            string url =
-                $"http://localhost:5175/api/event/{SelectedEvent.eventID}";
+            await client.DeleteAsync(
+                $"http://localhost:5175/api/event/{SelectedEvent.eventID}");
 
-            await client.DeleteAsync(url);
             Events.Remove(SelectedEvent);
             SelectedEvent = null;
         }
@@ -334,29 +260,51 @@ namespace PhoneScoutAdmin.ViewModels
         private async Task CreateEvent()
         {
             SelectedEvent = null;
-
             EventName = "";
-            EventHostName = "";
+            EventHostName = _manufacturerName ?? "";
             EventURL = "";
             EventDate = DateTime.Now;
             EventTime = DateTime.Now.ToString("HH:mm:ss");
             EventImage = null;
-
             IsCreate = true;
         }
 
-        #endregion
+        // ===============================
+        // IMAGE
+        // ===============================
 
-        #region File Picker
+        private BitmapImage Base64ToBitmap(string base64)
+        {
+            byte[] bytes = Convert.FromBase64String(base64);
+
+            using MemoryStream ms = new(bytes);
+            BitmapImage image = new();
+            image.BeginInit();
+            image.CacheOption = BitmapCacheOption.OnLoad;
+            image.StreamSource = ms;
+            image.EndInit();
+            image.Freeze();
+            return image;
+        }
+
+        private string BitmapToBase64(BitmapImage bitmap)
+        {
+            PngBitmapEncoder encoder = new();
+            encoder.Frames.Add(BitmapFrame.Create(bitmap));
+
+            using MemoryStream ms = new();
+            encoder.Save(ms);
+            return Convert.ToBase64String(ms.ToArray());
+        }
 
         private void SelectFile()
         {
-            OpenFileDialog dlg = new OpenFileDialog();
+            OpenFileDialog dlg = new();
             dlg.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp";
 
             if (dlg.ShowDialog() == true)
             {
-                BitmapImage bitmap = new BitmapImage();
+                BitmapImage bitmap = new();
                 bitmap.BeginInit();
                 bitmap.UriSource = new Uri(dlg.FileName);
                 bitmap.CacheOption = BitmapCacheOption.OnLoad;
@@ -364,9 +312,8 @@ namespace PhoneScoutAdmin.ViewModels
                 bitmap.Freeze();
 
                 EventImage = bitmap;
+                OnPropertyChanged(nameof(EventImage));
             }
         }
-
-        #endregion
     }
 }

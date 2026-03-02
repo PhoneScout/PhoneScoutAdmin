@@ -24,7 +24,13 @@
                   AutoGenerateColumns="True"
                   CanUserAddRows="False"
                   ItemsSource="{Binding Phones}"
-                  SelectedItem="{Binding SelectedPhone}" />
+                  SelectedItem="{Binding SelectedPhone}">
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Phone name" Binding="{Binding phoneName}" />
+            </DataGrid.Columns>
+
+        </DataGrid>
 
         <!-- ===================== -->
         <!-- EDIT PANEL -->

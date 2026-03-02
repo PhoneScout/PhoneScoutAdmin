@@ -50,8 +50,8 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Repair ID" Binding="{Binding repairID}" />
                 <DataGridTextColumn Header="Email" Binding="{Binding userEmail}" />
-                <DataGridTextColumn Header="Manufacturer" Binding="{Binding manufacturerName}" />
                 <DataGridTextColumn Header="Phone" Binding="{Binding phoneName}" />
+                <DataGridTextColumn Header="Manufacturer" Binding="{Binding manufacturerName}" />
                 <DataGridTextColumn Header="Repair price" Binding="{Binding repairPrice}" />
                 <DataGridTextColumn Header="Status" Binding="{Binding status}" />
             </DataGrid.Columns>
