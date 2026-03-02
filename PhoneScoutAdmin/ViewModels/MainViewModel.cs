@@ -64,7 +64,7 @@ namespace PhoneScoutAdmin.ViewModels
             StorageVM = new StorageViewModel();
             RepairVM = new RepairViewModel();
             OrderVM = new OrderViewModel();
-            EventVM = new EventViewModel();
+            EventVM = new EventViewModel(true);
 
             // Commands to switch views
             ShowPhonesCommand = new RelayCommand(() =>
