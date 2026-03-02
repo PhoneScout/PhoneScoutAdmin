@@ -217,7 +217,7 @@ Margin="5">
                     BorderBrush="Red"
                     BorderThickness="3"
                     Content="Delete part"
-                    Command="{Binding DeleteStorageCommand}" />
+                    Command="{Binding DeletePartCommand}" />
         </StackPanel>
 
     </Grid>

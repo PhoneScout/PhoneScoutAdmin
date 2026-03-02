@@ -330,6 +330,7 @@ namespace PhoneScoutAdmin
             BatteryChargingVM.MaxWiredCharging = phone.batteryMaxChargingWired.ToString();
             BatteryChargingVM.MaxWirelessCharging = phone.batteryMaxChargingWireless.ToString();
             BatteryChargingVM.BatteryType = phone.batteryType;
+            BatteryChargingVM.ChargerType = phone.chargerType;
 
             //BODY SPEAKER
             BodySpeakerVM.BodyHeight = phone.caseHeight.ToString();

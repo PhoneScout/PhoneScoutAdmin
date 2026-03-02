@@ -76,9 +76,10 @@ namespace PhoneScoutAdmin.ViewModels
 
         public OrderViewModel()
         {
-            Statuses.Add(new ComboItemOrderRepair { statusCode = 0, statusName = "Pending" });
-            Statuses.Add(new ComboItemOrderRepair { statusCode = 1, statusName = "Shipped" });
-            Statuses.Add(new ComboItemOrderRepair { statusCode = 2, statusName = "Delivered" });
+            Statuses.Add(new ComboItemOrderRepair { statusCode = 0, statusName = "Feldolgozás alatt" });
+            Statuses.Add(new ComboItemOrderRepair { statusCode = 1, statusName = "Feldolgozva" });
+            Statuses.Add(new ComboItemOrderRepair { statusCode = 2, statusName = "Átvételre kész" });
+            Statuses.Add(new ComboItemOrderRepair { statusCode = 3, statusName = "Teljesítve" });
 
             LoadOrdersCommand = new RelayCommand(async () => await LoadOrders());
             SaveOrderCommand = new RelayCommand(async () => await SaveOrder(), () => SelectedOrder != null);

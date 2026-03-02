@@ -86,6 +86,9 @@ namespace PhoneScoutAdmin.ViewModels
                 OnPropertyChanged(nameof(SelectedPhone));
                 SavePhoneCommand.RaiseCanExecuteChanged();
                 DeletePhoneCommand.RaiseCanExecuteChanged();
+                RaiseCommandStates();
+
+                //UpdatePhoneCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -98,6 +101,27 @@ namespace PhoneScoutAdmin.ViewModels
         {
             get => _phoneName;
             set { _phoneName = value; OnPropertyChanged(nameof(PhoneName)); }
+        }
+
+        private int _phonePrice;
+        public int PhonePrice
+        {
+            get => _phonePrice;
+            set { _phonePrice = value; OnPropertyChanged(nameof(PhonePrice)); }
+        }
+
+        private bool _phoneInStore;
+        public bool PhoneInStore
+        {
+            get => _phoneInStore;
+            set { _phoneInStore = value; OnPropertyChanged(nameof(PhoneInStore)); }
+        }
+
+        private bool _phoneAvailable;
+        public bool PhoneAvailable
+        {
+            get => _phoneAvailable;
+            set { _phoneAvailable = value; OnPropertyChanged(nameof(PhoneAvailable)); }
         }
 
         // =========================
@@ -135,6 +159,9 @@ namespace PhoneScoutAdmin.ViewModels
 
         public RelayCommand SavePhoneCommand { get; }
         public RelayCommand DeletePhoneCommand { get; }
+
+        public ICommand CreatePhoneCommand { get; }
+        public ICommand UpdatePhoneCommand { get; }
         public ICommand SaveManufacturerCommand { get; }
 
         public ICommand SignOut { get; }
@@ -166,12 +193,21 @@ namespace PhoneScoutAdmin.ViewModels
             DeletePhoneCommand = new RelayCommand(async () => await DeletePhone(), () => SelectedPhone != null);
             SaveManufacturerCommand = new RelayCommand(async () => await SaveManufacturer());
 
+            UpdatePhoneCommand = new RelayCommand(async () => await OpenUpdatePhoneWindow(), () => SelectedPhone != null);
+
+            CreatePhoneCommand = new RelayCommand(OpenCreatePhoneWindow);
+
             _ = LoadPhones();
             _ = LoadManufacturer();
             _ = EventsVM.LoadEvents(); // preload events
 
             SignOut = new RelayCommand(SignOutLogic);
             ExitApp = new RelayCommand(() => Application.Current.Shutdown());
+        }
+
+        private void RaiseCommandStates()
+        {
+            (SavePhoneCommand as RelayCommand)?.RaiseCanExecuteChanged();
         }
 
         // =========================
@@ -224,11 +260,51 @@ namespace PhoneScoutAdmin.ViewModels
 
         private async Task DeletePhone()
         {
-            using HttpClient client = new();
-            await client.PutAsync($"http://localhost:5175/api/wpfPhone/{SelectedPhone.phoneID}",
-                new StringContent(JsonSerializer.Serialize(new { phoneAvailable = 1 }), Encoding.UTF8, "application/json"));
-            Phones.Remove(SelectedPhone);
-            SelectedPhone = null;
+            if (SelectedPhone == null) return;
+
+            SelectedPhone.phoneName = PhoneName;
+            SelectedPhone.phonePrice = PhonePrice;
+            SelectedPhone.phoneInStore = PhoneInStore ? 1 : 0;
+            SelectedPhone.phoneAvailable = 1;
+
+            using HttpClient client = new HttpClient();
+            string url = $"http://localhost:5175/api/wpfPhone/{SelectedPhone.phoneID}";
+
+            string json = JsonSerializer.Serialize(SelectedPhone);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await client.PutAsync(url, content);
+            if (!response.IsSuccessStatusCode)
+            {
+                MessageBox.Show("An error occurred while deleting the phone!", "Error", MessageBoxButton.OK);
+                return;
+            }
+            else
+            {
+                MessageBox.Show("Successfully deleted.", "Update", MessageBoxButton.OK);
+                Phones.Remove(SelectedPhone);
+                SelectedPhone = null;
+                await LoadPhones();
+                return;
+            }
+        }
+        private void OpenCreatePhoneWindow()
+        {
+            var window = new PhoneDetailsView();
+            window.DataContext = new PhoneDetailsViewModel();
+            window.Show();
+        }
+
+        private async Task OpenUpdatePhoneWindow()
+        {
+            MessageBox.Show("Loading phone details. Please wait...", "Loading", MessageBoxButton.OK, MessageBoxImage.Information);
+
+            if (SelectedPhone == null) return;
+
+
+            var window = new PhoneDetailsView();
+            window.DataContext = new PhoneDetailsViewModel(SelectedPhone.phoneID);
+            window.Show();
         }
 
         private async Task SaveManufacturer()

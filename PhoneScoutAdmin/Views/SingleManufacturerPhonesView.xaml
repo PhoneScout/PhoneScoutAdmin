@@ -21,10 +21,15 @@
         <DataGrid Grid.Row="0"
                   Grid.Column="0"
                   Margin="5"
-                  AutoGenerateColumns="True"
+                  AutoGenerateColumns="False"
                   CanUserAddRows="False"
                   ItemsSource="{Binding Phones}"
-                  SelectedItem="{Binding SelectedPhone}" />
+                  SelectedItem="{Binding SelectedPhone}" >
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Phone name" Binding="{Binding phoneName}" Width="*"/>
+
+            </DataGrid.Columns>
+        </DataGrid>
 
         <!-- ===================== -->
         <!-- EDIT PANEL -->
@@ -109,7 +114,7 @@ Foreground="#2300B3"
                     BorderBrush="#2300B3"
                     BorderThickness="3"
                     Content="Modify phone"
-                    Command="{Binding EditPhoneCommand}" />
+                    Command="{Binding UpdatePhoneCommand}" />
 
             <Button Width="200"
                     Margin="10"

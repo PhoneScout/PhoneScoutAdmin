@@ -220,7 +220,7 @@ namespace PhoneScoutAdmin.ViewModels
 
                 if (!response.IsSuccessStatusCode)
                 {
-                    MessageBox.Show("An error occurred while deleting the part!", "Error", MessageBoxButton.OK);
+                    MessageBox.Show("An error occurred while deleting the part! Possible error: A repair uses that part, therefore it can not be deleted.", "Error", MessageBoxButton.OK);
                     return;
                 }
                 else

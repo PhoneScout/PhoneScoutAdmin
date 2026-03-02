@@ -160,9 +160,10 @@ namespace PhoneScoutAdmin.ViewModels
 
         public RepairViewModel()
         {
-            Statuses.Add(new ComboItemOrderRepair { statusCode = 0, statusName = "Pending" });
-            Statuses.Add(new ComboItemOrderRepair { statusCode = 1, statusName = "Shipped" });
-            Statuses.Add(new ComboItemOrderRepair { statusCode = 2, statusName = "Delivered" });
+            Statuses.Add(new ComboItemOrderRepair { statusCode = 0, statusName = "Feldolgozás alatt" });
+            Statuses.Add(new ComboItemOrderRepair { statusCode = 1, statusName = "Feldolgozva" });
+            Statuses.Add(new ComboItemOrderRepair { statusCode = 2, statusName = "Átvételre kész" });
+            Statuses.Add(new ComboItemOrderRepair { statusCode = 3, statusName = "Teljesítve" });
 
             LoadRepairsCommand = new RelayCommand(async () => await LoadRepairs());
             SaveRepairCommand = new RelayCommand(async () => await SaveRepair(), () => SelectedRepair != null);
@@ -220,6 +221,8 @@ namespace PhoneScoutAdmin.ViewModels
 
         private bool IsPriceChanged()
         {
+            MessageBox.Show(RepairPrice.ToString());
+
             return RepairPrice != _originalPrice;
         }
 

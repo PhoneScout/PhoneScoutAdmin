@@ -204,7 +204,7 @@ Foreground="#2300B3"
                              Grid.Column="1"
                              Width="180"
                              Margin="5"
-                             Text="{Binding Price, UpdateSourceTrigger=PropertyChanged}" />
+                             Text="{Binding RepairPrice, UpdateSourceTrigger=PropertyChanged}" />
                     
                     
                     
