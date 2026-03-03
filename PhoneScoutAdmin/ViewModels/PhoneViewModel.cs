@@ -215,12 +215,11 @@ namespace PhoneScoutAdmin.ViewModels
                 return false;
 
             bool matchesphoneName = string.IsNullOrWhiteSpace(PhoneNameFilter)
-                || phone.phoneName.ToString().Contains(PhoneNameFilter);
-
-
+                || phone.phoneName.ToString().Contains(PhoneNameFilter, StringComparison.OrdinalIgnoreCase);
 
             return matchesphoneName;
         }
+
 
     }
 }

@@ -148,6 +148,13 @@ namespace PhoneScoutAdmin.ViewModels
             if (SelectedManufacturer == null) return;
 
             SelectedManufacturer.manufacturerName = ManufacturerName;
+
+            if (!ManufacturerEmail.Contains("@"))
+            {
+                MessageBox.Show("The e-mail address is not valid!", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
             SelectedManufacturer.manufacturerEmail = ManufacturerEmail;
             SelectedManufacturer.manufacturerUrl = ManufacturerURL;
 
@@ -177,7 +184,7 @@ namespace PhoneScoutAdmin.ViewModels
                 return false;
 
             bool matchesManufacturerName = string.IsNullOrWhiteSpace(ManufacturerNameFilter)
-                || manufacturer.manufacturerName.ToString().Contains(ManufacturerNameFilter);
+                || manufacturer.manufacturerName.ToString().Contains(ManufacturerNameFilter, StringComparison.OrdinalIgnoreCase);
 
 
 

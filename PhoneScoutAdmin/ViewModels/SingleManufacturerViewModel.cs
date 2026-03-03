@@ -324,6 +324,13 @@ namespace PhoneScoutAdmin.ViewModels
         private async Task SaveManufacturer()
         {
             ActiveManufacturer.manufacturerName = ManufacturerName;
+
+            if (!ManufacturerEmail.Contains("@"))
+            {
+                MessageBox.Show("Your e-mail address is not valid!", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
             ActiveManufacturer.manufacturerEmail = ManufacturerEmail;
             ActiveManufacturer.manufacturerUrl = ManufacturerUrl;
 

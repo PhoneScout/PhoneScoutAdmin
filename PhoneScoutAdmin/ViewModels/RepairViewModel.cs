@@ -244,11 +244,11 @@ namespace PhoneScoutAdmin.ViewModels
                 return false;
 
             bool matchesRepairId = string.IsNullOrWhiteSpace(RepairIdFilter)
-                || repair.repairID.ToString().Contains(RepairIdFilter);
+                || repair.repairID.ToString().Contains(RepairIdFilter, StringComparison.OrdinalIgnoreCase);
 
             bool matchesEmail = string.IsNullOrWhiteSpace(EmailFilter)
                 || (!string.IsNullOrEmpty(repair.userEmail) &&
-                    repair.userEmail.ToLower().Contains(EmailFilter.ToLower()));
+                    repair.userEmail.ToLower().Contains(EmailFilter, StringComparison.OrdinalIgnoreCase));
 
             return matchesRepairId && matchesEmail;
         }

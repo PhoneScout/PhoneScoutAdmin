@@ -228,11 +228,11 @@ Tájékoztatjuk, hogy a <i>{SelectedOrder.orderID}</i> azonosítójú rendelés�
                 return false;
 
             bool matchesOrderId = string.IsNullOrWhiteSpace(OrderIdFilter)
-                || order.orderID.ToString().Contains(OrderIdFilter);
+                || order.orderID.ToString().Contains(OrderIdFilter, StringComparison.OrdinalIgnoreCase);
 
             bool matchesEmail = string.IsNullOrWhiteSpace(EmailFilter)
                 || (!string.IsNullOrEmpty(order.userEmail) &&
-                    order.userEmail.ToLower().Contains(EmailFilter.ToLower()));
+                    order.userEmail.ToLower().Contains(EmailFilter, StringComparison.OrdinalIgnoreCase));
 
             return matchesOrderId && matchesEmail;
         }
