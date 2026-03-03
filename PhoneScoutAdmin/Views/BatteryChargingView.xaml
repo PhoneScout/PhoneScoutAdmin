@@ -51,7 +51,7 @@
 
                         <TextBlock.ToolTip>
                             <ToolTip>
-                                Displays the battery capacity in mAh.
+                                Displays the battery capacity. (mAh)
                             </ToolTip>
                         </TextBlock.ToolTip>
 
@@ -84,7 +84,7 @@
 
                         <TextBlock.ToolTip>
                             <ToolTip>
-                                Displays the battery type in mAh.
+                                Displays the battery type.
                             </ToolTip>
                         </TextBlock.ToolTip>
 
@@ -117,7 +117,7 @@
 
                         <TextBlock.ToolTip>
                             <ToolTip>
-                                Displays the max wired charging in Watts.
+                                Displays the max wired charging. (Watts)
                             </ToolTip>
                         </TextBlock.ToolTip>
 
@@ -149,7 +149,7 @@
 
                         <TextBlock.ToolTip>
                             <ToolTip>
-                                Displays the max wireless charging in Watts.
+                                Displays the max wireless charging. (Watts)
                             </ToolTip>
                         </TextBlock.ToolTip>
 

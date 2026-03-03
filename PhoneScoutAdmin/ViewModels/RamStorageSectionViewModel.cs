@@ -46,7 +46,8 @@ namespace PhoneScoutAdmin.ViewModels
         {
             var cam = new RamStorageViewModel
             {
-                RamAmount = SelectedRamStorage.RamAmount
+                RamAmount = 0,
+                StorageAmount = 0,
             };
 
             RamStorages.Add(cam);

@@ -52,7 +52,7 @@
 
                         <TextBlock.ToolTip>
                             <ToolTip>
-                                Displays the phone's body height in milimeters.
+                                Displays the phone's body height in milimeters. (mm)
                             </ToolTip>
                         </TextBlock.ToolTip>
 
@@ -85,7 +85,7 @@
 
                         <TextBlock.ToolTip>
                             <ToolTip>
-                                Displays the phone's body width in milimeters.
+                                Displays the phone's body width in milimeters. (mm)
                             </ToolTip>
                         </TextBlock.ToolTip>
 
@@ -118,7 +118,7 @@
 
                         <TextBlock.ToolTip>
                             <ToolTip>
-                                Displays the phone's body thickness in milimeters.
+                                Displays the phone's body thickness in milimeters. (mm)
                             </ToolTip>
                         </TextBlock.ToolTip>
 

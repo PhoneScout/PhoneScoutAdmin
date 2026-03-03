@@ -115,7 +115,7 @@ Foreground="#2300B3"
 
                         <TextBlock.ToolTip>
                             <ToolTip>
-                                Displays the clockspeed of the CPU.
+                                Displays the clockspeed of the CPU. (GHz)
                             </ToolTip>
                         </TextBlock.ToolTip>
 
@@ -179,7 +179,7 @@ Foreground="#2300B3"
 
                         <TextBlock.ToolTip>
                             <ToolTip>
-                                Displays the manufacturing technology of the CPU.
+                                Displays the manufacturing technology of the CPU. (nm)
                             </ToolTip>
                         </TextBlock.ToolTip>
 

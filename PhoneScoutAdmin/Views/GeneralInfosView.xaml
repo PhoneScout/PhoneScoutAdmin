@@ -120,7 +120,7 @@ Foreground="#2300B3"
 
                         <TextBlock.ToolTip>
                             <ToolTip>
-                                Displays the phone's weight.
+                                Displays the phone's weight. (g)
                             </ToolTip>
                         </TextBlock.ToolTip>
 

@@ -367,6 +367,10 @@ namespace PhoneScoutAdmin.ViewModels
                     {
                         emailText += $"Új státusz: <b>{Statuses[SelectedRepair.status].statusName}</b><br><br>";
                     }
+                    if (priceChanged)
+                    {
+                        emailText += $"Kérjük, tegye meg a szükséges intézkedéseket a profiljában.<br><br>";
+                    }
                 }
 
                 string emailTargy = "Javitásának állapota megváltozott!";

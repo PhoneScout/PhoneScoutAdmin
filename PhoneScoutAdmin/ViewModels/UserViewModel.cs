@@ -164,7 +164,15 @@ namespace PhoneScoutAdmin.ViewModels
             if (SelectedUser == null) return;
 
             SelectedUser.fullName = FullName;
+
+            if (!Email.Contains("@"))
+            {
+                MessageBox.Show("The e-mail address is not valid!", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
             SelectedUser.email = Email;
+
             SelectedUser.privilegeLevel = SelectedPrivilege.Level;
             SelectedUser.privilegeName = SelectedPrivilege.Name;
             SelectedUser.isActive = IsActive ? 1 : 0;

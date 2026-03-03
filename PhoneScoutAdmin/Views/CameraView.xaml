@@ -77,7 +77,7 @@ Foreground="#2300B3"
 
                     <TextBlock.ToolTip>
                         <ToolTip>
-                            Displays the resolution of the selected camera.
+                            Displays the resolution of the selected camera. (px)
                         </ToolTip>
                     </TextBlock.ToolTip>
 
@@ -143,7 +143,7 @@ Foreground="#2300B3"
 
                     <TextBlock.ToolTip>
                         <ToolTip>
-                            Displays the focal length of the selected camera.
+                            Displays the focal length of the selected camera. (mm)
                         </ToolTip>
                     </TextBlock.ToolTip>
 
