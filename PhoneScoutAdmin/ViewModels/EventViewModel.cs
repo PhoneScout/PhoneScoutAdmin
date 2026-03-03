@@ -118,7 +118,6 @@ namespace PhoneScoutAdmin.ViewModels
 
                     IsCreate = false;
                 }
-
                 RaiseCommandStates();
             }
         }

@@ -40,8 +40,7 @@ namespace PhoneScoutAdmin.Models
         public decimal? phoneWeight { get; set; }
         public DateOnly? phoneReleaseDate { get; set; }
         public int? phonePrice { get; set; }
-        public int? phoneInStore { get; set; }
-        public int? phoneInStoreAmount { get; set; }
+        public int? phoneInStore { get; set; }        
         public int? phoneAvailable { get; set; }
         
 
@@ -55,6 +54,7 @@ namespace PhoneScoutAdmin.Models
         public int? cpuTech { get; set; }
         public string? manufacturerName { get; set; }
         public string? manufacturerURL { get; set; }
+        public string? manufacturerEmail { get; set; }
         public string? ramSpeed { get; set; }
         public string? screenType { get; set; }
         public string? fingerprintType { get; set; }

@@ -436,8 +436,10 @@ namespace PhoneScoutAdmin
                     // GENERAL
                     phoneName = (GeneralInfosVM.PhoneName != "" ? GeneralInfosVM.PhoneName : ""),
                     phonePrice = 0,
-                    phoneWeight = int.TryParse(GeneralInfosVM.PhoneWeight, out var phoneWeightValue) ? phoneWeightValue : 0,
+                    phoneWeight = decimal.TryParse(GeneralInfosVM.PhoneWeight, out var phoneWeightValue) ? phoneWeightValue : 0,
                     manufacturerName = (GeneralInfosVM.ManufacturerName != "" ? GeneralInfosVM.ManufacturerName : ""),
+                    manufacturerEmail = "",
+                    manufacturerURL = "",
                     phoneReleaseDate = GeneralInfosVM.ReleaseDate,
                     phoneInStore = 0,
                     phoneAvailable = 0,
@@ -460,9 +462,10 @@ namespace PhoneScoutAdmin
                     screenType = (ScreenVM.ScreenType != "" ? ScreenVM.ScreenType : ""),
                     phoneResolutionHeight = int.TryParse(ScreenVM.ScreenResH, out var phoneResolutionHeightValue) ? phoneResolutionHeightValue : 0,
                     phoneResolutionWidth = int.TryParse(ScreenVM.ScreenResW, out var phoneResolutionWidthValue) ? phoneResolutionWidthValue : 0,
-                    screenSize = int.TryParse(ScreenVM.ScreenSize, out var screenSizeValue) ? screenSizeValue : 0,
+                    screenSize = decimal.TryParse(ScreenVM.ScreenSize, out var screenSizeValue) ? screenSizeValue : 0,
                     screenRefreshRate = int.TryParse(ScreenVM.ScreenRefreshRate, out var screenRefreshRateValue) ? screenRefreshRateValue : 0,
                     screenMaxBrightness = int.TryParse(ScreenVM.ScreenMaxBrightness, out var screenMaxBrightnessValue) ? screenMaxBrightnessValue : 0,
+                    screenSharpness = int.TryParse(ScreenVM.ScreenSharpness, out var ScreenSharpnessValue) ? ScreenSharpnessValue : 0,
 
                     //CONNECTIVITY
                     connectionMaxWifi = double.TryParse(ConnectivityVM.Wifi, out var connectionMaxWifiValue) ? connectionMaxWifiValue : 0,
@@ -514,8 +517,8 @@ namespace PhoneScoutAdmin
                 if (response.IsSuccessStatusCode)
                 {
                     var resultJson = await response.Content.ReadAsStringAsync();
-                    var createdPhone = JsonSerializer.Deserialize<FullPhone>(resultJson);
-                    CurrentPhoneId = createdPhone?.phoneId; // <-- important
+                    var createdId = JsonSerializer.Deserialize<int>(resultJson);
+                    CurrentPhoneId = createdId;
                 }
                 else
                 {
@@ -531,7 +534,7 @@ namespace PhoneScoutAdmin
 
         private async Task UpdatePhone()
         {
-            MessageBox.Show("update");
+
             try
             {
                 List<ColorDTO> selectedColors = new List<ColorDTO>();
@@ -599,9 +602,10 @@ namespace PhoneScoutAdmin
                     screenType = (ScreenVM.ScreenType != "" ? ScreenVM.ScreenType : ""),
                     phoneResolutionHeight = int.TryParse(ScreenVM.ScreenResH, out var phoneResolutionHeightValue) ? phoneResolutionHeightValue : 0,
                     phoneResolutionWidth = int.TryParse(ScreenVM.ScreenResW, out var phoneResolutionWidthValue) ? phoneResolutionWidthValue : 0,
-                    screenSize = int.TryParse(ScreenVM.ScreenSize, out var screenSizeValue) ? screenSizeValue : 0,
+                    screenSize = decimal.TryParse(ScreenVM.ScreenSize, out var screenSizeValue) ? screenSizeValue : 0,
                     screenRefreshRate = int.TryParse(ScreenVM.ScreenRefreshRate, out var screenRefreshRateValue) ? screenRefreshRateValue : 0,
                     screenMaxBrightness = int.TryParse(ScreenVM.ScreenMaxBrightness, out var screenMaxBrightnessValue) ? screenMaxBrightnessValue : 0,
+                    screenSharpness = int.TryParse(ScreenVM.ScreenSharpness, out var screenSharpnessValue) ? screenSharpnessValue : 0,
 
                     //CONNECTIVITY
                     connectionMaxWifi = double.TryParse(ConnectivityVM.Wifi, out var connectionMaxWifiValue) ? connectionMaxWifiValue : 0,
