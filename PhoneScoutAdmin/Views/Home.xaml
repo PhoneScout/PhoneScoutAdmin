@@ -102,7 +102,7 @@
             <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Vertical" Background="#80A4CB">
                 <Button Content="Manage phones" Margin="15,30,15,10" FontSize="16" Width="180" Padding="5" Background="#80A4CB" Foreground="White" BorderBrush="White" BorderThickness="3" Command="{Binding ShowPhonesCommand}"/>
                 <Button Content="Manage manufacturers" Margin="15,25,15,10" FontSize="16" Width="180" Padding="5" Background="#80A4CB" Foreground="White" BorderBrush="White" BorderThickness="3" Command="{Binding ShowManufacturersCommand}"/>
-                <Button Content="Manage users" Margin="15,25,15,10" FontSize="16" Width="180" Padding="5" Background="#80A4CB" Foreground="White" BorderBrush="White" BorderThickness="3" Command="{Binding ShowUsersCommand}"/>
+                <Button Content="Manage users" Margin="15,25,15,10" FontSize="16" Width="180" Padding="5" Background="#2300B3" Foreground="White"  FontWeight="Bold" BorderBrush="White" BorderThickness="3" Command="{Binding ShowUsersCommand}"/>
                 <Button Content="Manage storage" Margin="15,25,15,10" FontSize="16" Width="180" Padding="5" Background="#80A4CB" Foreground="White" BorderBrush="White" BorderThickness="3" Command="{Binding ShowStorageCommand}"/>
                 <Button Content="Manage repairs" Margin="15,25,15,10" FontSize="16" Width="180" Padding="5" Background="#80A4CB" Foreground="White" BorderBrush="White" BorderThickness="3" Command="{Binding ShowRepairsCommand}"/>
                 <Button Content="Manage orders" Margin="15,25,15,10" FontSize="16" Width="180" Padding="5" Background="#80A4CB" Foreground="White" BorderBrush="White" BorderThickness="3" Command="{Binding ShowOrdersCommand}"/>

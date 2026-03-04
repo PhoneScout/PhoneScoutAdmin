@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 using PhoneScoutAdmin.Models;
+using PhoneScoutAdmin.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,6 +11,7 @@ using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
@@ -126,12 +128,73 @@ namespace PhoneScoutAdmin.ViewModels
         // FORM FIELDS
         // ===============================
 
-        public string EventName { get; set; }
-        public string EventHostName { get; set; }
-        public DateTime EventDate { get; set; } = DateTime.Now;
-        public string EventTime { get; set; } = DateTime.Now.ToString("HH:mm:ss");
-        public string EventURL { get; set; }
-        public BitmapImage EventImage { get; set; }
+        private string _eventName;
+        public string EventName
+        {
+            get => _eventName;
+            set
+            {
+                _eventName = value;
+                OnPropertyChanged(nameof(EventName));
+            }
+        }
+
+        private string _eventHostName;
+        public string EventHostName
+        {
+            get => _eventHostName;
+            set
+            {
+                _eventHostName = value;
+                OnPropertyChanged(nameof(EventHostName));
+            }
+        }
+
+        private DateTime _eventDate = DateTime.Now;
+        public DateTime EventDate
+        {
+            get => _eventDate;
+            set
+            {
+                _eventDate = value;
+                OnPropertyChanged(nameof(EventDate));
+            }
+        }
+
+        private string _eventTime = DateTime.Now.ToString("HH:mm:ss");
+        public string EventTime
+        {
+            get => _eventTime;
+            set
+            {
+                _eventTime = value;
+                OnPropertyChanged(nameof(EventTime));
+            }
+        }
+
+        private string _eventURL;
+        public string EventURL
+        {
+            get => _eventURL;
+            set
+            {
+                _eventURL = value;
+                OnPropertyChanged(nameof(EventURL));
+            }
+        }
+
+        private BitmapImage _eventImage;
+        public BitmapImage EventImage
+        {
+            get => _eventImage;
+            set
+            {
+                _eventImage = value;
+                OnPropertyChanged(nameof(EventImage));
+            }
+        }
+
+        
 
         // ===============================
         // MODE
@@ -234,7 +297,7 @@ namespace PhoneScoutAdmin.ViewModels
 
             if (!response.IsSuccessStatusCode)
             {
-                MessageBox.Show(await response.Content.ReadAsStringAsync());
+                MessageBox.Show($"An error occured while saving the event.","Error",MessageBoxButton.OK,MessageBoxImage.Error);
                 return;
             }
 
@@ -248,12 +311,32 @@ namespace PhoneScoutAdmin.ViewModels
         {
             if (SelectedEvent == null) return;
 
-            using HttpClient client = new();
-            await client.DeleteAsync(
-                $"http://localhost:5175/api/event/{SelectedEvent.eventID}");
+            var result = MessageBox.Show(
+                $"Are you sure you want to delete the selected event: {SelectedEvent.eventName}?",
+                "Delete order",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Warning);
 
-            Events.Remove(SelectedEvent);
-            SelectedEvent = null;
+            if (result == MessageBoxResult.Yes)
+            {
+                using HttpClient client = new();
+                string url = $"http://localhost:5175/api/event/{SelectedEvent.eventID}";
+
+                var response = await client.DeleteAsync(url);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    MessageBox.Show("An error occurred while deleting the event!", "Error", MessageBoxButton.OK);
+                    return;
+                }
+                else
+                {
+                    MessageBox.Show("Successfully deleted.", "Update", MessageBoxButton.OK);
+                    Events.Remove(SelectedEvent);
+                    SelectedEvent = null;
+                    EventsView.Refresh();
+                }
+            }
         }
 
         private async Task CreateEvent()
