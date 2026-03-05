@@ -1,10 +1,67 @@
 ﻿<Window x:Class="PhoneScoutAdmin.Views.ManufacturerHome"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:vm="clr-namespace:PhoneScoutAdmin.ViewModels"
-             xmlns:views="clr-namespace:PhoneScoutAdmin.Views"
-             Height="750" Width="1300"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:PhoneScoutAdmin.ViewModels"
+        xmlns:views="clr-namespace:PhoneScoutAdmin.Views"
+        Height="750" Width="1300"
         Background="White">
+
+    <Window.Resources>
+
+        <!-- Base Button Style -->
+        <Style x:Key="BaseMenuButtonStyle" TargetType="Button">
+            <Setter Property="Margin" Value="15,25,15,10"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Width" Value="180"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Background" Value="#80A4CB"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="White"/>
+            <Setter Property="BorderThickness" Value="3"/>
+            <Setter Property="FontWeight" Value="Normal"/>
+        </Style>
+
+        <!-- Phones Button -->
+        <Style x:Key="PhonesButtonStyle"
+               TargetType="Button"
+               BasedOn="{StaticResource BaseMenuButtonStyle}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding CurrentSubView}"
+                             Value="{x:Static vm:ManufacturerSubView.Phones}">
+                    <Setter Property="Background" Value="#2300B3"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Manufacturer Button -->
+        <Style x:Key="ManufacturerButtonStyle"
+               TargetType="Button"
+               BasedOn="{StaticResource BaseMenuButtonStyle}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding CurrentSubView}"
+                             Value="{x:Static vm:ManufacturerSubView.ManufacturerDetails}">
+                    <Setter Property="Background" Value="#2300B3"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Events Button -->
+        <Style x:Key="EventsButtonStyle"
+               TargetType="Button"
+               BasedOn="{StaticResource BaseMenuButtonStyle}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding CurrentSubView}"
+                             Value="{x:Static vm:ManufacturerSubView.Events}">
+                    <Setter Property="Background" Value="#2300B3"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+    </Window.Resources>
+
 
     <DockPanel LastChildFill="True">
 
@@ -18,65 +75,137 @@
 
         <!-- MAIN GRID -->
         <Grid>
+
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="2*"/>
-                <!-- Side menu -->
                 <ColumnDefinition Width="8*"/>
-                <!-- Content -->
             </Grid.ColumnDefinitions>
+
             <Grid.RowDefinitions>
                 <RowDefinition Height="70"/>
-                <!-- Header -->
                 <RowDefinition Height="*"/>
-                <!-- Main content fills remaining space -->
                 <RowDefinition Height="40"/>
-                <!-- Footer -->
             </Grid.RowDefinitions>
 
+
             <!-- LOGO -->
-            <WrapPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="5">
-                <Image Source="/Images/ImagePhoneScoutLogo.png" Height="50" Margin="5"/>
-                <Label FontSize="24" FontWeight="Bold" Content="Phone" VerticalAlignment="Center" Foreground="#2300B3"/>
-                <Label FontSize="24" FontWeight="Bold" Content="Scout" VerticalAlignment="Center" Foreground="#68F145" Margin="-5,0,0,0"/>
+            <WrapPanel Orientation="Horizontal"
+                       Grid.Row="0"
+                       Grid.Column="0"
+                       Grid.ColumnSpan="2"
+                       Margin="5">
+
+                <Image Source="/Images/ImagePhoneScoutLogo.png"
+                       Height="50"
+                       Margin="5"/>
+
+                <Label FontSize="24"
+                       FontWeight="Bold"
+                       Content="Phone"
+                       VerticalAlignment="Center"
+                       Foreground="#2300B3"/>
+
+                <Label FontSize="24"
+                       FontWeight="Bold"
+                       Content="Scout"
+                       VerticalAlignment="Center"
+                       Foreground="#68F145"
+                       Margin="-5,0,0,0"/>
+
             </WrapPanel>
 
+
             <!-- HEADER CENTER -->
-            <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,20,5">
-                <TextBlock Text=" Home" FontSize="28" FontWeight="Bold" Foreground="#68F145"/>
+            <StackPanel Orientation="Horizontal"
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center"
+                        Margin="0,0,20,5">
+
+                <TextBlock Text=" Home"
+                           FontSize="28"
+                           FontWeight="Bold"
+                           Foreground="#68F145"/>
+
             </StackPanel>
+
 
             <!-- HEADER RIGHT -->
-            <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,15,5">
-                <TextBlock Text="Welcome " FontSize="22" FontStyle="Italic"/>
-                <TextBlock Text="{Binding ActiveManufacturerName}" FontSize="22" FontWeight="Bold"/>
-                <TextBlock Text=" !" FontSize="22"/>
+            <StackPanel Orientation="Horizontal"
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Right"
+                        Margin="0,0,15,5">
+
+                <TextBlock Text="Welcome "
+                           FontSize="22"
+                           FontStyle="Italic"/>
+
+                <TextBlock Text="{Binding ActiveManufacturerName}"
+                           FontSize="22"
+                           FontWeight="Bold"/>
+
+                <TextBlock Text=" !"
+                           FontSize="22"/>
+
             </StackPanel>
+
 
             <!-- SIDE MENU -->
-            <StackPanel Grid.Row="1" Grid.Column="0" Background="#80A4CB" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <Button Content="Manage phones" Margin="15,30,15,10" FontSize="16" Width="180" Padding="5" Background="#80A4CB" Foreground="White" BorderBrush="White" BorderThickness="3" Command="{Binding ShowPhonesCommand}"/>
-                <Button Content="Manage manufacturers" Margin="15,25,15,10" FontSize="16" Width="180" Padding="5" Background="#80A4CB" Foreground="White" BorderBrush="White" BorderThickness="3" Command="{Binding ShowManufacturerCommand}"/>
-                <Button Content="Manage events" Margin="15,25,15,10" FontSize="16" Width="180" Padding="5" Background="#80A4CB" Foreground="White" BorderBrush="White" BorderThickness="3" Command="{Binding ShowEventsCommand}"/>
+            <StackPanel Grid.Row="1"
+                        Grid.Column="0"
+                        Background="#80A4CB">
+
+                <Button Content="My phones"
+                        Style="{StaticResource PhonesButtonStyle}"
+                        Command="{Binding ShowPhonesCommand}"/>
+
+                <Button Content="My datas"
+                        Style="{StaticResource ManufacturerButtonStyle}"
+                        Command="{Binding ShowManufacturerCommand}"/>
+
+                <Button Content="My events"
+                        Style="{StaticResource EventsButtonStyle}"
+                        Command="{Binding ShowEventsCommand}"/>
+
             </StackPanel>
 
+
             <!-- MAIN CONTENT AREA -->
-            <ContentControl Grid.Row="1" Grid.Column="1"
+            <ContentControl Grid.Row="1"
+                            Grid.Column="1"
                             x:Name="MainContent"
                             Content="{Binding CurrentView}"
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Stretch"/>
 
+
             <!-- FOOTER -->
-            <WrapPanel Grid.Row="2" Grid.Column="0" Orientation="Vertical" HorizontalAlignment="Left" Margin="5">
+            <WrapPanel Grid.Row="2"
+                       Grid.Column="0"
+                       Orientation="Vertical"
+                       HorizontalAlignment="Left"
+                       Margin="5">
+
                 <Label Content="©2026 PhoneScout."/>
                 <Label Content="All rights reserved."/>
+
             </WrapPanel>
 
-            <WrapPanel Grid.Row="2" Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Left" Margin="5">
+            <WrapPanel Grid.Row="2"
+                       Grid.Column="1"
+                       Orientation="Vertical"
+                       HorizontalAlignment="Left"
+                       Margin="5">
+
                 <Label Content="EST. 2025"/>
                 <Label Content="phonescoutofficial@gmail.com"/>
+
             </WrapPanel>
 
         </Grid>
+
     </DockPanel>
 </Window>

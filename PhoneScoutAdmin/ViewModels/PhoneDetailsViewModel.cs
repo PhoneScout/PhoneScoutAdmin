@@ -58,6 +58,8 @@ namespace PhoneScoutAdmin
             }
         }
 
+        
+
 
         // COMMANDS
         public ICommand ShowGeneralInfosCommand { get; }

@@ -117,5 +117,8 @@ namespace PhoneScoutAdmin.ViewModels
                 return filled / 3.0;
             }
         }
+
+        public string PhoneNameDisplay => (PhoneName != "") ? $"Editing: {PhoneName}" : "Creating a new phone";
+
     }
 }
