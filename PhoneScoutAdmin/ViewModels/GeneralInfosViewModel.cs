@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Media;
 
 namespace PhoneScoutAdmin.ViewModels
@@ -11,8 +7,17 @@ namespace PhoneScoutAdmin.ViewModels
     public class GeneralInfosViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        private void OnPropertyChanged(string name)
-            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+
+        private void OnPropertyChanged(string propertyName)
+            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
+        private void NotifyPropertyChanged(params string[] propertyNames)
+        {
+            foreach (var name in propertyNames)
+                OnPropertyChanged(name);
+        }
+
+        // ---------------------- Properties ----------------------
 
         private string _phoneName;
         public string PhoneName
@@ -21,14 +26,9 @@ namespace PhoneScoutAdmin.ViewModels
             set
             {
                 _phoneName = value;
-                OnPropertyChanged(nameof(PhoneName));
-                OnPropertyChanged(nameof(Progress));
-                OnPropertyChanged(nameof(ProgressBorder));
-
+                NotifyPropertyChanged(nameof(PhoneName), nameof(Progress), nameof(ProgressBorder), nameof(PhoneNameDisplay));
             }
         }
-
-        
 
         private string _manufacturerName;
         public string ManufacturerName
@@ -37,10 +37,7 @@ namespace PhoneScoutAdmin.ViewModels
             set
             {
                 _manufacturerName = value;
-                OnPropertyChanged(nameof(ManufacturerName));
-                OnPropertyChanged(nameof(Progress));
-                OnPropertyChanged(nameof(ProgressBorder));
-
+                NotifyPropertyChanged(nameof(ManufacturerName), nameof(Progress), nameof(ProgressBorder));
             }
         }
 
@@ -51,11 +48,7 @@ namespace PhoneScoutAdmin.ViewModels
             set
             {
                 _releaseDate = value;
-                OnPropertyChanged(nameof(ReleaseDate));
-                OnPropertyChanged(nameof(ReleaseDateForBinding));
-                OnPropertyChanged(nameof(Progress));
-                OnPropertyChanged(nameof(ProgressBorder));
-
+                NotifyPropertyChanged(nameof(ReleaseDate), nameof(ReleaseDateForBinding), nameof(Progress), nameof(ProgressBorder));
             }
         }
 
@@ -65,7 +58,10 @@ namespace PhoneScoutAdmin.ViewModels
             set
             {
                 if (value.HasValue)
+                {
                     ReleaseDate = DateOnly.FromDateTime(value.Value);
+                    OnPropertyChanged(nameof(ReleaseDateForBinding));
+                }
             }
         }
 
@@ -76,10 +72,21 @@ namespace PhoneScoutAdmin.ViewModels
             set
             {
                 _phoneWeight = value;
-                OnPropertyChanged(nameof(PhoneWeight));
-                OnPropertyChanged(nameof(Progress));
-                OnPropertyChanged(nameof(ProgressBorder));
+                NotifyPropertyChanged(nameof(PhoneWeight), nameof(Progress), nameof(ProgressBorder));
+            }
+        }
 
+        // ---------------------- Computed Properties ----------------------
+
+        public double Progress
+        {
+            get
+            {
+                int filled = 0;
+                if (!string.IsNullOrWhiteSpace(PhoneName)) filled++;
+                if (!string.IsNullOrWhiteSpace(ManufacturerName)) filled++;
+                if (!string.IsNullOrWhiteSpace(PhoneWeight)) filled++;
+                return filled / 3.0;
             }
         }
 
@@ -89,36 +96,18 @@ namespace PhoneScoutAdmin.ViewModels
             {
                 if (Progress == 1)
                     return Brushes.Green;
-
                 if (Progress >= 0.7)
-                    return Brushes.Yellow;
-
+                    return Brushes.Goldenrod; // better contrast than Yellow
                 if (Progress >= 0.5)
                     return Brushes.Orange;
-
                 if (Progress >= 0.2)
                     return Brushes.DarkOrange;
-
                 return Brushes.DarkGray;
             }
         }
 
-        public double Progress
-        {
-            get
-            {
-                int filled = 0;
-
-                if (!string.IsNullOrWhiteSpace(PhoneName)) filled++;                
-                if (!string.IsNullOrWhiteSpace(ManufacturerName)) filled++;
-                if (!string.IsNullOrWhiteSpace(PhoneWeight)) filled++;
-
-
-                return filled / 3.0;
-            }
-        }
-
-        public string PhoneNameDisplay => (PhoneName != "") ? $"Editing: {PhoneName}" : "Creating a new phone";
-
+        public string PhoneNameDisplay => !string.IsNullOrWhiteSpace(PhoneName)
+            ? $"Editing: {PhoneName}"
+            : "Creating a new phone";
     }
 }

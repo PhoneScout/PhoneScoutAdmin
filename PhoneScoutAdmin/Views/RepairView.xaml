@@ -4,41 +4,51 @@
              Background="LightGray">
 
     <Grid Margin="10">
+
         <Grid.RowDefinitions>
-            <RowDefinition Height="30" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="5*" />
-            <ColumnDefinition Width="4*" />
+            <ColumnDefinition Width="5*"/>
+            <ColumnDefinition Width="4*"/>
         </Grid.ColumnDefinitions>
 
 
-        <WrapPanel Grid.Row="0" Orientation="Horizontal" 
-        Grid.ColumnSpan="2">
+        <!-- FILTERS -->
+        <WrapPanel Grid.Row="0"
+                   Grid.ColumnSpan="2"
+                   Orientation="Horizontal">
 
-            <TextBlock Text="Repair ID:" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5,0,10,0" FontWeight="Bold"/>
-
-            <TextBox Width="150"
-         Height="20"
-         Margin="5"
-         Background="White"
-         Text="{Binding RepairIdFilter, UpdateSourceTrigger=PropertyChanged}" />
-
-            <TextBlock Text="Email:" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5,0,10,0" FontWeight="Bold"/>
+            <TextBlock Text="Repair ID:"
+                       VerticalAlignment="Center"
+                       Margin="5,0,10,0"
+                       FontWeight="Bold"/>
 
             <TextBox Width="150"
-         Height="20"
-         Margin="5"
-         Background="White"
-         Text="{Binding EmailFilter, UpdateSourceTrigger=PropertyChanged}" />
+                     Height="20"
+                     Margin="5"
+                     Background="White"
+                     Text="{Binding RepairIdFilter, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <TextBlock Text="Email:"
+                       VerticalAlignment="Center"
+                       Margin="5,0,10,0"
+                       FontWeight="Bold"/>
+
+            <TextBox Width="150"
+                     Height="20"
+                     Margin="5"
+                     Background="White"
+                     Text="{Binding EmailFilter, UpdateSourceTrigger=PropertyChanged}"/>
 
         </WrapPanel>
 
-        <!-- REPAIRS GRID -->
-        
+
+        <!-- DATA GRID -->
         <DataGrid Grid.Row="1"
                   Grid.Column="0"
                   ItemsSource="{Binding RepairsView}"
@@ -48,27 +58,32 @@
                   Margin="5">
 
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Repair ID" Binding="{Binding repairID}" />
-                <DataGridTextColumn Header="Email" Binding="{Binding userEmail}" />
-                <DataGridTextColumn Header="Phone" Binding="{Binding phoneName}" />
-                <DataGridTextColumn Header="Manufacturer" Binding="{Binding manufacturerName}" />
-                <DataGridTextColumn Header="Repair price" Binding="{Binding repairPrice}" />
-                <DataGridTextColumn Header="Status" Binding="{Binding status}" />
+                <DataGridTextColumn Header="Repair ID" Binding="{Binding repairID}"/>
+                <DataGridTextColumn Header="Email" Binding="{Binding userEmail}"/>
+                <DataGridTextColumn Header="Phone" Binding="{Binding phoneName}"/>
+                <DataGridTextColumn Header="Manufacturer" Binding="{Binding manufacturerName}"/>
+                <DataGridTextColumn Header="Repair price" Binding="{Binding repairPrice}"/>
+                <DataGridTextColumn Header="Status" Binding="{Binding status}"/>
             </DataGrid.Columns>
+
         </DataGrid>
 
-        <!-- RIGHT PANEL -->
+
+        <!-- RIGHT SIDE PANEL -->
         <StackPanel Grid.Row="1"
                     Grid.Column="1"
-                    VerticalAlignment="Center">
+                    Grid.RowSpan="2"
+                    VerticalAlignment="Top">
 
-            <!-- NON-EDITABLE BASIC INFO -->
+            <!-- BASIC INFO -->
             <GroupBox Margin="5"
                       Padding="10"
                       Header="Basic informations"
                       BorderBrush="#68F145"
                       BorderThickness="2">
+
                 <Grid>
+
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -77,88 +92,123 @@
 
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    
                     <TextBlock Grid.Row="0" Text="Base price:" FontSize="14"/>
-                    <TextBlock Grid.Row="0" Grid.Column="1"
+                    <TextBlock Grid.Row="0"
+                               Grid.Column="1"
                                Text="{Binding SelectedRepair.basePrice}"
-                               FontSize="14" Margin="5,0,0,0"/>
-                    
+                               Margin="5,0,0,0"
+                               FontSize="14"/>
+
                     <TextBlock Grid.Row="1" Text="Accepted:" FontSize="14"/>
                     <TextBlock Grid.Row="1"
-           Grid.Column="1"
-           Text="{Binding IsPriceAcceptedDisplay}"
-           Foreground="{Binding IsPriceAcceptedBrush}"
-           FontSize="14" Margin="5,0,0,0"/>
+                               Grid.Column="1"
+                               Text="{Binding IsPriceAcceptedDisplay}"
+                               Foreground="{Binding IsPriceAcceptedBrush}"
+                               Margin="5,0,0,0"
+                               FontSize="14"/>
 
                     <TextBlock Grid.Row="2" Text="Phone inspection:" FontSize="14"/>
-                    <TextBlock Grid.Row="2" Grid.Column="1"
-           Text="{Binding PhoneInspectionDisplay}"
-            Foreground="{Binding PhoneInspectionBrush}"
-           FontSize="14" Margin="5,0,0,0"/>
+                    <TextBlock Grid.Row="2"
+                               Grid.Column="1"
+                               Text="{Binding PhoneInspectionDisplay}"
+                               Foreground="{Binding PhoneInspectionBrush}"
+                               Margin="5,0,0,0"
+                               FontSize="14"/>
 
                 </Grid>
             </GroupBox>
 
-            <GroupBox Margin="5"
-          Padding="10"
-          Header="Address infromations"
-          BorderBrush="#68F145"
-          BorderThickness="2">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
 
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-
-                    
-
-
-                    <TextBlock Grid.Row="1" Text="Billing address:" FontSize="14"/>
-                    <TextBlock Grid.Row="1" Grid.Column="1"
-                   Text="{Binding SelectedRepair.billingAddress}"
-                   FontSize="12"
-                   TextWrapping="Wrap"/>
-
-                    <TextBlock Grid.Row="3" Text="Billing phone number:" FontSize="14"/>
-                    <TextBlock Grid.Row="3" Grid.Column="1"
-                   Text="{Binding SelectedRepair.billingPhoneNumber}"
-                   FontSize="12"/>
-
-                    <TextBlock Grid.Row="4" Text="Delivery address:" FontSize="14"/>
-                    <TextBlock Grid.Row="4" Grid.Column="1"
-Text="{Binding SelectedRepair.deliveryAddress}"
-FontSize="12"
-TextWrapping="Wrap"/>
-
-                    <TextBlock Grid.Row="6" Text="Delivery phone number:" FontSize="14"/>
-                    <TextBlock Grid.Row="6" Grid.Column="1"
-Text="{Binding SelectedRepair.deliveryPhoneNumber}"
-FontSize="12"/>
-
-
-                </Grid>
-            </GroupBox>
-
-            <!-- EDITABLE -->
+            <!-- ADDRESS INFO -->
             <GroupBox Margin="5"
                       Padding="10"
-                      Header="Repair details"
-                      BorderBrush="#2300B3"
+                      Header="Address informations"
+                      BorderBrush="#68F145"
                       BorderThickness="2">
 
                 <Grid>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Row="0" Text="Billing address:" FontSize="14"/>
+                    <TextBlock Grid.Row="0"
+                               Grid.Column="1"
+                               Text="{Binding SelectedRepair.billingAddress}"
+                               FontSize="12"
+                               TextWrapping="Wrap"/>
+
+                    <TextBlock Grid.Row="1" Text="Billing phone number:" FontSize="14"/>
+                    <TextBlock Grid.Row="1"
+                               Grid.Column="1"
+                               Text="{Binding SelectedRepair.billingPhoneNumber}"
+                               FontSize="12"/>
+
+                    <TextBlock Grid.Row="2" Text="Delivery address:" FontSize="14"/>
+                    <TextBlock Grid.Row="2"
+                               Grid.Column="1"
+                               Text="{Binding SelectedRepair.deliveryAddress}"
+                               FontSize="12"
+                               TextWrapping="Wrap"/>
+
+                    <TextBlock Grid.Row="3" Text="Delivery phone number:" FontSize="14"/>
+                    <TextBlock Grid.Row="3"
+                               Grid.Column="1"
+                               Text="{Binding SelectedRepair.deliveryPhoneNumber}"
+                               FontSize="12"/>
+
+                </Grid>
+            </GroupBox>
+
+
+            <!-- PROBLEM DESCRIPTION -->
+            <GroupBox Margin="5"
+                      Padding="10"
+                      Header="Problem description"
+                      BorderBrush="#2300B3"
+                      BorderThickness="2"
+                      Height="160">
+
+                <ScrollViewer VerticalScrollBarVisibility="Auto"
+                              HorizontalScrollBarVisibility="Disabled">
+
+                    <TextBlock Text="{Binding SelectedRepair.problemDescription}"
+                               TextWrapping="Wrap"
+                               FontSize="14"/>
+
+                </ScrollViewer>
+
+            </GroupBox>
+
+        </StackPanel>
+
+
+
+        <!-- REPAIR DETAILS -->
+        <GroupBox Grid.Row="2"
+                  Grid.Column="0"
+                  Margin="5"
+                  Padding="10"
+                  Header="Repair details"
+                  BorderBrush="#2300B3"
+                  BorderThickness="2">
+
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+
+                <Grid>
+
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -169,176 +219,134 @@ FontSize="12"/>
 
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="200"/>
+                        <ColumnDefinition Width="260"/>
                     </Grid.ColumnDefinitions>
 
-                    <!-- PRICE -->
-                    <StackPanel Grid.Row="0"
-       Grid.Column="0"
-       Orientation="Horizontal"
-       VerticalAlignment="Center">
 
-
-
-                        <TextBlock Text="ℹ"
-          FontSize="16"
-Foreground="#2300B3"
-          Cursor="Hand"
-          VerticalAlignment="Center" ToolTipService.InitialShowDelay="500">
-
-                            <TextBlock.ToolTip>
-                                <ToolTip>
-                                    Displays the price of the selected repair.
-                                </ToolTip>
-                            </TextBlock.ToolTip>
-
-                        </TextBlock>
-                        <TextBlock Text="Price:"
-          Margin="5,5,2,5"
-          FontSize="16"
-          VerticalAlignment="Center"/>
-                    </StackPanel>
-
+                    <TextBlock Grid.Row="0"
+                               Grid.Column="0"
+                               Text="Price:"
+                               FontSize="16"
+                               VerticalAlignment="Center"/>
 
                     <TextBox Grid.Row="0"
                              Grid.Column="1"
-                             Width="180"
                              Margin="5"
-                             Text="{Binding RepairPrice, UpdateSourceTrigger=PropertyChanged}" />
-                    
-                    
-                    
-                    
-
-                    <!-- STATUS (FIXED LIKE ORDER) -->
-                    <StackPanel Grid.Row="1"
-       Grid.Column="0"
-       Orientation="Horizontal"
-       VerticalAlignment="Center">
+                             Text="{Binding RepairPrice, UpdateSourceTrigger=PropertyChanged}"/>
 
 
+                    <TextBlock Grid.Row="1"
+                               Grid.Column="0"
+                               Text="Status:"
+                               FontSize="16"
+                               VerticalAlignment="Center"/>
 
-                        <TextBlock Text="ℹ"
-          FontSize="16"
-Foreground="#2300B3"
-          Cursor="Hand"
-          VerticalAlignment="Center" ToolTipService.InitialShowDelay="500">
-
-                            <TextBlock.ToolTip>
-                                <ToolTip>
-                                    Displays the status of the selected repair.
-                                </ToolTip>
-                            </TextBlock.ToolTip>
-
-                        </TextBlock>
-                        <TextBlock Text="Status:"
-          Margin="5,5,2,5"
-          FontSize="16"
-          VerticalAlignment="Center"/>
-                    </StackPanel>
                     <ComboBox Grid.Row="1"
                               Grid.Column="1"
-                              Width="180"
                               Margin="5"
                               ItemsSource="{Binding Statuses}"
                               DisplayMemberPath="statusName"
                               SelectedValuePath="statusCode"
                               SelectedValue="{Binding SelectedRepair.status, Mode=TwoWay}"/>
 
-                    <!-- ADD PART -->
-                    <StackPanel Grid.Row="2" Grid.RowSpan="2"
-       Grid.Column="0"
-       Orientation="Horizontal"
-       VerticalAlignment="Center">
 
+                    <TextBlock Grid.Row="2"
+                               Grid.Column="0"
+                               Text="Parts:"
+                               FontSize="16"
+                               VerticalAlignment="Center"/>
 
-
-                        <TextBlock Text="ℹ"
-          FontSize="16"
-Foreground="#2300B3"
-          Cursor="Hand"
-          VerticalAlignment="Center" ToolTipService.InitialShowDelay="500">
-
-                            <TextBlock.ToolTip>
-                                <ToolTip>
-                                    Displays the parts required for the selected repair.
-                                </ToolTip>
-                            </TextBlock.ToolTip>
-
-                        </TextBlock>
-                        <TextBlock Text="Parts:"
-          Margin="5,5,2,5"
-          FontSize="16"
-          VerticalAlignment="Center"/>
-                    </StackPanel>
                     <StackPanel Grid.Row="2"
                                 Grid.Column="1"
-                                Orientation="Horizontal" Margin="5" HorizontalAlignment="Center">
-                       
+                                Orientation="Horizontal"
+                                HorizontalAlignment="Center">
 
-                        <TextBox Width="145"
-                                 Text="{Binding NewPart, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBox Width="150"
+                                 Text="{Binding NewPart, UpdateSourceTrigger=PropertyChanged}"/>
 
+                        <Button Margin="5,0,0,0"
+                                Width="35"
+                                Content="Add"
+                                BorderBrush="#2300B3"
+                                BorderThickness="2"
+                                Background="WhiteSmoke"
+                                Command="{Binding AddPartCommand}"/>
 
-
-                        <Button
-
-Margin="5,0,0,0"
-Content="Add"
-BorderBrush="#2300B3"
-BorderThickness="2"
-Background="WhiteSmoke"
-Command="{Binding AddPartCommand}" />
                     </StackPanel>
 
-                    <!-- PARTS LIST -->
+
                     <ComboBox Grid.Row="3"
                               Grid.Column="1"
-                              Width="180"
+                              Margin="5"
                               ItemsSource="{Binding Parts}">
+
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="{Binding}" />
+                                    <TextBlock Text="{Binding}"/>
                                     <Button Content="✖"
                                             Width="20"
                                             Margin="5,0,0,0"
                                             Foreground="Red"
                                             Command="{Binding DataContext.RemovePartCommand,
                                                       RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                            CommandParameter="{Binding}" />
+                                            CommandParameter="{Binding}"/>
                                 </StackPanel>
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
+
                     </ComboBox>
 
-                    <!-- SAVE -->
+
                     <Button Grid.Row="4"
-        Grid.ColumnSpan="2"
-        Margin="10"
-        Padding="6"
-        FontSize="16"
-        Content="Save changes"
-        BorderBrush="#68F145"
-        BorderThickness="3"
-        Background="WhiteSmoke"
-        Command="{Binding SaveRepairCommand}" />
-                    
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            Margin="10"
+                            Padding="6"
+                            FontSize="16"
+                            Content="Save changes"
+                            BorderBrush="#68F145"
+                            BorderThickness="3"
+                            Background="WhiteSmoke"
+                            Command="{Binding SaveRepairCommand}"/>
+
+
+                    <TextBlock Grid.Row="0"
+                               Grid.Column="2"
+                               Margin="5"
+                               FontWeight="Bold"
+                               Text="Repair notes"/>
+
+                    <TextBox Grid.Row="1"
+                             Grid.Column="2"
+                             Grid.RowSpan="4"
+                             Width="250"
+                             Height="140"
+                             Margin="5"
+                             AcceptsReturn="True"
+                             TextWrapping="Wrap"
+                             VerticalScrollBarVisibility="Auto"
+                             Text="{Binding RepairDescription}"/>
+
                 </Grid>
-            </GroupBox>
-        </StackPanel>
 
-        <!-- DELETE -->
-        <Button Grid.Row="2"
-                Grid.ColumnSpan="2" Width="200"
-         Margin="10"
-         FontSize="16"
-         Content="Delete phone"
-         BorderBrush="Red"
-         BorderThickness="3"
-         Background="WhiteSmoke"
-         Command="{Binding DeleteRepairCommand}" />
+            </ScrollViewer>
 
-        
+        </GroupBox>
+
+
+        <!-- DELETE BUTTON -->
+        <Button Grid.Row="3"
+                Grid.ColumnSpan="2"
+                Width="200"
+                Margin="10"
+                FontSize="16"
+                Content="Delete phone"
+                BorderBrush="Red"
+                BorderThickness="3"
+                Background="WhiteSmoke"
+                Command="{Binding DeleteRepairCommand}"/>
+
     </Grid>
 </UserControl>

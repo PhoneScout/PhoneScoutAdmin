@@ -69,6 +69,9 @@ namespace PhoneScoutAdmin.Models
         [JsonPropertyName("problemDescription")]
         public string problemDescription { get; set; }
 
+        [JsonPropertyName("repairDescription")]
+        public string repairDescription { get; set; }
+
         [JsonPropertyName("parts")]
         public List<string> parts { get; set; }
     }

@@ -113,16 +113,7 @@ namespace PhoneScoutAdmin
 
 
             SavePhoneCommand = new RelayCommand(async () => await SavePhoneWithImages());
-            LoadPhoneCommand = new RelayCommand<object>(async (param) =>
-            {
-                if (param == null) return;
 
-                if (int.TryParse(param.ToString(), out int id))
-                {
-                    await LoadPhone(id);
-                    MessageBox.Show("gomb");
-                }
-            });
 
             _ = LoadPhone(phoneID);
 
@@ -260,8 +251,6 @@ namespace PhoneScoutAdmin
         {
             CurrentPhoneId = phoneId;
 
-            MessageBox.Show($"Loading phone with ID: {phoneId}");
-
             using HttpClient client = new HttpClient();
             string url = $"http://localhost:5175/phonePage/{phoneId}";
 
@@ -391,7 +380,6 @@ namespace PhoneScoutAdmin
 
         private async Task CreatePhone()
         {
-            MessageBox.Show("create");
 
             try
             {
@@ -521,16 +509,19 @@ namespace PhoneScoutAdmin
                     var resultJson = await response.Content.ReadAsStringAsync();
                     var createdId = JsonSerializer.Deserialize<int>(resultJson);
                     CurrentPhoneId = createdId;
+                    MessageBox.Show($"Phone created successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+
                 }
                 else
                 {
                     var error = await response.Content.ReadAsStringAsync();
-                    MessageBox.Show($"Save failed: {error}");
+                    MessageBox.Show($"An error occured while creating the phone!","Error",MessageBoxButton.OK,MessageBoxImage.Error);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error: {ex.Message}");
+                MessageBox.Show($"An error occured!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
             }
         }
 
@@ -659,17 +650,17 @@ namespace PhoneScoutAdmin
                 if (response.IsSuccessStatusCode)
                 {
                     var resultJson = await response.Content.ReadAsStringAsync();
-                    MessageBox.Show("Sikeresen frissítve.");
+                    MessageBox.Show($"Phone modified successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 else
                 {
                     var error = await response.Content.ReadAsStringAsync();
-                    MessageBox.Show($"Status: {response.StatusCode}, Error: {error}");
+                    MessageBox.Show($"An error occured while saving the phone!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error: {ex.Message}");
+                MessageBox.Show($"An error occured!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -735,21 +726,26 @@ namespace PhoneScoutAdmin
 
             if (selectedIndex == null)
             {
-                MessageBox.Show("No valid index image selected.");
+                MessageBox.Show($"Please select a valid index image!", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
             string url1 =
                 $"http://localhost:5175/api/blob/SetIndex/{CurrentPhoneId}/{selectedIndex.Id.Value}";
 
-            MessageBox.Show(url1);
 
             var response1 = await client.PutAsync(url1, null);
 
             if (!response1.IsSuccessStatusCode)
             {
                 var error = await response1.Content.ReadAsStringAsync();
-                MessageBox.Show($"Index update failed: {response1.StatusCode} {error}");
+                MessageBox.Show($"An error occured while saving the images!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+            }
+            else
+            {
+                MessageBox.Show($"Images saved successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+
             }
         }
 

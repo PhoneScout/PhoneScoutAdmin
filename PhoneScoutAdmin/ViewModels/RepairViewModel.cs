@@ -53,6 +53,7 @@ namespace PhoneScoutAdmin.ViewModels
         // ======================
 
         private int _originalPrice;
+        private string _originalReapirDesc;
         private int _originalStatus;
         private List<string> _originalParts = new();
 
@@ -114,6 +115,13 @@ namespace PhoneScoutAdmin.ViewModels
         {
             get => _repairPrice;
             set { _repairPrice = value; OnPropertyChanged(nameof(RepairPrice)); }
+        }
+
+        private string _repairDescription;
+        public string RepairDescription
+        {
+            get => _repairDescription;
+            set { _repairDescription = value; OnPropertyChanged(nameof(RepairDescription)); }
         }
 
         private string _newPart;
@@ -200,6 +208,7 @@ namespace PhoneScoutAdmin.ViewModels
 
             // Set editable fields
             RepairPrice = SelectedRepair.repairPrice;
+            RepairDescription = SelectedRepair.repairDescription;
 
             IsPriceAccepted = SelectedRepair.isPriceAccepted;
             PhoneInspection = SelectedRepair.phoneInspection;
@@ -212,6 +221,7 @@ namespace PhoneScoutAdmin.ViewModels
 
             // ===== STORE ORIGINAL VALUES =====
             _originalPrice = SelectedRepair.repairPrice;
+            _originalReapirDesc = SelectedRepair.repairDescription;
             _originalStatus = SelectedRepair.status;
             _originalParts = SelectedRepair.parts != null
                 ? new List<string>(SelectedRepair.parts)
@@ -220,13 +230,16 @@ namespace PhoneScoutAdmin.ViewModels
 
 
         private bool IsPriceChanged()
-        {
-            MessageBox.Show(RepairPrice.ToString());
-
+        { 
             return RepairPrice != _originalPrice;
         }
 
-        private bool IsStatusChanged()
+        private bool IsRepairDescriptionChanged()
+        {
+            return RepairDescription != _originalReapirDesc;
+        }
+
+        private bool IsStatusChanged()  
         {
             return SelectedRepair != null &&
                    SelectedRepair.status != _originalStatus;
@@ -301,6 +314,7 @@ namespace PhoneScoutAdmin.ViewModels
                 manufacturerName = SelectedRepair.manufacturerName,
                 phoneInspection = (sbyte)SelectedRepair.phoneInspection,
                 problemDescription = SelectedRepair.problemDescription,
+                repairDescription = SelectedRepair.repairDescription,
                 parts = Parts.ToList()
             };
 
@@ -320,12 +334,18 @@ namespace PhoneScoutAdmin.ViewModels
             else
             {
                 bool priceChanged = IsPriceChanged();
+                bool repairDescChanged = IsRepairDescriptionChanged();
                 bool statusChanged = IsStatusChanged();
                 bool partsChanged = ArePartsChanged();
 
-                if (!priceChanged && !statusChanged && !partsChanged)
+                if (!priceChanged && !statusChanged && !partsChanged && !repairDescChanged)
                 {
-                    MessageBox.Show("No changes detected.","Warning",MessageBoxButton.OK,MessageBoxImage.Warning);
+                    MessageBox.Show("No changes detected.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+                if(priceChanged && !repairDescChanged || !priceChanged && repairDescChanged)
+                {
+                    MessageBox.Show("Price and description should be changed at the same time.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
                 }
 
@@ -369,7 +389,7 @@ namespace PhoneScoutAdmin.ViewModels
                     }
                     if (priceChanged)
                     {
-                        emailText += $"Kérjük, tegye meg a szükséges intézkedéseket a profiljában.<br><br>";
+                        emailText += $"Kérjük, tegye meg a szükséges intézkedéseket a profiljában.<br><br> A javítás leírása:<br> {SelectedRepair.repairDescription}";
                     }
                 }
 

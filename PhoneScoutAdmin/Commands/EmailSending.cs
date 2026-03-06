@@ -20,7 +20,14 @@ namespace PhoneScoutAdmin.Commands
             string EmailAddress = Environment.GetEnvironmentVariable("EMAIL");
             string EmailPassword = Environment.GetEnvironmentVariable("EMAIL_PASSWORD");
 
-            MessageBox.Show(EmailAddress ?? "EMAIL IS NULL");
+            if (!string.IsNullOrEmpty(EmailAddress))
+            {
+                MessageBox.Show("Email was sent successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+            {
+                MessageBox.Show("An error occurred while sending the email.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
 
             MailMessage mail = new MailMessage();
             SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
