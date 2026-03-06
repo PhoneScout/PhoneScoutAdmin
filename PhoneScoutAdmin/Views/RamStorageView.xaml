@@ -90,7 +90,7 @@ Foreground="#2300B3"
                         </TextBlock.ToolTip>
 
                     </TextBlock>
-                    <TextBlock Text="Storgae amount:"
+                    <TextBlock Text="Storage amount:"
                Margin="5,5,2,5"
                FontSize="16"
                VerticalAlignment="Center"/>

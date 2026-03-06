@@ -77,7 +77,7 @@ Foreground="#2300B3"
 
                     <TextBlock.ToolTip>
                         <ToolTip>
-                            Displays the resolution of the selected camera. (px)
+                            Displays the resolution of the selected camera. (Mpx)
                         </ToolTip>
                     </TextBlock.ToolTip>
 

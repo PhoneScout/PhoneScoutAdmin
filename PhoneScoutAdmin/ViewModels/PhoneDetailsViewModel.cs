@@ -58,7 +58,7 @@ namespace PhoneScoutAdmin
             }
         }
 
-        
+
 
 
         // COMMANDS
@@ -107,7 +107,7 @@ namespace PhoneScoutAdmin
             ShowBodySpeakerCommand = new RelayCommand(() => CurrentViewModel = BodySpeakerVM);
             ShowCameraCommand = new RelayCommand(() => CurrentViewModel = CameraSectionVM);
             ShowColorCommand = new RelayCommand(() => CurrentViewModel = ColorSectionVM);
-            ShowRamStorageCommand = new RelayCommand(() => CurrentViewModel = RamStorageSectionVM);            
+            ShowRamStorageCommand = new RelayCommand(() => CurrentViewModel = RamStorageSectionVM);
             ShowImagesCommand = new RelayCommand(() => CurrentViewModel = ImageVM);
 
 
@@ -154,7 +154,7 @@ namespace PhoneScoutAdmin
                 if (e.PropertyName == nameof(BodySpeakerVM.Progress))
                     OnPropertyChanged(nameof(TotalProgress));
             };
-            
+
 
             ExitApp = new RelayCommand(() =>
             {
@@ -189,7 +189,7 @@ namespace PhoneScoutAdmin
             ShowRamStorageCommand = new RelayCommand(() => CurrentViewModel = RamStorageSectionVM);
             ShowImagesCommand = new RelayCommand(() => CurrentViewModel = ImageVM);
             SavePhoneCommand = new RelayCommand(async () => await SavePhoneWithImages());
-            
+
 
 
 
@@ -282,7 +282,7 @@ namespace PhoneScoutAdmin
             GeneralInfosVM.PhoneWeight = phone.phoneWeight.ToString();
             GeneralInfosVM.ManufacturerName = phone.manufacturerName;
             GeneralInfosVM.ReleaseDate = (DateOnly)phone.phoneReleaseDate;
-            
+
 
             //CPU
             CpuVM.CpuName = phone.cpuName;
@@ -353,7 +353,7 @@ namespace PhoneScoutAdmin
                     CameraResolution = camera.cameraResolution,
                     CameraAperture = camera.cameraAperture.ToString(),
                     CameraFocalLength = camera.cameraFocalLength,
-                    CameraOIS = camera.cameraOis==1?true:false,
+                    CameraOIS = camera.cameraOis == 1 ? true : false,
                     CameraType = camera.cameraType.ToString(),
                 });
             }
@@ -515,7 +515,7 @@ namespace PhoneScoutAdmin
                 else
                 {
                     var error = await response.Content.ReadAsStringAsync();
-                    MessageBox.Show($"An error occured while creating the phone!","Error",MessageBoxButton.OK,MessageBoxImage.Error);
+                    MessageBox.Show($"An error occured while creating the phone!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             catch (Exception ex)
@@ -571,11 +571,11 @@ namespace PhoneScoutAdmin
                 var newPhone = new FullPhone
                 {
                     // GENERAL
-                    phoneName = (GeneralInfosVM.PhoneName != "" ? GeneralInfosVM.PhoneName : ""),                    
+                    phoneName = (GeneralInfosVM.PhoneName != "" ? GeneralInfosVM.PhoneName : ""),
                     phoneWeight = int.TryParse(GeneralInfosVM.PhoneWeight, out var phoneWeightValue) ? phoneWeightValue : 0,
                     manufacturerName = (GeneralInfosVM.ManufacturerName != "" ? GeneralInfosVM.ManufacturerName : ""),
                     phoneReleaseDate = GeneralInfosVM.ReleaseDate,
-                    
+
 
 
                     //CPU
@@ -750,4 +750,4 @@ namespace PhoneScoutAdmin
         }
 
     }
-    }
+}
