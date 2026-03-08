@@ -226,7 +226,7 @@ namespace PhoneScoutAdmin.ViewModels
             Phones.Clear();
             foreach (var phone in list)
             {
-                if (phone.manufacturerName == ActiveManufacturerName && phone.phoneAvailable == 0)
+                if (phone.manufacturerName == ActiveManufacturerName && phone.phoneAvailable == 1)
                     Phones.Add(phone);
             }
         }

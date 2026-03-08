@@ -60,7 +60,7 @@ namespace PhoneScoutAdmin.ViewModels
         public string ManufacturerURL
         {
             get => _manufacturerURL;
-            set { _manufacturerURL = value; OnPropertyChanged(nameof(_manufacturerURL)); }
+            set { _manufacturerURL = value; OnPropertyChanged(nameof(ManufacturerURL)); }
         }
 
         private string _manufacturerNameFilter;

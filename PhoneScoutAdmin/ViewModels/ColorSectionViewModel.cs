@@ -44,13 +44,13 @@ namespace PhoneScoutAdmin.ViewModels
 
         private void AddCamera()
         {
-            var cam = new ColorViewModel
+            var color = new ColorViewModel
             {
-                ColorName = $"Camera {Colors.Count + 1}"
+                ColorName = $"Color {Colors.Count + 1}"
             };
 
-            Colors.Add(cam);
-            SelectedColor = cam;
+            Colors.Add(color);
+            SelectedColor = color;
         }
 
         private void RemoveCamera()

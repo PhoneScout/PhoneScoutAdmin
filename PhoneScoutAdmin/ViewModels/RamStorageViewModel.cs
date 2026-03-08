@@ -22,6 +22,7 @@ namespace PhoneScoutAdmin.ViewModels
             {
                 _ramAmount = value;
                 OnPropertyChanged(nameof(RamAmount));
+                OnPropertyChanged(nameof(RamStorageDisplay));
             }
         }
 
@@ -33,6 +34,7 @@ namespace PhoneScoutAdmin.ViewModels
             {
                 _storageAmount = value;
                 OnPropertyChanged(nameof(StorageAmount));
+                OnPropertyChanged(nameof(RamStorageDisplay));
             }
         }
 

@@ -18,11 +18,18 @@
                   BorderThickness="2">
 
             <StackPanel>
-                <Button Content="Add Images"
-                        Height="35"
-                        Margin="5"
-                        Command="{Binding AddImageCommand}"/>
 
+                <Button Grid.Row="3"
+        Grid.ColumnSpan="2"
+        Margin="10,15,10,0"
+        Padding="5"
+        FontSize="18"
+        Background="WhiteSmoke"
+        BorderBrush="#68F145"
+        BorderThickness="3"
+        Content="Add Images"
+        Command="{Binding AddImageCommand}" />
+               
                 <TextBlock Text="Upload images. You can mark one as index."
                            Margin="5"
                            TextWrapping="Wrap"/>
@@ -63,15 +70,23 @@
                                 </Border>
 
                                 <!-- INDEX CHECKBOX -->
-                                <CheckBox Content="Index"
-                                          IsChecked="{Binding IsIndex, Mode=TwoWay}"
-                                          Command="{Binding DataContext.SetIndexCommand,
-                                                  RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                          CommandParameter="{Binding}"
-                                          Margin="0,155,0,0"
-                                          HorizontalAlignment="Left"
-                                          VerticalAlignment="Top"
-                                          Padding="4"/>
+                                <CheckBox
+    IsChecked="{Binding IsIndex, Mode=TwoWay}"
+    Command="{Binding DataContext.SetIndexCommand,
+              RelativeSource={RelativeSource AncestorType=UserControl}}"
+    CommandParameter="{Binding}"
+    Margin="0,150,0,0"
+    HorizontalAlignment="Left"
+    VerticalAlignment="Top" >
+
+                                <TextBlock Text="Index"
+               FontSize="20"
+               FontWeight="Bold"
+               Foreground="White"
+               Background="Black"
+                                               VerticalAlignment="Center" Padding="3"
+               />
+                                </CheckBox>
 
                                 <!-- REMOVE BUTTON -->
                                 <Button Content="X"

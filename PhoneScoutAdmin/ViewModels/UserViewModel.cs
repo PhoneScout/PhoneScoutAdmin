@@ -29,8 +29,8 @@ namespace PhoneScoutAdmin.ViewModels
         public ObservableCollection<ComboItemUsers> Items { get; }
             = new ObservableCollection<ComboItemUsers>
             {
-                new ComboItemUsers { Id = 1, Level = 1, Name = "User" },
-                new ComboItemUsers { Id = 2, Level = 2, Name = "Manufacturer" },
+                new ComboItemUsers { Id = 1, Level = 1, Name = "Felhasználó" },
+                new ComboItemUsers { Id = 2, Level = 2, Name = "Gyártó" },
                 new ComboItemUsers { Id = 3, Level = 3, Name = "Admin" },
             };
 

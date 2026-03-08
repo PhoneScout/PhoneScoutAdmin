@@ -43,8 +43,8 @@ Grid.ColumnSpan="2">
                   Margin="5" >
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Manufacturer Name" Binding="{Binding manufacturerName}" />
-                <DataGridTextColumn Header="Manufacturer Email" Binding="{Binding manufacturerEmail}" />
                 <DataGridTextColumn Header="Manufacturer URL" Binding="{Binding manufacturerUrl}" />
+                <DataGridTextColumn Header="Manufacturer Email" Binding="{Binding manufacturerEmail}" />
             </DataGrid.Columns>
         </DataGrid>
 

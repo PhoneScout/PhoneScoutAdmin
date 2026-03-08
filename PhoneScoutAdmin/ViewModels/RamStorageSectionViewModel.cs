@@ -44,14 +44,14 @@ namespace PhoneScoutAdmin.ViewModels
 
         private void AddRamStorage()
         {
-            var cam = new RamStorageViewModel
+            var ramsto = new RamStorageViewModel
             {
                 RamAmount = 0,
                 StorageAmount = 0,
             };
 
-            RamStorages.Add(cam);
-            SelectedRamStorage = cam;
+            RamStorages.Add(ramsto);
+            SelectedRamStorage = ramsto;
         }
 
         private void RemoveRamStorage()
