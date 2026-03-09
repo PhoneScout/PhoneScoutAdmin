@@ -314,7 +314,7 @@ namespace PhoneScoutAdmin.ViewModels
                 manufacturerName = SelectedRepair.manufacturerName,
                 phoneInspection = (sbyte)SelectedRepair.phoneInspection,
                 problemDescription = SelectedRepair.problemDescription,
-                repairDescription = SelectedRepair.repairDescription,
+                repairDescription = RepairDescription,
                 parts = Parts.ToList()
             };
 
@@ -389,7 +389,7 @@ namespace PhoneScoutAdmin.ViewModels
                     }
                     if (priceChanged)
                     {
-                        emailText += $"Kérjük, tegye meg a szükséges intézkedéseket a profiljában.<br><br> A javítás leírása:<br> {SelectedRepair.repairDescription}";
+                        emailText += $"Kérjük, tegye meg a szükséges intézkedéseket a profiljában.<br><br> A javítás leírása:<br> {RepairDescription}";
                     }
                 }
 

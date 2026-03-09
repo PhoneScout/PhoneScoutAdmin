@@ -342,7 +342,7 @@
                 Width="200"
                 Margin="10"
                 FontSize="16"
-                Content="Delete phone"
+                Content="Delete repair"
                 BorderBrush="Red"
                 BorderThickness="3"
                 Background="WhiteSmoke"

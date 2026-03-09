@@ -463,7 +463,7 @@ namespace PhoneScoutAdmin
                     connectionMaxMobileNetwork = int.TryParse(ConnectivityVM.MobileNetwork, out var connectionMaxMobileNetworkValue) ? connectionMaxMobileNetworkValue : 0,
                     connectionDualSim = (ConnectivityVM.DualSim == true ? 1 : 0),
                     connectionEsim = (ConnectivityVM.ESim == true ? 1 : 0),
-                    connectionNfc = (ConnectivityVM.Jack == true ? 1 : 0),
+                    connectionNfc = (ConnectivityVM.Nfc == true ? 1 : 0),
                     connectionJack = (ConnectivityVM.Jack == true ? 1 : 0),
                     connectionConnectionSpeed = decimal.TryParse(ConnectivityVM.ConnectionSpeed, out var connectionConnectionSpeedValue) ? connectionConnectionSpeedValue : 0,
 
@@ -572,7 +572,7 @@ namespace PhoneScoutAdmin
                 {
                     // GENERAL
                     phoneName = (GeneralInfosVM.PhoneName != "" ? GeneralInfosVM.PhoneName : ""),
-                    phoneWeight = int.TryParse(GeneralInfosVM.PhoneWeight, out var phoneWeightValue) ? phoneWeightValue : 0,
+                    phoneWeight = decimal.TryParse(GeneralInfosVM.PhoneWeight, out var phoneWeightValue) ? phoneWeightValue : 0,
                     manufacturerName = (GeneralInfosVM.ManufacturerName != "" ? GeneralInfosVM.ManufacturerName : ""),
                     phoneReleaseDate = GeneralInfosVM.ReleaseDate,
 
@@ -606,7 +606,7 @@ namespace PhoneScoutAdmin
                     connectionMaxMobileNetwork = int.TryParse(ConnectivityVM.MobileNetwork, out var connectionMaxMobileNetworkValue) ? connectionMaxMobileNetworkValue : 0,
                     connectionDualSim = (ConnectivityVM.DualSim == true ? 1 : 0),
                     connectionEsim = (ConnectivityVM.ESim == true ? 1 : 0),
-                    connectionNfc = (ConnectivityVM.Jack == true ? 1 : 0),
+                    connectionNfc = (ConnectivityVM.Nfc == true ? 1 : 0),
                     connectionJack = (ConnectivityVM.Jack == true ? 1 : 0),
                     connectionConnectionSpeed = decimal.TryParse(ConnectivityVM.ConnectionSpeed, out var connectionConnectionSpeedValue) ? connectionConnectionSpeedValue : 0,
 
@@ -639,6 +639,7 @@ namespace PhoneScoutAdmin
                     storageSpeed = (RamStorageVM.StorageSpeed != "" ? RamStorageVM.StorageSpeed : ""),
 
                 };
+                MessageBox.Show(connectionConnectionSpeedValue.ToString());
 
                 using HttpClient client = new HttpClient();
                 string url = $"http://localhost:5175/api/wpfPhone/phoneUpdate/{CurrentPhoneId}";
