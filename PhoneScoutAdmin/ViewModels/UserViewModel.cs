@@ -186,12 +186,12 @@ namespace PhoneScoutAdmin.ViewModels
             var response = await client.PutAsync(url, content);
             if (!response.IsSuccessStatusCode)
             {
-                MessageBox.Show("An error occurred while saving the user!", "Error", MessageBoxButton.OK);
+                MessageBox.Show("An error occurred while saving the user!", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
             else
             {
-                MessageBox.Show("Successfully updated.", "Update", MessageBoxButton.OK);
+                MessageBox.Show("Successfully updated.", "Update", MessageBoxButton.OK, MessageBoxImage.Information);
                 UsersView.Refresh();
             }
         }
@@ -214,12 +214,12 @@ namespace PhoneScoutAdmin.ViewModels
 
                 if (!response.IsSuccessStatusCode)
                 {
-                    MessageBox.Show("An error occurred while deleting the user!", "Error", MessageBoxButton.OK);
+                    MessageBox.Show("An error occurred while deleting the user!", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
                 }
                 else
                 {
-                    MessageBox.Show("Successfully deleted.", "Update", MessageBoxButton.OK);
+                    MessageBox.Show("Successfully deleted.", "Update", MessageBoxButton.OK, MessageBoxImage.Information);
                     UsersView.Refresh();
                     Users.Remove(SelectedUser);
                     SelectedUser = null;

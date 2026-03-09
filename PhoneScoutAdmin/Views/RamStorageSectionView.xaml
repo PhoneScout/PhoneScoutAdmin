@@ -76,7 +76,7 @@ Foreground="#2300B3"
 Grid.Column="1"
 Width="130"
 Margin="5"
-Text="{Binding RamSpeed, UpdateSourceTrigger=PropertyChanged}" />
+Text="{Binding DataContext.RamStorageVM.RamSpeed, UpdateSourceTrigger=PropertyChanged}" />
 
                             <!-- URL -->
                             <StackPanel Grid.Row="1"

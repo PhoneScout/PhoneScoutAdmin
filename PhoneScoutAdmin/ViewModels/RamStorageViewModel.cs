@@ -56,7 +56,7 @@ namespace PhoneScoutAdmin.ViewModels
             set
             {
                 _storageSpeed = value;
-                OnPropertyChanged(nameof(_storageSpeed));
+                OnPropertyChanged(nameof(StorageSpeed));
             }
         }
 

@@ -181,12 +181,12 @@ namespace PhoneScoutAdmin.ViewModels
             var response = await client.PutAsync(url, content);
             if (!response.IsSuccessStatusCode)
             {
-                MessageBox.Show("An error occurred while saving the phone!", "Error", MessageBoxButton.OK);
+                MessageBox.Show("An error occurred while saving the phone!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
             else
             {
-                MessageBox.Show("Successfully updated.", "Update", MessageBoxButton.OK);
+                MessageBox.Show("Successfully updated.", "Update", MessageBoxButton.OK, MessageBoxImage.Information);
                 PhonesView.Refresh();
                 return;
             }

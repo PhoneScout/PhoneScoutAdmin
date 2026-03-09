@@ -326,12 +326,12 @@ namespace PhoneScoutAdmin.ViewModels
 
                 if (!response.IsSuccessStatusCode)
                 {
-                    MessageBox.Show("An error occurred while deleting the event!", "Error", MessageBoxButton.OK);
+                    MessageBox.Show("An error occurred while deleting the event!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
                 else
                 {
-                    MessageBox.Show("Successfully deleted.", "Update", MessageBoxButton.OK);
+                    MessageBox.Show("Successfully deleted.", "Update", MessageBoxButton.OK, MessageBoxImage.Information);
                     Events.Remove(SelectedEvent);
                     SelectedEvent = null;
                     EventsView.Refresh();

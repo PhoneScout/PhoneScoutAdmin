@@ -348,8 +348,18 @@ namespace PhoneScoutAdmin.ViewModels
                     MessageBox.Show("Price and description should be changed at the same time.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
                 }
+                if (IsPriceAccepted == 1 && priceChanged || repairDescChanged || partsChanged)
+                {
+                    MessageBox.Show("Once the price is accepted, the price, description or parts list cannot be modified.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+                if (IsPriceAccepted == 2)
+                {
+                    MessageBox.Show("The price is not accepted. No further modifications allowed!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
 
-                MessageBox.Show("Successfully updated.", "Update", MessageBoxButton.OK);
+                MessageBox.Show("Successfully updated.", "Update", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 string emailText = "";
 

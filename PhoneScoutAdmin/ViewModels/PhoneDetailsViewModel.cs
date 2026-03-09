@@ -358,6 +358,7 @@ namespace PhoneScoutAdmin
                 });
             }
 
+            
 
             RamStorageVM.RamSpeed = phone.ramSpeed;
             RamStorageVM.StorageSpeed = phone.storageSpeed;
@@ -373,7 +374,7 @@ namespace PhoneScoutAdmin
                 });
             }
 
-
+            MessageBox.Show(RamStorageVM.RamSpeed + RamStorageVM.StorageSpeed);
 
         }
 
@@ -516,6 +517,7 @@ namespace PhoneScoutAdmin
                 {
                     var error = await response.Content.ReadAsStringAsync();
                     MessageBox.Show($"An error occured while creating the phone!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(error);
                 }
             }
             catch (Exception ex)
@@ -639,7 +641,7 @@ namespace PhoneScoutAdmin
                     storageSpeed = (RamStorageVM.StorageSpeed != "" ? RamStorageVM.StorageSpeed : ""),
 
                 };
-                MessageBox.Show(connectionConnectionSpeedValue.ToString());
+
 
                 using HttpClient client = new HttpClient();
                 string url = $"http://localhost:5175/api/wpfPhone/phoneUpdate/{CurrentPhoneId}";

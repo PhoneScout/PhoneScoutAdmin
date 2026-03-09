@@ -203,14 +203,6 @@ Foreground="#2300B3"
                     HorizontalAlignment="Center"
                     Margin="10">
 
-            <Button Width="200"
-                    Padding="5"
-                    FontSize="18"
-                    Background="WhiteSmoke"
-                    BorderBrush="Red"
-                    BorderThickness="3"
-                    Content="Delete manufacturer"
-                    Command="{Binding DeleteManufacturerCommand}" />
         </StackPanel>
 
     </Grid>
