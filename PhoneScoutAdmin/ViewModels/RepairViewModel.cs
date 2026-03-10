@@ -229,7 +229,7 @@ namespace PhoneScoutAdmin.ViewModels
         }
 
 
-        private bool IsPriceChanged()
+        public bool IsPriceChanged()
         { 
             return RepairPrice != _originalPrice;
         }
@@ -245,7 +245,7 @@ namespace PhoneScoutAdmin.ViewModels
                    SelectedRepair.status != _originalStatus;
         }
 
-        private bool ArePartsChanged()
+        public bool ArePartsChanged()
         {
             return !_originalParts.OrderBy(x => x)
                       .SequenceEqual(Parts.OrderBy(x => x));
