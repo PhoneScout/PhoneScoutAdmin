@@ -1,22 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace PhoneScoutAdmin.ViewModels
 {
     public class RamStorageSectionViewModel : INotifyPropertyChanged
     {
-
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged(string name)
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        public ObservableCollection<RamStorageViewModel> RamStorages { get; }
-            = new ObservableCollection<RamStorageViewModel>();
+
+        public ObservableCollection<RamStorageViewModel> RamStorages { get; } = new ObservableCollection<RamStorageViewModel>();
 
         private RamStorageViewModel _selectedRamStorage;
         public RamStorageViewModel SelectedRamStorage
@@ -26,12 +20,9 @@ namespace PhoneScoutAdmin.ViewModels
             {
                 _selectedRamStorage = value;
                 OnPropertyChanged(nameof(SelectedRamStorage));
-
-                // THIS is what you were missing
                 (RemoveRamStorageCommand as RelayCommand)?.RaiseCanExecuteChanged();
             }
         }
-
 
         public ICommand AddRamStorageCommand { get; }
         public ICommand RemoveRamStorageCommand { get; }
@@ -49,7 +40,6 @@ namespace PhoneScoutAdmin.ViewModels
                 RamAmount = 0,
                 StorageAmount = 0,
             };
-
             RamStorages.Add(ramsto);
             SelectedRamStorage = ramsto;
         }
@@ -59,7 +49,5 @@ namespace PhoneScoutAdmin.ViewModels
             if (SelectedRamStorage != null)
                 RamStorages.Remove(SelectedRamStorage);
         }
-
-
     }
 }

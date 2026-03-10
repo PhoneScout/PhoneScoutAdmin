@@ -21,7 +21,7 @@ namespace PhoneScoutAdmin.ViewModels.Tests
         }
 
         [TestMethod]
-        public void PartsAreNotChanged_ShouldReturnFalse()
+        public void PartsAreNotChanged()
         {
             _originalParts = new List<string> { "Screen", "Battery", "Button" };
             Parts = new List<string> { "Battery", "Button", "Screen" }; // Same elements, different order
@@ -32,7 +32,7 @@ namespace PhoneScoutAdmin.ViewModels.Tests
         }
 
         [TestMethod]
-        public void PartsAreChanged_ShouldReturnTrue()
+        public void PartsAreChanged()
         {
             _originalParts = new List<string> { "Screen", "Battery", "Button" };
             Parts = new List<string> { "Screen", "Battery", "Camera" }; // One element changed
@@ -43,7 +43,7 @@ namespace PhoneScoutAdmin.ViewModels.Tests
         }
 
         [TestMethod]
-        public void PartsAreChanged_WhenCountIsDifferent_ShouldReturnTrue()
+        public void PartsAreChanged_WhenCountIsDifferent()
         {
             _originalParts = new List<string> { "Screen", "Battery", "Button" };
             Parts = new List<string> { "Screen", "Battery" }; // Missing one element

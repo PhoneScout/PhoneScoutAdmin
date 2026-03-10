@@ -6,153 +6,89 @@
              xmlns:local="clr-namespace:PhoneScoutAdmin.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="350"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        
+
         <!-- LEFT SIDE -->
         <StackPanel Grid.Column="0" Background="#EAEAEA">
-
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="150"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
+                <!-- Speed Details -->
+                <GroupBox Grid.Row="0"
+                          Margin="5"
+                          Padding="25"
+                          Header="Modify RAM and storage speed"
+                          BorderBrush="#2300B3"
+                          BorderThickness="2"
+                          VerticalAlignment="Center">
 
-                <WrapPanel Grid.Row="0">
-                    <GroupBox Grid.Row="0"
-         Grid.Column="1"
-         Margin="5"
-         Padding="25"
-         Header="Modify the ram speed and storage speed details"
-         BorderBrush="#2300B3"
-         BorderThickness="2"
-         VerticalAlignment="Center">
+                    <!-- Use ContentControl to bind to selected item -->
+                    <ContentControl Content="{Binding SelectedRamStorage}">
+                        <ContentControl.ContentTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
 
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
+                                    <!-- RAM Speed -->
+                                    <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                                        <TextBlock Text="ℹ" FontSize="16" Foreground="#2300B3" Cursor="Hand" VerticalAlignment="Center"
+                                                   ToolTipService.InitialShowDelay="500" ToolTip="Displays the RAM speed"/>
+                                        <TextBlock Text="RAM speed:" Margin="5,5,2,5" FontSize="16" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                    <TextBox Grid.Row="0" Grid.Column="1" Width="130" Margin="5"
+                                             Text="{Binding RamSpeed, UpdateSourceTrigger=PropertyChanged}" />
 
-                            </Grid.RowDefinitions>
+                                    <!-- Storage Speed -->
+                                    <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                                        <TextBlock Text="ℹ" FontSize="16" Foreground="#2300B3" Cursor="Hand" VerticalAlignment="Center"
+                                                   ToolTipService.InitialShowDelay="500" ToolTip="Displays the storage speed"/>
+                                        <TextBlock Text="Storage speed:" Margin="5,5,2,5" FontSize="16" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                    <TextBox Grid.Row="1" Grid.Column="1" Width="130" Margin="5"
+                                             Text="{Binding StorageSpeed, UpdateSourceTrigger=PropertyChanged}" />
+                                </Grid>
+                            </DataTemplate>
+                        </ContentControl.ContentTemplate>
+                    </ContentControl>
+                </GroupBox>
 
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-
-                            <!-- Name -->
-                            <StackPanel Grid.Row="0"
-       Grid.Column="0"
-       Orientation="Horizontal"
-       VerticalAlignment="Center">
-
-
-
-                                <TextBlock Text="ℹ"
-          FontSize="16"
-Foreground="#2300B3"
-          Cursor="Hand"
-          VerticalAlignment="Center"
-                          ToolTipService.InitialShowDelay="500">
-
-                                    <TextBlock.ToolTip>
-                                        <ToolTip>
-                                            Displays the ram speed.
-                                        </ToolTip>
-                                    </TextBlock.ToolTip>
-
-                                </TextBlock>
-                                <TextBlock Text="Ram speed:"
-          Margin="5,5,2,5"
-          FontSize="16"
-          VerticalAlignment="Center"/>
-                            </StackPanel>
-
-                            <TextBox Grid.Row="0"
-Grid.Column="1"
-Width="130"
-Margin="5"
-Text="{Binding DataContext.RamStorageVM.RamSpeed, UpdateSourceTrigger=PropertyChanged}" />
-
-                            <!-- URL -->
-                            <StackPanel Grid.Row="1"
-       Grid.Column="0"
-       Orientation="Horizontal"
-       VerticalAlignment="Center">
-
-
-
-                                <TextBlock Text="ℹ"
-          FontSize="16"
-Foreground="#2300B3"
-          Cursor="Hand"
-          VerticalAlignment="Center" ToolTipService.InitialShowDelay="500">
-
-                                    <TextBlock.ToolTip>
-                                        <ToolTip>
-                                            Displays the storage speed.
-                                        </ToolTip>
-                                    </TextBlock.ToolTip>
-
-                                </TextBlock>
-                                <TextBlock Text="Storage speed:"
-          Margin="5,5,2,5"
-          FontSize="16"
-          VerticalAlignment="Center"/>
-                            </StackPanel>
-
-                            <TextBox Grid.Row="1"
-                Grid.Column="1"
-                Width="130"
-                Margin="5"
-                Text="{Binding StorageSpeed, UpdateSourceTrigger=PropertyChanged}" />
-
-                        </Grid>
-                    </GroupBox>
-                </WrapPanel>
-                
-                
-                
-                
-                
+                <!-- Add / Remove / List -->
                 <WrapPanel Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Center">
+                    <Button Content="Add RAM / storage" Margin="0,10" FontSize="16" Width="180" Padding="5"
+                            Background="White" Foreground="Green" BorderBrush="#80A4CB" BorderThickness="3"
+                            Command="{Binding AddRamStorageCommand}"/>
 
-                    <Button Grid.Row="2" Content="Add ram / storage" Margin="0,10,0,10" FontSize="16" Width="180" Padding="5" Background="White" Foreground="Green" BorderBrush="#80A4CB" BorderThickness="3" VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding AddRamStorageCommand}"/>
-
-
-
-
-                    <ListBox ItemsSource="{Binding RamStorages}"
-         SelectedItem="{Binding SelectedRamStorage}"
-         Margin="10">
-
+                    <ListBox ItemsSource="{Binding RamStorages}" SelectedItem="{Binding SelectedRamStorage}" Margin="10">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding RamStorageDisplay}" />
                             </DataTemplate>
                         </ListBox.ItemTemplate>
-
                     </ListBox>
 
-                    <Button Grid.Row="2" Content="Remove ram / storage" Margin="0,10,0,10" FontSize="16" Width="180" Padding="5" Background="White" Foreground="Red" BorderBrush="#80A4CB" BorderThickness="3" VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding RemoveRamStorageCommand}"/>
-
-
-                    
+                    <Button Content="Remove RAM / storage" Margin="0,10" FontSize="16" Width="180" Padding="5"
+                            Background="White" Foreground="Red" BorderBrush="#80A4CB" BorderThickness="3"
+                            Command="{Binding RemoveRamStorageCommand}"/>
                 </WrapPanel>
-
-                
-
             </Grid>
-
         </StackPanel>
 
         <!-- RIGHT SIDE -->
-        <ContentControl Grid.Column="1"
-                        Content="{Binding SelectedRamStorage}"/>
-
+        <ContentControl Grid.Column="1" Content="{Binding SelectedRamStorage}"/>
     </Grid>
 </UserControl>
