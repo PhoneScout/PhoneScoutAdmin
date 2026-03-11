@@ -358,10 +358,10 @@ namespace PhoneScoutAdmin
                 });
             }
 
-            
 
-            RamStorageVM.RamSpeed = phone.ramSpeed;
-            RamStorageVM.StorageSpeed = phone.storageSpeed;
+
+            RamStorageSectionVM.RamSpeed = phone.ramSpeed;
+            RamStorageSectionVM.StorageSpeed = phone.storageSpeed;
 
             RamStorageSectionVM.RamStorages.Clear();
 
@@ -370,11 +370,9 @@ namespace PhoneScoutAdmin
                 RamStorageSectionVM.RamStorages.Add(new RamStorageViewModel
                 {
                     RamAmount = ramStorage.ramAmount,
-                    StorageAmount = ramStorage.storageAmount,
+                    StorageAmount = ramStorage.storageAmount
                 });
             }
-
-            MessageBox.Show(RamStorageVM.RamSpeed + RamStorageVM.StorageSpeed);
 
         }
 
@@ -493,8 +491,8 @@ namespace PhoneScoutAdmin
                     cameras = selectedCameras,
                     ramStoragePairs = selectedRamStorages,
 
-                    ramSpeed = (RamStorageVM.RamSpeed != "" ? RamStorageVM.RamSpeed : ""),
-                    storageSpeed = (RamStorageVM.StorageSpeed != "" ? RamStorageVM.StorageSpeed : ""),
+                    ramSpeed = (RamStorageSectionVM.RamSpeed != "" ? RamStorageSectionVM.RamSpeed : ""),
+                    storageSpeed = (RamStorageSectionVM.StorageSpeed != "" ? RamStorageSectionVM.StorageSpeed : ""),
 
                 };
 
@@ -637,8 +635,8 @@ namespace PhoneScoutAdmin
                     cameras = selectedCameras,
                     ramStoragePairs = selectedRamStorages,
 
-                    ramSpeed = (RamStorageVM.RamSpeed != "" ? RamStorageVM.RamSpeed : ""),
-                    storageSpeed = (RamStorageVM.StorageSpeed != "" ? RamStorageVM.StorageSpeed : ""),
+                    ramSpeed = (RamStorageSectionVM.RamSpeed != "" ? RamStorageSectionVM.RamSpeed : ""),
+                    storageSpeed = (RamStorageSectionVM.StorageSpeed != "" ? RamStorageSectionVM.StorageSpeed : ""),
 
                 };
 

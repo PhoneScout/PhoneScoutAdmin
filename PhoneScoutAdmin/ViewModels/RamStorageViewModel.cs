@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 
 namespace PhoneScoutAdmin.ViewModels
 {
     public class RamStorageViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
+
         private void OnPropertyChanged(string name)
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-
 
         private int _ramAmount;
         public int RamAmount
@@ -38,29 +33,6 @@ namespace PhoneScoutAdmin.ViewModels
             }
         }
 
-        private string _ramSpeed;
-        public string RamSpeed
-        {
-            get => _ramSpeed;
-            set
-            {
-                _ramSpeed = value;
-                OnPropertyChanged(nameof(RamSpeed));
-            }
-        }
-
-        private string _storageSpeed;
-        public string StorageSpeed
-        {
-            get => _storageSpeed;
-            set
-            {
-                _storageSpeed = value;
-                OnPropertyChanged(nameof(StorageSpeed));
-            }
-        }
-
         public string RamStorageDisplay => $"{RamAmount}/{StorageAmount}";
-
     }
 }

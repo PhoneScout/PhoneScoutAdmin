@@ -7,10 +7,12 @@ namespace PhoneScoutAdmin.ViewModels
     public class RamStorageSectionViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
+
         private void OnPropertyChanged(string name)
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
-        public ObservableCollection<RamStorageViewModel> RamStorages { get; } = new ObservableCollection<RamStorageViewModel>();
+        public ObservableCollection<RamStorageViewModel> RamStorages { get; }
+            = new ObservableCollection<RamStorageViewModel>();
 
         private RamStorageViewModel _selectedRamStorage;
         public RamStorageViewModel SelectedRamStorage
@@ -21,6 +23,28 @@ namespace PhoneScoutAdmin.ViewModels
                 _selectedRamStorage = value;
                 OnPropertyChanged(nameof(SelectedRamStorage));
                 (RemoveRamStorageCommand as RelayCommand)?.RaiseCanExecuteChanged();
+            }
+        }
+
+        private string _ramSpeed;
+        public string RamSpeed
+        {
+            get => _ramSpeed;
+            set
+            {
+                _ramSpeed = value;
+                OnPropertyChanged(nameof(RamSpeed));
+            }
+        }
+
+        private string _storageSpeed;
+        public string StorageSpeed
+        {
+            get => _storageSpeed;
+            set
+            {
+                _storageSpeed = value;
+                OnPropertyChanged(nameof(StorageSpeed));
             }
         }
 
@@ -38,8 +62,9 @@ namespace PhoneScoutAdmin.ViewModels
             var ramsto = new RamStorageViewModel
             {
                 RamAmount = 0,
-                StorageAmount = 0,
+                StorageAmount = 0
             };
+
             RamStorages.Add(ramsto);
             SelectedRamStorage = ramsto;
         }
