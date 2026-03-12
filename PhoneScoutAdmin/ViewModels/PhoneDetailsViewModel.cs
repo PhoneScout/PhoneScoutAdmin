@@ -487,6 +487,11 @@ namespace PhoneScoutAdmin
 
                     //COLORS
 
+if(selectedColors.Count==0 && selectedRamStorages.Count==0){
+MessageBox.Show("Please select at least one ram/storage and color.","Warning");
+return;
+}
+
                     colors = selectedColors,
                     cameras = selectedCameras,
                     ramStoragePairs = selectedRamStorages,
@@ -630,6 +635,12 @@ namespace PhoneScoutAdmin
                     speakerType = (BodySpeakerVM.SpeakerType != "" ? BodySpeakerVM.SpeakerType : ""),
 
                     //COLORS
+
+if(selectedColors.Count==0 && selectedRamStorages.Count==0){
+MessageBox.Show("Please select at least one ram/storage and color.","Warning");
+return;
+}
+
 
                     colors = selectedColors,
                     cameras = selectedCameras,
