@@ -487,10 +487,7 @@ namespace PhoneScoutAdmin
 
                     //COLORS
 
-if(selectedColors.Count==0 && selectedRamStorages.Count==0){
-MessageBox.Show("Please select at least one ram/storage and color.","Warning");
-return;
-}
+
 
                     colors = selectedColors,
                     cameras = selectedCameras,
@@ -500,6 +497,12 @@ return;
                     storageSpeed = (RamStorageSectionVM.StorageSpeed != "" ? RamStorageSectionVM.StorageSpeed : ""),
 
                 };
+
+                if (selectedColors.Count == 0 && selectedRamStorages.Count == 0)
+                {
+                    MessageBox.Show("Please select at least one ram/storage and color.", "Warning");
+                    return;
+                }
 
                 using HttpClient client = new HttpClient();
                 string url = "http://localhost:5175/api/wpfPhone/phonePost";
@@ -636,10 +639,7 @@ return;
 
                     //COLORS
 
-if(selectedColors.Count==0 && selectedRamStorages.Count==0){
-MessageBox.Show("Please select at least one ram/storage and color.","Warning");
-return;
-}
+
 
 
                     colors = selectedColors,
@@ -651,8 +651,13 @@ return;
 
                 };
 
+        if (selectedColors.Count == 0 && selectedRamStorages.Count == 0)
+        {
+            MessageBox.Show("Please select at least one ram/storage and color.", "Warning");
+            return;
+        }
 
-                using HttpClient client = new HttpClient();
+        using HttpClient client = new HttpClient();
                 string url = $"http://localhost:5175/api/wpfPhone/phoneUpdate/{CurrentPhoneId}";
 
                 string json = JsonSerializer.Serialize(newPhone);

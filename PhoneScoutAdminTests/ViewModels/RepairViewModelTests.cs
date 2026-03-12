@@ -23,34 +23,34 @@ namespace PhoneScoutAdmin.ViewModels.Tests
         [TestMethod]
         public void PartsAreNotChanged()
         {
-            _originalParts = new List<string> { "Screen", "Battery", "Button" };
-            Parts = new List<string> { "Battery", "Button", "Screen" }; // Same elements, different order
+            _originalParts = new List<string> { "Képernyő", "Akkumulátor", "Kamera" };
+            Parts = new List<string> { "Akkumulátor", "Kamera", "Képernyő" };
 
             bool result = ArePartsChanged();
 
-            Assert.IsFalse(result); // Parts are the same
+            Assert.IsFalse(result);
         }
 
         [TestMethod]
         public void PartsAreChanged()
         {
-            _originalParts = new List<string> { "Screen", "Battery", "Button" };
-            Parts = new List<string> { "Screen", "Battery", "Camera" }; // One element changed
+            _originalParts = new List<string> { "Képernyő", "Akkumulátor", "Kamera" };
+            Parts = new List<string> { "Képernyő", "Akkumulátor", "Camera" }; 
 
             bool result = ArePartsChanged();
 
-            Assert.IsTrue(result); // Parts changed
+            Assert.IsTrue(result);
         }
 
         [TestMethod]
         public void PartsAreChanged_WhenCountIsDifferent()
         {
-            _originalParts = new List<string> { "Screen", "Battery", "Button" };
-            Parts = new List<string> { "Screen", "Battery" }; // Missing one element
+            _originalParts = new List<string> { "Képernyő", "Akkumulátor", "Kamera" };
+            Parts = new List<string> { "Képernyő", "Akkumulátor" };
 
             bool result = ArePartsChanged();
 
-            Assert.IsTrue(result); // Parts changed
+            Assert.IsTrue(result);
         }
     }
 }
@@ -66,7 +66,7 @@ public class PriceTests
 
         bool isChanged = currentPrice != originalPrice;
 
-        Assert.IsFalse(isChanged); // Prices are the same
+        Assert.IsFalse(isChanged);
     }
 
     [TestMethod]
@@ -77,6 +77,6 @@ public class PriceTests
 
         bool isChanged = currentPrice != originalPrice;
 
-        Assert.IsTrue(isChanged); // Prices are different
+        Assert.IsTrue(isChanged);
     }
 }
