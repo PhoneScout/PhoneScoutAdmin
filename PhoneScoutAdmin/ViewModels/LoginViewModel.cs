@@ -83,15 +83,7 @@ public class LoginViewModel : INotifyPropertyChanged
                 return;
             }
 
-            // Manufacturer first login -> force password change
-            if (userInfo.privilege == 6 && userInfo.active == 0)
-            {
-                MessageBox.Show("As a new user, you will need to change your password!", "Password change", MessageBoxButton.OK, MessageBoxImage.Information);
-
-                OpenFirstPasswordChange(userInfo.email);
-                CloseLoginWindow();
-                return;
-            }
+            
 
             // Normal login
             var saltResponse = await _httpClient.GetAsync(
@@ -135,6 +127,16 @@ public class LoginViewModel : INotifyPropertyChanged
                 OpenAdminWindow();
                 CloseLoginWindow();
             }
+            // Manufacturer first login -> force password change
+            else if (userInfo.privilege == 6 && userInfo.active == 0)
+            {
+                MessageBox.Show("As a new user, you will need to change your password!", "Password change", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                OpenFirstPasswordChange(userInfo.email);
+                CloseLoginWindow();
+                return;
+            }
+            
             else if (userInfo.privilege == 6) // Manufacturer
             {
                 MessageBox.Show("Successful login!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
