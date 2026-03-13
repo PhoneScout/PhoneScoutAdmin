@@ -298,10 +298,11 @@ namespace PhoneScoutAdmin.ViewModels
             if (!response.IsSuccessStatusCode)
             {
                 MessageBox.Show($"An error occured while saving the event.","Error",MessageBoxButton.OK,MessageBoxImage.Error);
+                MessageBox.Show(response.RequestMessage.ToString());
                 return;
             }
 
-            MessageBox.Show(IsCreate ? "Event created." : "Event updated.");
+            MessageBox.Show(IsCreate ? "Event created." : "Event updated.","Success",MessageBoxButton.OK,MessageBoxImage.Information);
 
             IsCreate = false;
             await LoadEvents();
