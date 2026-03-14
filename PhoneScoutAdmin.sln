@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoneScoutAdmin", "PhoneSco
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoneScoutAdminTests", "PhoneScoutAdminTests\PhoneScoutAdminTests.csproj", "{5C7BFF85-BF68-4C4B-8693-D3D8857E8FF4}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "PhoneScoutAdminInstaller", "PhoneScoutAdminInstaller\PhoneScoutAdminInstaller.vdproj", "{1BB005AB-6996-CF51-A618-3D9B48128427}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,8 @@ Global
 		{5C7BFF85-BF68-4C4B-8693-D3D8857E8FF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C7BFF85-BF68-4C4B-8693-D3D8857E8FF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5C7BFF85-BF68-4C4B-8693-D3D8857E8FF4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BB005AB-6996-CF51-A618-3D9B48128427}.Debug|Any CPU.ActiveCfg = Debug
+		{1BB005AB-6996-CF51-A618-3D9B48128427}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
