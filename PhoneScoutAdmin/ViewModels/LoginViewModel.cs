@@ -102,13 +102,28 @@ public class LoginViewModel : INotifyPropertyChanged
 
             var response = await _httpClient.PostAsync("http://localhost:5175/api/Login", content);
 
+            
+
             if (!response.IsSuccessStatusCode)
             {
+
+
+
                 MessageBox.Show("Wrong email or password!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 
                 return;
             }
-            
+
+
+            // Manufacturer first login -> force password change
+            if (userInfo.privilege == 6 && userInfo.active == 0)
+            {
+                MessageBox.Show("As a new user, you will need to change your password!", "Password change", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                OpenFirstPasswordChange(userInfo.email);
+                CloseLoginWindow();
+                return;
+            }
 
             var resultJson = await response.Content.ReadAsStringAsync();
             var result = JsonSerializer.Deserialize<LoginResponse>(resultJson);
@@ -127,15 +142,7 @@ public class LoginViewModel : INotifyPropertyChanged
                 OpenAdminWindow();
                 CloseLoginWindow();
             }
-            // Manufacturer first login -> force password change
-            else if (userInfo.privilege == 6 && userInfo.active == 0)
-            {
-                MessageBox.Show("As a new user, you will need to change your password!", "Password change", MessageBoxButton.OK, MessageBoxImage.Information);
-
-                OpenFirstPasswordChange(userInfo.email);
-                CloseLoginWindow();
-                return;
-            }
+            
             
             else if (userInfo.privilege == 6) // Manufacturer
             {
@@ -148,7 +155,7 @@ public class LoginViewModel : INotifyPropertyChanged
         }
         catch (Exception ex)
         {
-            MessageBox.Show("An error occurred during login!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show("An error occurred during login!"+ex, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 
         }
     }

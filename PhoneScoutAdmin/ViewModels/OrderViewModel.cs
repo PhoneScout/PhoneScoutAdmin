@@ -120,7 +120,7 @@ namespace PhoneScoutAdmin.ViewModels
 
             using HttpClient client = new();
             string url = $"http://localhost:5175/api/Profile/updateOrder/{SelectedOrder.ID}";
-            MessageBox.Show(url);
+
 
             // Send full updated order (change to DTO if backend expects otherwise)
             string json = JsonSerializer.Serialize(SelectedOrder);
@@ -132,12 +132,12 @@ namespace PhoneScoutAdmin.ViewModels
 
             if (!response.IsSuccessStatusCode)
             {
-                MessageBox.Show("An error occurred while saving the order!"+response.Content, "Error", MessageBoxButton.OK);
+                MessageBox.Show("An error occurred while saving the order!"+response.Content, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
             else
             {
-                MessageBox.Show("Successfully updated.", "Update", MessageBoxButton.OK);
+                MessageBox.Show("Successfully updated.", "Update", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 string emailTargy = "Rendelésének állapota megváltozott!";
                 string emailTorzs = $@"

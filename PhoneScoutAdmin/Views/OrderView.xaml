@@ -134,7 +134,7 @@ Grid.ColumnSpan="2">
                     <TextBlock Grid.Row="4" Grid.Column="1" Grid.RowSpan="2" Text="{Binding SelectedOrder.deliveryAddress}" FontSize="12" TextWrapping="Wrap"/>
 
                     <TextBlock Grid.Row="6" Grid.Column="0" Text="Delivery phone number:" FontSize="14" VerticalAlignment="Center"/>
-                    <TextBlock Grid.Row="6" Grid.Column="1" Text="{Binding SelectedOrder.deiveryPhoneNumber}" FontSize="12" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Row="6" Grid.Column="1" Text="{Binding SelectedOrder.deliveryPhoneNumber}" FontSize="12" VerticalAlignment="Center"/>
 
 
                 </Grid>

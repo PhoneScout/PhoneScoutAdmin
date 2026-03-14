@@ -333,6 +333,7 @@ namespace PhoneScoutAdmin.ViewModels
             }
             else
             {
+
                 bool priceChanged = IsPriceChanged();
                 bool repairDescChanged = IsRepairDescriptionChanged();
                 bool statusChanged = IsStatusChanged();
@@ -348,7 +349,7 @@ namespace PhoneScoutAdmin.ViewModels
                     MessageBox.Show("Price and description should be changed at the same time.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
                 }
-                if (IsPriceAccepted == 1 && priceChanged || repairDescChanged || partsChanged)
+                if (IsPriceAccepted == 1 && (priceChanged || repairDescChanged || partsChanged))
                 {
                     MessageBox.Show("Once the price is accepted, the price, description or parts list cannot be modified.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
