@@ -351,7 +351,7 @@ namespace PhoneScoutAdmin
                 {
                     CameraName = camera.cameraName,
                     CameraResolution = camera.cameraResolution,
-                    CameraAperture = camera.cameraAperture.ToString(),
+                    CameraAperture = camera.cameraAperture,
                     CameraFocalLength = camera.cameraFocalLength,
                     CameraOIS = camera.cameraOis == 1 ? true : false,
                     CameraType = camera.cameraType.ToString(),
